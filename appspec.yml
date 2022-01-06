@@ -1,0 +1,6 @@
+version: 0.0
+os: linux # window server 아니면 모두 linux
+files:
+  - source: /
+      destination: /home/ubuntu/app/step/zip/
+      overwrite: yes

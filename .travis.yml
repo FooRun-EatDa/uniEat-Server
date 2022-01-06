@@ -1,0 +1,50 @@
+language: java
+jdk:
+  - openjdk8
+
+branches:
+  only:
+    - master
+
+
+chche:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
+
+
+
+before_deploy:
+  - zip -r eatda-server *
+  - mkdir -p deploy
+  - mv eatda-service.zip deploy/eatda-server.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: eatda-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: eatda-build #s3 버킷 이름
+    key: eatda-server.zip # 빌드 파일 압축해서 전달
+
+    bundle_type: zip
+    application: EAT-DA # CodeDeploy 어플리케이션
+    deployment_group: eatda-server-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
+
+notifications: #CI 완료시 알림갈 이메일 주소
+  email:
+    recipients:
+      - ohhyun1948@gmail.com
