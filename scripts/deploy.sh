@@ -26,3 +26,6 @@ JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 chmod +x $JAR_NAME
 
 # nohup 명령어로 jar 실행 부분
+
+
+nohup java - jar \ -Dspring.config.location=classpath:/application.properties,/home/ubuntu/app/application-db.properties \ $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
