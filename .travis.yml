@@ -2,13 +2,10 @@ language: java
 jdk:
   - openjdk8
 
-before_script:
-  - chmod +x gradle/wrapper/gradle-wrapper.jar
 
 branches:
   only:
     - master
-
 
 chche:
   directories:
@@ -17,7 +14,11 @@ chche:
 
 script: "./gradlew clean build"
 
+before_script:
+  - chmod a+x gradle/wrapper/gradle-wrapper.jar
 
+before_install:
+  - chmod +x gradlew
 
 before_deploy:
   - zip -r eatda-server *
