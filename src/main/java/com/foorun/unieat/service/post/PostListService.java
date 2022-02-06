@@ -5,6 +5,7 @@ import com.foorun.unieat.domain.post.repository.PostQuerydslRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class PostListService {
      * @param pageRequest 페이징 도메인 객체
      * @return 게시글 목록
      */
+    @Transactional(readOnly = true)
     public List<PostList> fetch(PageRequest pageRequest) {
         return postQuerydslRepository.findFetchJoin(pageRequest)
                 .stream()

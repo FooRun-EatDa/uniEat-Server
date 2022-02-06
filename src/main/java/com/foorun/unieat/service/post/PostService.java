@@ -9,6 +9,7 @@ import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class PostService {
      * @param id 게시글 고유 ID
      * @return 게시글 상세 DTO
      */
+    @Transactional(readOnly = true)
     public Post fetch(Long id) {
         return Post.of(postQuerydslRepository.find(id)
                 .orElseThrow(UniEatNotFoundException::new));
@@ -31,6 +33,7 @@ public class PostService {
      * 게시글 단건 저장
      * @return 생성된 게시글 ID
      */
+    @Transactional
     public Long save(Post post) {
         PostJpo postJpo = post.asJpo();
         postJpo.setMember(memberRepository.findById(post.getMemberId())
@@ -42,6 +45,7 @@ public class PostService {
      * 게시글 단건 삭제
      * @return 생성된 게시글 ID
      */
+    @Transactional
     public void remove(Long id) {
         postRepository.deleteById(id);
     }
