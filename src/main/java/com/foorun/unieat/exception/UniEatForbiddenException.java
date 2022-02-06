@@ -1,6 +1,6 @@
 package com.foorun.unieat.exception;
 
-import com.foorun.unieat.constant.HttpStatusMessage;
+import com.foorun.unieat.constant.ResponseCode;
 import org.springframework.http.HttpStatus;
 
 public class UniEatForbiddenException extends RuntimeException {
@@ -8,8 +8,8 @@ public class UniEatForbiddenException extends RuntimeException {
     protected final String message;
 
     {
-        status = HttpStatus.FORBIDDEN;
-        message = HttpStatusMessage.FORBIDDEN.getMessage();
+        status = ResponseCode.CODE_403.getStatus();
+        message = ResponseCode.CODE_403.getMessage();
     }
 
     public UniEatForbiddenException() {

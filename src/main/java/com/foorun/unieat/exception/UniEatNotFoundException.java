@@ -1,6 +1,6 @@
 package com.foorun.unieat.exception;
 
-import com.foorun.unieat.constant.HttpStatusMessage;
+import com.foorun.unieat.constant.ResponseCode;
 import org.springframework.http.HttpStatus;
 
 public class UniEatNotFoundException extends RuntimeException {
@@ -8,8 +8,8 @@ public class UniEatNotFoundException extends RuntimeException {
     protected final String message;
 
     {
-        status = HttpStatus.NOT_FOUND;
-        message = HttpStatusMessage.NOT_FOUND.getMessage();
+        status = ResponseCode.CODE_404.getStatus();
+        message = ResponseCode.CODE_404.getMessage();
     }
 
     public UniEatNotFoundException() {
