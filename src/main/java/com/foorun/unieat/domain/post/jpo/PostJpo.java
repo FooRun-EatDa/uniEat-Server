@@ -56,4 +56,12 @@ public class PostJpo extends BaseTimeJpo {
     @JoinColumn(name = "member_id")
     @ToString.Exclude
     private MemberJpo member = new MemberJpo();
+
+    /**
+     * 댓글(Comment) 객체 Dirty Checking
+     * @param commentJpo 댓글 JPA Object
+     */
+    public void addComment(CommentJpo commentJpo) {
+        this.comments.add(commentJpo);
+    }
 }

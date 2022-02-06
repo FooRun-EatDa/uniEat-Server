@@ -30,4 +30,10 @@ public class Comment {
         BeanUtils.copyProperties(commentJpo, comment);
         return comment;
     }
+
+    public CommentJpo asJpo() {
+        CommentJpo commentJpo = new CommentJpo();
+        BeanUtils.copyProperties(this, commentJpo);
+        return commentJpo;
+    }
 }
