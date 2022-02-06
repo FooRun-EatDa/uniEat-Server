@@ -1,10 +1,10 @@
-package com.eatda.foorun;
+package com.foorun.unieat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class UniEatServerApplicationTests {
 
     @Test
     void contextLoads() {
