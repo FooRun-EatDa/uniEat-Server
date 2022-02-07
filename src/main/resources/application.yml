@@ -9,3 +9,7 @@ spring:
     show-sql: true
   session:
     store-type: jdbc
+
+
+
+JWT_SECRET_KEY: ${JWT_SECRET}

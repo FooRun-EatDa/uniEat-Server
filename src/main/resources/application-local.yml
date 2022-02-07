@@ -1,2 +1,6 @@
 server:
   port: 8088
+
+
+
+JWT_SECRET_KEY: ${JWT_SECRET}
