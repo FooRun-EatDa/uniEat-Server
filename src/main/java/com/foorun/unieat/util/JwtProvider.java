@@ -8,9 +8,11 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -20,13 +22,19 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    @Value("${JWT_SECRET_KEY}")
-    private String secretKey;
-
     private String JWT_HEADER_STRING="Authorization";
     private String JWT_TOKEN_PREFIX="Bearer";
 
-    Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    private String secretKey;
+    private Key key;
+
+    @Autowired
+    public JwtProvider(@Value("${jwt.secretKey}") String secretKey){
+        this.secretKey = secretKey;
+        this.key= Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+    }
+
+
 
     private long tokenValidTime = 30 * 60 * 1000L;
 
