@@ -33,4 +33,12 @@ public final class JsonUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static String asJsonWithoutSpaces(String string) {
+        try {
+            return objectMapper.readTree(string).toString();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
