@@ -20,8 +20,7 @@ public class MockUtil {
             fields.forEach(field -> setMockValue(object, field));
             return object;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
