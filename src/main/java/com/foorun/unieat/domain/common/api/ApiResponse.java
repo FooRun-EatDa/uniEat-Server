@@ -23,11 +23,15 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> of(ResponseCode responseCode) {
-        return of(ResponseCode.CODE_200, null);
+        return of(responseCode, null);
     }
 
     public static <T> ApiResponse<T> of(ResponseCode responseCode, T data) {
         return new ApiResponse<>(responseCode.getCode(), responseCode.getMessage(), data);
+    }
+
+    public static ApiResponse<Void> error(ResponseCode responseCode) {
+        return of(responseCode);
     }
 
     @Deprecated
