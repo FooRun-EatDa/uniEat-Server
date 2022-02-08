@@ -6,6 +6,7 @@ public interface SwaggerApiInfo {
     String GET_POST = "게시글 단건 조회";
     String POST_POST = "게시글 생성";
     String DELETE_POST = "게시글 삭제";
+    String PUT_POST = "게시글 수정";
 
     String COMMENT = "댓글 Operations";
     String POST_COMMENT = "댓글 생성";
