@@ -21,7 +21,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/post", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/post", produces = APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Api(tags = SwaggerApiInfo.POST)
 public class PostController {
@@ -44,7 +44,7 @@ public class PostController {
     }
 
     @ApiOperation(value = SwaggerApiInfo.POST_POST)
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Long>> post(@RequestBody Post post) {
         Long postId = postService.save(post);
         return ResponseEntity
@@ -53,7 +53,7 @@ public class PostController {
     }
 
     @ApiOperation(value = SwaggerApiInfo.PUT_POST)
-    @PutMapping
+    @PutMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Long>> put(@RequestBody Post post) {
         Long postId = postService.save(post);
         return ResponseEntity

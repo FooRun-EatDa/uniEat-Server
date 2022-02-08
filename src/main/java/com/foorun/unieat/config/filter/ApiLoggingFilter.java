@@ -1,7 +1,5 @@
 package com.foorun.unieat.config.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -22,10 +20,7 @@ import static com.foorun.unieat.util.JsonUtil.asJsonWithoutSpaces;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class ApiLoggingFilter implements Filter {
-    private final ObjectMapper objectMapper;
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper((HttpServletRequest) request);
