@@ -1,5 +1,6 @@
 package com.foorun.unieat.domain.post.dto;
 
+import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.comment.dto.Comment;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Post {
+public class Post implements JsonSerializable {
     private Long id = IdentifyGenerator.number();
     private Long memberId;
     private String category;

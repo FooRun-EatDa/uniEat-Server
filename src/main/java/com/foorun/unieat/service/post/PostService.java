@@ -1,5 +1,6 @@
 package com.foorun.unieat.service.post;
 
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.post.dto.Post;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
@@ -36,17 +37,33 @@ public class PostService {
     @Transactional
     public Long save(Post post) {
         PostJpo postJpo = post.asJpo();
-        postJpo.setMember(memberRepository.findById(post.getMemberId())
-                .orElseThrow(UniEatForbiddenException::new));
+        postJpo.setMember(ensureMember(post.getMemberId()));
         return postRepository.save(postJpo).getId();
     }
 
     /**
-     * 게시글 단건 삭제
-     * @return 생성된 게시글 ID
+     * 게시글 단건 삭제 --> Hard Delete
+     * @return 삭제 처리할 게시글 ID
      */
     @Transactional
-    public void remove(Long id) {
+    public void removeHard(Long id) {
         postRepository.deleteById(id);
+    }
+
+    /**
+     * 게시글 단건 삭제 처리 --> Soft Delete
+     * @return 삭제 처리할 게시글 ID
+     */
+    @Transactional
+    public void removeSoft(Long id) {
+        PostJpo postJpo = postQuerydslRepository.find(id)
+                .orElseThrow(UniEatNotFoundException::new);
+        postJpo.remove();
+    }
+
+    @Transactional(readOnly = true)
+    public MemberJpo ensureMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(UniEatForbiddenException::new);
     }
 }

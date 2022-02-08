@@ -64,4 +64,11 @@ public class PostJpo extends BaseTimeJpo {
     public void addComment(CommentJpo commentJpo) {
         this.comments.add(commentJpo);
     }
+
+    /**
+     * 게시글을 삭제됨 상태로 처리 Dirty Checking
+     */
+    public void remove() {
+        this.status = "REMOVED";
+    }
 }
