@@ -15,24 +15,24 @@ import org.springframework.http.MediaType;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@DisplayName("게시글 작성")
-public class PostWriteTests extends ControllerTest {
+@DisplayName("게시글 수정")
+public class PostModifyTests extends ControllerTest {
     @MockBean
     private PostService postService;
 
-    @DisplayName("단건 생성")
+    @DisplayName("단건 수정")
     @Test
-    void write() throws Exception {
+    void modify() throws Exception {
         Post post = MockUtil.createMock(Post.class);
 
         when(postService.ensureMember(anyLong()))
                 .thenReturn(mock(MemberJpo.class));
 
-        mockMvc.perform(post("/post")
+        mockMvc.perform(put("/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .headers(HttpHeaders.EMPTY)
                         .content(post.asJson()))
