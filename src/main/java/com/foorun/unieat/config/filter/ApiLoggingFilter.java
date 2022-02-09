@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -71,7 +72,7 @@ public class ApiLoggingFilter implements Filter {
         if (wrapper != null) {
             byte[] buf = wrapper.getContentAsByteArray();
             if (buf.length > 0) {
-                payload = new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
+                payload = new String(buf, 0, buf.length, StandardCharsets.UTF_8);
                 wrapper.copyBodyToResponse();
             }
         }
