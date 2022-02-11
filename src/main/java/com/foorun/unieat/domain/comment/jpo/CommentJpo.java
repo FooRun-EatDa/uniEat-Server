@@ -2,9 +2,15 @@ package com.foorun.unieat.domain.comment.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
+import com.foorun.unieat.exception.UniEatLogicalException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Getter
 @Setter
@@ -22,7 +28,10 @@ public class CommentJpo extends BaseTimeJpo {
     /**
      * 부모 댓글 고유 ID
      */
-    private Long parentId;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private CommentJpo parent;
 
     /**
      * 비밀글 여부
@@ -47,4 +56,43 @@ public class CommentJpo extends BaseTimeJpo {
     @JoinColumn(name = "post_id")
     @ToString.Exclude
     private PostJpo post;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "parent")
+    private List<CommentJpo> comments = new ArrayList<>();
+
+    /**
+     * 최상위 댓글 여부 확인
+     * @return 최상위 댓글인가 ?
+     */
+    public boolean isRoot() {
+        return isNull(parent);
+    }
+
+    /**
+     * 상위 댓글 존재 여부 확인
+     * @return 상위 댓글이 존재하는가 ?
+     */
+    public boolean hasParent() {
+        return nonNull(parent);
+    }
+
+    /**
+     * 하위 댓글 존재 여부 확인
+     * @return 하위 댓글이 존재하는가 ?
+     */
+    public boolean hasChildren() {
+        return !comments.isEmpty();
+    }
+
+    /**
+     * 하위 댓글 추가
+     * @throws UniEatLogicalException 현재 버전까지는 하위 1 depth 까지만 허용함으로 로직상 문제가 발생할 경우 예외 발생
+     */
+    public void addComment(CommentJpo commentJpo) {
+        if (!isRoot()) {
+            throw new UniEatLogicalException();
+        }
+        this.comments.add(commentJpo);
+    }
 }

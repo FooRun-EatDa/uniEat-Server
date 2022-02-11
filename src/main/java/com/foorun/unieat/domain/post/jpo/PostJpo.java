@@ -6,8 +6,8 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -50,7 +50,8 @@ public class PostJpo extends BaseTimeJpo {
     @OneToMany
     @JoinColumn(name = "post_id")
     @ToString.Exclude
-    private List<CommentJpo> comments = new ArrayList<>();
+    @OrderBy("id asc")
+    private Set<CommentJpo> comments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

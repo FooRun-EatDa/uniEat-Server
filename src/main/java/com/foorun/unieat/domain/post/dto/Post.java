@@ -1,7 +1,9 @@
 package com.foorun.unieat.domain.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.comment.dto.Comment;
+import com.foorun.unieat.domain.comment.jpo.CommentJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post implements JsonSerializable {
     private Long id = IdentifyGenerator.number();
     private Long memberId;
@@ -46,6 +49,7 @@ public class Post implements JsonSerializable {
         Post post = createEmpty();
         BeanUtils.copyProperties(postJpo, post);
         post.comments = postJpo.getComments().stream()
+                .filter(CommentJpo::isRoot)
                 .map(Comment::of)
                 .collect(Collectors.toList());
         return post;
