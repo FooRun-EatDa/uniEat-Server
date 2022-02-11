@@ -3,10 +3,7 @@ package com.foorun.unieat.domain.code.region.jpo;
 import com.foorun.unieat.domain.code.region.jpo.embed.CoordinateJpo;
 import lombok.*;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -18,6 +15,7 @@ import javax.persistence.Table;
 @Table(name = "region_code")
 public class RegionCodeJpo {
     @Id
+    @Column(name = "region_id")
     private Long id;
 
     /**
