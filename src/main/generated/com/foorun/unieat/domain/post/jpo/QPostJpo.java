@@ -26,7 +26,7 @@ public class QPostJpo extends EntityPathBase<PostJpo> {
 
     public final StringPath category = createString("category");
 
-    public final ListPath<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo> comments = this.<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo>createList("comments", com.foorun.unieat.domain.comment.jpo.CommentJpo.class, com.foorun.unieat.domain.comment.jpo.QCommentJpo.class, PathInits.DIRECT2);
+    public final SetPath<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo> comments = this.<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo>createSet("comments", com.foorun.unieat.domain.comment.jpo.CommentJpo.class, com.foorun.unieat.domain.comment.jpo.QCommentJpo.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");
 
@@ -64,7 +64,7 @@ public class QPostJpo extends EntityPathBase<PostJpo> {
 
     public QPostJpo(Class<? extends PostJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member = inits.isInitialized("member") ? new com.foorun.unieat.domain.member.jpo.QMemberJpo(forProperty("member")) : null;
+        this.member = inits.isInitialized("member") ? new com.foorun.unieat.domain.member.jpo.QMemberJpo(forProperty("member"), inits.get("member")) : null;
     }
 
 }
