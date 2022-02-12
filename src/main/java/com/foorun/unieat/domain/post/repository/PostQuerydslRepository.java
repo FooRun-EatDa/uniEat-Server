@@ -2,6 +2,7 @@ package com.foorun.unieat.domain.post.repository;
 
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
+import com.foorun.unieat.domain.comment.jpo.QCommentJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,11 @@ public class PostQuerydslRepository implements QuerydslSelectMulti<PostJpo>, Que
     @Override
     public Optional<PostJpo> find(Long id) {
         return Optional.ofNullable(jpaQueryFactory.selectFrom(postJpo)
-                .innerJoin(postJpo.comments)
+                .innerJoin(postJpo.comments, commentJpo)
                 .fetchJoin()
+                .leftJoin(commentJpo.comments)
+                .fetchJoin()
+                .orderBy(commentJpo.parent.id.asc(), commentJpo.id.asc())
                 .where(postJpo.id.eq(id))
                 .fetchOne());
     }

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:~/foorun
+    username: ${FOORUN_DB_USERNAME}
+    password: ${FOORUN_DB_PASSWORD}
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+  sql:
+    init:
+      platform: h2
