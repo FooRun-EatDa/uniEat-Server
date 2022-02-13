@@ -6,10 +6,6 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### Spring ###
-application.properties
-application.yml
-
 ### STS ###
 .apt_generated
 .classpath
