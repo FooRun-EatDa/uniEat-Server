@@ -1,10 +1,14 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
+import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,9 +23,22 @@ public class MemberJpo extends BaseTimeJpo {
     @Column(name = "member_id", columnDefinition = "회원 고유 번호")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     @JoinColumn(name = "school_id", columnDefinition = "학교 고유 ID")
     private SchoolJpo school;
+
+    /**
+     * 좋아요한 리뷰 리스트
+     */
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
+
 
     @Column(columnDefinition = "회원 Email 주소")
     private String email;

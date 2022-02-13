@@ -1,10 +1,18 @@
 package com.foorun.unieat.domain.restaurant.jpo;
 
+import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
+import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.food.jpo.FoodJpo;
+import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
+import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -80,17 +88,37 @@ public class RestaurantJpo {
     /**
      * 식당의 행정적 위치 정보
      */
-    @ManyToOne
-    @JoinColumn(name ="region_code")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="code_id")
     @ToString.Exclude
     private RegionCodeJpo regionCode;
 
 
-//    @OneToMany
-//    @JoinColumn(name="food_id")
-//    @ToString.Exclude
-//    private List<FoodJpo> foods = new ArrayList<>();
-//
+    @OneToMany
+    @JoinColumn(name="category_id")
+    @ToString.Exclude
+    private Set<CategoryJpo> categorys = new HashSet<>();
+
+    @OneToMany
+    @JoinColumn(name="food_id")
+    @ToString.Exclude
+    private Set<FoodJpo> foods = new HashSet<>();
+
+
+    @OneToMany
+    @JoinColumn(name="review_id")
+    @ToString.Exclude
+    private Set<ReviewJpo> reviews = new HashSet<>();
+
+    @OneToMany(mappedBy = "restaurant")
+    @ToString.Exclude
+    private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "restaurant")
+    @ToString.Exclude
+    private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
+
 
 
 

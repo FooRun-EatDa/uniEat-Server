@@ -1,6 +1,7 @@
 package com.foorun.unieat.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -10,9 +11,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-
 
     @Override
     protected void configure(HttpSecurity http)throws Exception{
@@ -36,7 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //패스워드 인코더 설정
     @Bean
     public PasswordEncoder bCryptPasswordEncoder(){return new BCryptPasswordEncoder();}
-
 
 
     @Bean
