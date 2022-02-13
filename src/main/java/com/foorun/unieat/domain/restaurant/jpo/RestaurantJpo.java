@@ -9,9 +9,7 @@ import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
@@ -40,7 +38,8 @@ public class RestaurantJpo {
     /**
      * 식당 이미지
      */
-    private String img_url;
+    @Column(name="img_url")
+    private String imguUrl;
 
     /**
      * 식당 상세 설명
@@ -65,12 +64,14 @@ public class RestaurantJpo {
     /**
      * 전화 번호
      */
-    private String phone_number;
+    @Column(name="phone_number")
+    private String phoneNumber;
 
     /**
      * 운영 시간
      */
-    private String operation_time;
+    @Column(name="operation_time")
+    private String operationTime;
 
     /**
      * 식당 대표 음식 가격
@@ -111,15 +112,15 @@ public class RestaurantJpo {
     private Set<ReviewJpo> reviews = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant")
+    @Column(name="hash_tag_restaurnat_id")
     @ToString.Exclude
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
 
     @OneToMany(mappedBy = "restaurant")
+    @Column(name="review_feeling_id")
     @ToString.Exclude
     private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
-
-
 
 
 
