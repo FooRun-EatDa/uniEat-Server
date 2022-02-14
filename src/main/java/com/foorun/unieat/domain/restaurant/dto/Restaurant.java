@@ -37,8 +37,8 @@ public class Restaurant implements JsonSerializable {
 
     public RestaurantJpo asJpo(){
         RestaurantJpo restaurantJpo = new RestaurantJpo();
-        BeanUtils.copyProperties(this,RestaurantJpo);
-        return RestaurantJpo;
+        BeanUtils.copyProperties(this,restaurantJpo);
+        return restaurantJpo;
     }
 
 
