@@ -48,4 +48,7 @@ public class RegionCodeJpo {
      */
     @Embedded
     private CoordinateJpo coordinate;
+
+
+
 }

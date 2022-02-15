@@ -24,6 +24,8 @@ public class QCommentJpo extends EntityPathBase<CommentJpo> {
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
+    public final ListPath<CommentJpo, QCommentJpo> comments = this.<CommentJpo, QCommentJpo>createList("comments", CommentJpo.class, QCommentJpo.class, PathInits.DIRECT2);
+
     public final StringPath content = createString("content");
 
     //inherited
@@ -31,7 +33,7 @@ public class QCommentJpo extends EntityPathBase<CommentJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Long> parentId = createNumber("parentId", Long.class);
+    public final QCommentJpo parent;
 
     public final com.foorun.unieat.domain.post.jpo.QPostJpo post;
 
@@ -60,6 +62,7 @@ public class QCommentJpo extends EntityPathBase<CommentJpo> {
 
     public QCommentJpo(Class<? extends CommentJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.parent = inits.isInitialized("parent") ? new QCommentJpo(forProperty("parent"), inits.get("parent")) : null;
         this.post = inits.isInitialized("post") ? new com.foorun.unieat.domain.post.jpo.QPostJpo(forProperty("post"), inits.get("post")) : null;
     }
 
