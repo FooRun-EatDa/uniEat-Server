@@ -1,7 +1,8 @@
 package com.foorun.unieat.domain.restaurant.dto;
 
-
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
 
 @Getter
 @Setter
@@ -14,4 +15,16 @@ public class RestaurantSimple {
     private String name;
     private String explanation;
     private String imgUrl;
+
+    public static RestaurantSimple createEmpty() {
+        return new RestaurantSimple();
+    }
+
+
+    public static RestaurantSimple of(RestaurantJpo restaurantJpo){
+        RestaurantSimple restaurantSimple = createEmpty();
+        BeanUtils.copyProperties(restaurantJpo,restaurantSimple);
+        return restaurantSimple;
+    }
+
 }

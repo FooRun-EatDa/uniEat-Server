@@ -1,0 +1,51 @@
+package com.foorun.unieat.service.restaurant;
+
+import com.foorun.unieat.domain.QuerydslSelectMulti;
+import com.foorun.unieat.domain.QuerydslSelectSingle;
+import com.foorun.unieat.domain.post.jpo.PostJpo;
+import com.foorun.unieat.domain.restaurant.dto.Restaurant;
+import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
+import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
+import com.foorun.unieat.exception.UniEatNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class RestaurantService   {
+
+    private final RestaurantQuerydslRepository restaurantQuerydslRepository;
+
+    @Transactional(readOnly = true)
+    public List<RestaurantSimple> fetch(PageRequest pageRequest){
+        //List 형식으로 불러온다
+        return restaurantQuerydslRepository.findFetchJoin(pageRequest)
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
+
+    }
+
+
+    // 식당 상세정보
+    @Transactional(readOnly = true)
+    public Restaurant fetch(Long id){
+        return Restaurant.of(
+                restaurantQuerydslRepository.find(id)
+                .orElseThrow(UniEatNotFoundException::new)
+        );
+
+    }
+
+
+
+
+}

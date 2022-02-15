@@ -11,6 +11,7 @@ public interface SwaggerApiInfo {
     String COMMENT = "댓글 Operations";
     String POST_COMMENT = "댓글 생성";
 
+    String STORE = "식당 정보 관련 operation";
     String GET_STORE_SIMPLE = "간략한 식당 정보 조회";
     String GET_STORE_DETAIL = "식당 상세 정보 조회";
 }
