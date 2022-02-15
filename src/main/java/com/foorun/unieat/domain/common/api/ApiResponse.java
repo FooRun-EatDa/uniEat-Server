@@ -26,7 +26,7 @@ public class ApiResponse<T> {
         return of(responseCode, null);
     }
 
-    public static <T> ApiResponse<T> of(ResponseCode responseCode, T data) {
+    public static <T> ApiResponse<T>  of(ResponseCode responseCode, T data) {
         return new ApiResponse<>(responseCode.getCode(), responseCode.getMessage(), data);
     }
 
