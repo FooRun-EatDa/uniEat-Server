@@ -19,7 +19,7 @@ public class HashTagRestaurantJpo {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private HashTagJpo hasTag;
+    private HashTagJpo hashTag;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private RestaurantJpo restaurant;

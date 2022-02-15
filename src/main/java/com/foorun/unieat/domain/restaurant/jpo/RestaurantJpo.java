@@ -117,10 +117,6 @@ public class RestaurantJpo {
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "restaurant")
-    @Column(name="review_feeling_id")
-    @ToString.Exclude
-    private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
 
 
 

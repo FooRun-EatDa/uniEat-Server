@@ -18,11 +18,11 @@ public class ReviewFeelingJpo {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name="member_id")
+    @JoinColumn(name="member_id")
     private MemberJpo member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name="review_id")
+    @JoinColumn(name="review_id")
     private ReviewJpo review;
 
 }
