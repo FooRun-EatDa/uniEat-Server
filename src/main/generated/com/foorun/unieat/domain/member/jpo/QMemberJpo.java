@@ -45,6 +45,10 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final StringPath profile = createString("profile");
 
+    public final SetPath<com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QRestaurantFeelingJpo> restaurantFeelings = this.<com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QRestaurantFeelingJpo>createSet("restaurantFeelings", com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo.class, com.foorun.unieat.domain.feeling.jpo.QRestaurantFeelingJpo.class, PathInits.DIRECT2);
+
+    public final SetPath<com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo> reviewFeelings = this.<com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo>createSet("reviewFeelings", com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo.class, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo.class, PathInits.DIRECT2);
+
     public final com.foorun.unieat.domain.school.jpo.QSchoolJpo school;
 
     public final StringPath status = createString("status");

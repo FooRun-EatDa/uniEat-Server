@@ -16,3 +16,6 @@ spring:
   sql:
     init:
       platform: h2
+
+jwt:
+  secretKey: ${JWT_SECRET}
