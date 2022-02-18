@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.foorun.unieat.util.JsonUtil.asJson;
 import static com.foorun.unieat.util.JsonUtil.asJsonWithoutSpaces;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Component
@@ -51,7 +52,7 @@ public class ApiLoggingFilter implements Filter {
     private String getRequestBody(ContentCachingRequestWrapper request) {
         ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
         String payload = null;
-        if (wrapper != null) {
+        if (nonNull(wrapper)) {
             byte[] buf = wrapper.getContentAsByteArray();
             if (buf.length > 0) {
                 try {
@@ -67,15 +68,22 @@ public class ApiLoggingFilter implements Filter {
 
     private String getResponseBody(final HttpServletResponse response) throws IOException {
         String payload = null;
-        ContentCachingResponseWrapper wrapper =
-                WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
-        if (wrapper != null) {
-            byte[] buf = wrapper.getContentAsByteArray();
-            if (buf.length > 0) {
-                payload = new String(buf, 0, buf.length, StandardCharsets.UTF_8);
-                wrapper.copyBodyToResponse();
+        ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+        if (nonNull(wrapper)) {
+            if (!isJsonContentType(wrapper.getContentType())) {
+                payload = wrapper.getContentType();
+            } else {
+                byte[] buf = wrapper.getContentAsByteArray();
+                if (buf.length > 0) {
+                    payload = new String(buf, 0, buf.length, StandardCharsets.UTF_8);
+                }
             }
+            wrapper.copyBodyToResponse();
         }
         return payload;
+    }
+
+    private boolean isJsonContentType(String contentType) {
+        return nonNull(contentType) && !contentType.contains("json");
     }
 }
