@@ -5,6 +5,7 @@ import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
 import lombok.*;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "member")
-public class MemberJpo extends BaseTimeJpo {
+public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Id
     @Column(name = "member_id", columnDefinition = "회원 고유 번호")
     private Long id;
@@ -38,7 +39,6 @@ public class MemberJpo extends BaseTimeJpo {
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
-
 
     @Column(columnDefinition = "회원 Email 주소")
     private String email;
@@ -66,4 +66,9 @@ public class MemberJpo extends BaseTimeJpo {
 
     @Column(columnDefinition = "회원 상태")
     private String status;
+
+    @Override
+    public boolean isNew() {
+        return true;
+    }
 }
