@@ -1,6 +1,6 @@
 package com.foorun.unieat.service.member;
 
-import com.foorun.unieat.domain.member.dto.Member;
+import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +50,9 @@ public class MemberSignUpService {
     }
 
     @Transactional
-    public void signUp(Member member) {
+    public void signUp(MemberSignUp memberSignUp) {
         //  TODO : VALIDATION Member
-        memberRepository.save(member.asJpo());
+//        memberRepository.save(memberSignUp);
     }
 
     /**

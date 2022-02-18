@@ -2,8 +2,8 @@ package com.foorun.unieat.controller;
 
 import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
-import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.member.dto.MemberSignIn;
+import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.service.member.MemberSignInService;
 import com.foorun.unieat.service.member.MemberSignUpService;
 import io.swagger.annotations.Api;
@@ -30,8 +30,8 @@ public class MemberController {
 
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP)
     @PostMapping("/sign-up")
-    public ResponseEntity<ApiResponse<Void>> signUp(@RequestBody Member member) {
-        memberSignUpService.signUp(member);
+    public ResponseEntity<ApiResponse<Void>> signUp(@RequestBody MemberSignUp memberSignUp) {
+        memberSignUpService.signUp(memberSignUp);
         return ResponseEntity.ok(ApiResponse.success());
     }
 
