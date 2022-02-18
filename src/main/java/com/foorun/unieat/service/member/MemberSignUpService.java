@@ -68,7 +68,7 @@ public class MemberSignUpService {
      * 닉네임 정규식 검증
      */
     private void validateNickname(String nickname) {
-        if (!REGEX_EMAIL.matcher(nickname).matches()) {
+        if (nickname.length() > 10) {
             throw new UniEatBadRequestException();
         }
     }
