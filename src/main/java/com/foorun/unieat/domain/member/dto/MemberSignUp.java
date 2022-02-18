@@ -1,43 +1,55 @@
 package com.foorun.unieat.domain.member.dto;
 
 import com.foorun.unieat.domain.JsonSerializable;
+import com.foorun.unieat.domain.Validatable;
 import com.foorun.unieat.domain.common.Gender;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import static com.foorun.unieat.util.RegexUtil.REGEX_EMAIL;
 
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class MemberSignUp implements JsonSerializable {
+public class MemberSignUp implements JsonSerializable, Validatable {
     @ApiModelProperty(notes = "이메일", example = "cha2.hoon@gmail.com")
-    private final String email;
+    private String email;
 
     @ApiModelProperty(notes = "비밀번호", example = "1")
-    private final String password;
+    private String password;
 
     @ApiModelProperty(notes = "비밀번호 재입력", example = "1")
-    private final String passwordRe;
+    private String passwordRe;
 
     @ApiModelProperty(notes = "성명", example = "임채훈")
-    private final String name;
+    private String name;
 
     @ApiModelProperty(notes = "이메일 인증 코드", example = "999999")
-    private final String verificationCode;
+    private String verificationCode;
 
     @ApiModelProperty(notes = "주민등록번호", example = "960713-1111111")
-    private final String rrn;
+    private String rrn;
 
     @ApiModelProperty(notes = "성별", example = "MALE")
-    private final Gender gender;
+    private Gender gender;
 
     @ApiModelProperty(notes = "학교 ID", example = "1253855")
-    private final Long schoolId;
+    private Long schoolId;
 
     @ApiModelProperty(notes = "개인정보 수집 동의 여부", example = "true")
-    private final boolean isAgreeTerms;
+    private boolean isAgreeTerms;
 
     @ApiModelProperty(notes = "이벤트 수신 동의 여부", example = "true")
-    private final boolean isAgreeEventLetter;
+    private boolean isAgreeEventLetter;
+
+    @Override
+    public void validate() {
+        if (!REGEX_EMAIL.matcher(email).matches()) {
+            throw new UniEatBadRequestException();
+        }
+    }
 }

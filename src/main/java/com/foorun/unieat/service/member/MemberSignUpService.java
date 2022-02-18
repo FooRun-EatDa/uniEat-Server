@@ -1,5 +1,6 @@
 package com.foorun.unieat.service.member;
 
+import com.foorun.unieat.annotation.Validation;
 import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
@@ -50,8 +51,8 @@ public class MemberSignUpService {
     }
 
     @Transactional
+    @Validation
     public void signUp(MemberSignUp memberSignUp) {
-        //  TODO : VALIDATION Member
 //        memberRepository.save(memberSignUp);
     }
 
