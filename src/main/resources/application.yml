@@ -1,6 +1,8 @@
 spring:
   profiles:
-    include: datasource
+    include:
+      - datasource
+      - pigeon
   jpa:
     properties:
       hibernate:
@@ -9,8 +11,6 @@ spring:
     show-sql: true
   session:
     store-type: jdbc
-
-
 
 jwt:
   secretKey: ${JWT_SECRET}
