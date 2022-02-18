@@ -27,4 +27,11 @@ public class EmailVerificationCodeJpo {
     @CreatedDate
     @Column(name = "created_at", columnDefinition = "발급일시")
     private LocalDateTime createdAt;
+
+    public static EmailVerificationCodeJpo of(String email, String code) {
+        return builder()
+                .email(email)
+                .code(code)
+                .build();
+    }
 }
