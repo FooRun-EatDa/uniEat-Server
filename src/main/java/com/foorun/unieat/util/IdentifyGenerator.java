@@ -9,6 +9,7 @@ public class IdentifyGenerator {
     private static final Random random;
     private static final int DEFAULT_SIZE = 10;
 
+
     static {
         chars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         random = new Random();

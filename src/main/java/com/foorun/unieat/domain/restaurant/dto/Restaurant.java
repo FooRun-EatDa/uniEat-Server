@@ -1,10 +1,16 @@
 package com.foorun.unieat.domain.restaurant.dto;
 
 import com.foorun.unieat.domain.JsonSerializable;
+import com.foorun.unieat.domain.category.dto.Category;
+import com.foorun.unieat.domain.code.region.dto.RegionCode;
+import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
+import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Getter @Setter
 @ToString
@@ -26,6 +32,10 @@ public class Restaurant implements JsonSerializable {
     private int price;
     private String district;
     private String status;
+
+    private RegionCode region;
+    private List<Category> categoryList;
+    private List<Food> foodList;
 
     public static Restaurant createEmpty(){return new Restaurant();}
 

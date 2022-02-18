@@ -45,4 +45,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
                 .fetchOne()
         );
     }
+
+
+
 }
