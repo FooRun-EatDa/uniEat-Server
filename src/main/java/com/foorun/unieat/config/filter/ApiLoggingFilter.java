@@ -84,6 +84,6 @@ public class ApiLoggingFilter implements Filter {
     }
 
     private boolean isJsonContentType(String contentType) {
-        return nonNull(contentType) && !contentType.contains("json");
+        return nonNull(contentType) && contentType.contains("json");
     }
 }
