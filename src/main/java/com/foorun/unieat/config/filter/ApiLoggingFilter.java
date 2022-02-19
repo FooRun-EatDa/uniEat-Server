@@ -56,10 +56,10 @@ public class ApiLoggingFilter implements Filter {
             byte[] buf = wrapper.getContentAsByteArray();
             if (buf.length > 0) {
                 try {
-                    payload = new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
-                    payload = asJsonWithoutSpaces(payload)
+                    payload = asJsonWithoutSpaces(
+                            new String(buf, 0, buf.length, wrapper.getCharacterEncoding()));
 ;                } catch (UnsupportedEncodingException e) {
-                    return null;
+                    return "{}";
                 }
             }
         }
