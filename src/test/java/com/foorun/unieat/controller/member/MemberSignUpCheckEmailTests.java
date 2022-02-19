@@ -19,7 +19,7 @@ public class MemberSignUpCheckEmailTests extends MemberSignUpTests {
     @ParameterizedTest
     @ValueSource(strings = "xxxxxxxx@xxxxxx.xx.xx")
     void signUpCheckEmailWillPass(String email) throws Exception {
-        when(memberSignUpService.isDuplicateEmail(anyString())).thenReturn(false);
+        when(memberRepository.existsByEmail(anyString())).thenReturn(false);
 
         mockMvc.perform(get("/member/sign-up/check-email")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -36,7 +36,7 @@ public class MemberSignUpCheckEmailTests extends MemberSignUpTests {
     @ParameterizedTest
     @ValueSource(strings = "xxxxxxxx@xxxxxx.xx.xx")
     void signUpCheckEmailWillFail(String email) throws Exception {
-        when(memberSignUpService.isDuplicateEmail(anyString())).thenReturn(true);
+        when(memberRepository.existsByEmail(anyString())).thenReturn(true);
 
         mockMvc.perform(get("/member/sign-up/check-email")
                         .contentType(MediaType.APPLICATION_JSON)

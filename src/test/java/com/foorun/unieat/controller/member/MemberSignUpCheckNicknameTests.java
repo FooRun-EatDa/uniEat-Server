@@ -19,7 +19,7 @@ public class MemberSignUpCheckNicknameTests extends MemberSignUpTests {
     @ParameterizedTest
     @ValueSource(strings = "chaehoon")
     void signUpCheckNicknameWillPass(String nickname) throws Exception {
-        when(memberSignUpService.isDuplicateNickname(anyString())).thenReturn(false);
+        when(memberRepository.existsByNickname(anyString())).thenReturn(false);
 
         mockMvc.perform(get("/member/sign-up/check-nickname")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -36,7 +36,7 @@ public class MemberSignUpCheckNicknameTests extends MemberSignUpTests {
     @ParameterizedTest
     @ValueSource(strings = "chaehoon")
     void signUpCheckNicknameWillFail(String nickname) throws Exception {
-        when(memberSignUpService.isDuplicateNickname(anyString())).thenReturn(true);
+        when(memberRepository.existsByNickname(anyString())).thenReturn(true);
 
         mockMvc.perform(get("/member/sign-up/check-nickname")
                         .contentType(MediaType.APPLICATION_JSON)
