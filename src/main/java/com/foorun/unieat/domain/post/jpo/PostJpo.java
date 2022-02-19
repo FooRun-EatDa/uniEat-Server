@@ -51,11 +51,13 @@ public class PostJpo extends BaseTimeJpo {
     @JoinColumn(name = "post_id")
     @ToString.Exclude
     @OrderBy("id asc")
+    @Builder.Default
     private Set<CommentJpo> comments = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     @ToString.Exclude
+    @Builder.Default
     private MemberJpo member = new MemberJpo();
 
     /**

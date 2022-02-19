@@ -34,10 +34,12 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      */
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
+    @Builder.Default
     private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
 
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
+    @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
 
     @Column(columnDefinition = "회원 Email 주소")

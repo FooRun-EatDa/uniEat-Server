@@ -25,6 +25,8 @@ public class Comment {
     private boolean secret;
     private String content;
     private String status;
+
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     /**
