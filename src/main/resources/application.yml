@@ -13,4 +13,4 @@ spring:
     store-type: jdbc
 
 jwt:
-  secretKey: ${JWT_SECRET}
+  secret-key: ${JWT_SECRET}
