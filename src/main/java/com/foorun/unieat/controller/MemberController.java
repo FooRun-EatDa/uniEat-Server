@@ -7,8 +7,9 @@ import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.service.member.MemberSignInService;
 import com.foorun.unieat.service.member.MemberSignUpService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,35 +36,41 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.success());
     }
 
+    @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일", example = "cha2.hoon@gmail.com")
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_CHECK_EMAIL)
     @GetMapping("/sign-up/check-email")
     public ResponseEntity<ApiResponse<Boolean>> signUpCheckEmail(
-            @ApiParam(required = true, name = "사용자가 입력한 이메일") @RequestParam("email") String email) {
+            @RequestParam("email") String email) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(memberSignUpService.isDuplicateEmail(email)));
     }
 
+    @ApiImplicitParam(name = "nickname", required = true, value = "사용자가 입력한 닉네임", example = "chaehoon")
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_CHECK_NICKNAME)
     @GetMapping("/sign-up/check-nickname")
     public ResponseEntity<ApiResponse<Boolean>> signUpCheckNickname(
-            @ApiParam(required = true, name = "사용자가 입력한 닉네임") @RequestParam("nickname") String nickname) {
+            @RequestParam("nickname") String nickname) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(memberSignUpService.isDuplicateNickname(nickname)));
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(required = true, value = "사용자가 입력한 이메일"),
+            @ApiImplicitParam(required = true, value = "사용자가 입력한 인증코드")})
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_VERIFY_EMAIL)
     @GetMapping("/sign-up/verify-email")
     public ResponseEntity<ApiResponse<Boolean>> signUpVerifyEmail(
-            @ApiParam(required = true, name = "사용자가 입력한 이메일") @RequestParam("email") String email,
-            @ApiParam(required = true, name = "사용자가 입력한 인증코드") @RequestParam("verificationCode") String verificationCode) {
+            @RequestParam("email") String email,
+            @RequestParam("verificationCode") String verificationCode) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(memberSignUpService.verifyEmail(email, verificationCode)));
     }
 
+    @ApiImplicitParam(required = true, value = "사용자가 입력한 이메일")
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_SEND_VERIFICATION_EMAIL)
     @GetMapping("/sign-up/send-verification-email")
     public ResponseEntity<ApiResponse<Void>> signUpSendVerificationEmail(
-            @ApiParam(required = true, name = "사용자가 입력한 이메일") @RequestParam("email") String email) {
+            @RequestParam("email") String email) {
         memberSignUpService.sendVerificationEmail(email);
         return ResponseEntity.ok(ApiResponse.success());
     }
