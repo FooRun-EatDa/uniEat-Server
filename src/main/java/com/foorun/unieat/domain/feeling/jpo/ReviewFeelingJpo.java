@@ -12,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Table(name = "review_feeling")
 public class ReviewFeelingJpo {
     @Id
     @Column(name="member_review_feeling_id")
@@ -19,10 +20,12 @@ public class ReviewFeelingJpo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
+    @ToString.Exclude
     private MemberJpo member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="review_id")
+    @ToString.Exclude
     private ReviewJpo review;
 
 }

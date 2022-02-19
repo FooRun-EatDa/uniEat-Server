@@ -15,6 +15,7 @@ import java.util.Set;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "review")
 public class ReviewJpo extends BaseTimeJpo {
     @Id
     @Column(name="review_id")

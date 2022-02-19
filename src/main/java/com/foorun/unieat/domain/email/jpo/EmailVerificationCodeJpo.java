@@ -17,15 +17,24 @@ import java.time.LocalDateTime;
 @Table(name = "email_verification_code")
 @EntityListeners(AuditingEntityListener.class)
 public class EmailVerificationCodeJpo {
+    /**
+     * 이메일
+     */
     @Id
-    @Column(columnDefinition = "이메일")
+    @Column
     private String email;
 
-    @Column(columnDefinition = "발급된 인증 코드")
+    /**
+     * 발급된 인증 코드
+     */
+    @Column
     private String code;
 
+    /**
+     * 발급일시
+     */
     @CreatedDate
-    @Column(name = "created_at", columnDefinition = "발급일시")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     public static EmailVerificationCodeJpo of(String email, String code) {

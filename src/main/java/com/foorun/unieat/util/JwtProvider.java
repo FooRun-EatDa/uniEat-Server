@@ -1,7 +1,5 @@
 package com.foorun.unieat.util;
 
-import com.foorun.unieat.constant.ResponseCode;
-import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.member.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -29,7 +26,7 @@ public class JwtProvider {
     private Key key;
 
     @Autowired
-    public JwtProvider(@Value("${jwt.secretKey}") String secretKey){
+    public JwtProvider(@Value("${jwt.secret-key}") String secretKey){
         this.secretKey = secretKey;
         this.key= Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
