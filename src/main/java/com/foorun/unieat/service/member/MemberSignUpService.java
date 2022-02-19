@@ -32,7 +32,7 @@ public class MemberSignUpService {
     @Transactional(readOnly = true)
     public boolean isDuplicateEmail(String email) {
         validateEmail(email);
-        return !memberRepository.existsByEmail(email);
+        return memberRepository.existsByEmail(email);
     }
 
     /**
@@ -68,7 +68,7 @@ public class MemberSignUpService {
     @Transactional(readOnly = true)
     public boolean isDuplicateNickname(String nickname) {
         validateNickname(nickname);
-        return !memberRepository.existsByNickname(nickname);
+        return memberRepository.existsByNickname(nickname);
     }
 
     @Transactional
