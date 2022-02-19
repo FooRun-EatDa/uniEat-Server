@@ -33,16 +33,4 @@ public class ApiResponse<T> {
     public static ApiResponse<Void> error(ResponseCode responseCode) {
         return of(responseCode);
     }
-
-    @Deprecated
-    public static <T> ApiResponse<T> execute(Runnable runnable) {
-        runnable.run();
-        return of(ResponseCode.CODE_200, null);
-    }
-
-    @Deprecated
-    public static <T> ApiResponse<T> execute(ResponseCode responseCode, Runnable runnable) {
-        runnable.run();
-        return of(responseCode, null);
-    }
 }
