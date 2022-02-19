@@ -55,8 +55,8 @@ public class MemberController {
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(required = true, value = "사용자가 입력한 이메일"),
-            @ApiImplicitParam(required = true, value = "사용자가 입력한 인증코드")})
+            @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일"),
+            @ApiImplicitParam(name = "verificationCode", required = true, value = "사용자가 입력한 인증코드")})
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_VERIFY_EMAIL)
     @GetMapping("/sign-up/verify-email")
     public ResponseEntity<ApiResponse<Boolean>> signUpVerifyEmail(
@@ -66,7 +66,7 @@ public class MemberController {
                 ApiResponse.valueOf(memberSignUpService.verifyEmail(email, verificationCode)));
     }
 
-    @ApiImplicitParam(required = true, value = "사용자가 입력한 이메일")
+    @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일")
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_SEND_VERIFICATION_EMAIL)
     @GetMapping("/sign-up/send-verification-email")
     public ResponseEntity<ApiResponse<Void>> signUpSendVerificationEmail(
