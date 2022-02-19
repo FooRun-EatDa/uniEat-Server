@@ -11,6 +11,7 @@ import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.notfound.UniEatResourceExpiryException;
+import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -39,14 +40,15 @@ public class MemberSignUpService {
      * 회원가입 프로세스 - 이메일 인증 메일 발송
      */
     public void sendVerificationEmail(String email) {
-        final String verificationCode = "111111";
+        final int CODE_LENGTH = 6;
+        final Long verificationCode = IdentifyGenerator.number(CODE_LENGTH);
         PigeonResponse<Void> pigeonResponse = pigeonClient
-                .send(PigeonRequest.formSingleEmailOf(verificationCode, email));
+                .send(PigeonRequest.formSingleEmailOf(String.valueOf(verificationCode), email));
 
         if (pigeonResponse.getCode() != HttpStatus.OK.value()) {
             throw new UniEatLogicalException();
         }
-        emailVerificationCodeRepository.save(EmailVerificationCodeJpo.of(email, verificationCode));
+        emailVerificationCodeRepository.save(EmailVerificationCodeJpo.of(email, String.valueOf(verificationCode)));
     }
 
     /**
