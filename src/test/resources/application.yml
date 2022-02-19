@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    include: pigeon
+
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:~/foorun
@@ -10,9 +13,10 @@ spring:
       hibernate:
         format_sql: true
     show-sql: true
+    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    database-platform: h2
 
-  sql:
-    init:
-      platform: h2
+jwt:
+  secret-key: ${JWT_SECRET}
