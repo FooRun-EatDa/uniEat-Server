@@ -7,6 +7,7 @@ import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
+import com.foorun.unieat.domain.review.dto.Review;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
@@ -33,9 +34,10 @@ public class Restaurant implements JsonSerializable {
     private String district;
     private String status;
 
-    private RegionCode region;
-    private List<Category> categoryList;
-    private List<Food> foodList;
+    private RegionCode regionCode;
+    private List<Category> categorys;
+    private List<Food> foods;
+    private List<Review> reviewFeelings;
 
     public static Restaurant createEmpty(){return new Restaurant();}
 
