@@ -16,7 +16,7 @@ public class Category {
 
 
     private Long id = IdentifyGenerator.number();
-    private String category_name;
+    private String categoryName;
     private Restaurant restaurant;
 
 
@@ -26,7 +26,6 @@ public class Category {
     public static Category of(CategoryJpo categoryJpo){
         Category category = createEmpty();
         BeanUtils.copyProperties(categoryJpo,category);
-        category.restaurant = Restaurant.of(categoryJpo.getRestaurant()); //엔티티를 담지 않기위해
 
         return category;
     }
