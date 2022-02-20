@@ -1,21 +1,16 @@
 package com.foorun.unieat.service.restaurant;
 
-import com.foorun.unieat.domain.QuerydslSelectMulti;
-import com.foorun.unieat.domain.QuerydslSelectSingle;
-import com.foorun.unieat.domain.post.jpo.PostJpo;
+
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
-import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +29,6 @@ public class RestaurantService   {
 
     }
 
-
     // 식당 상세정보
     @Transactional(readOnly = true)
     public Restaurant fetch(Long id){
@@ -42,6 +36,13 @@ public class RestaurantService   {
                 restaurantQuerydslRepository.find(id)
                 .orElseThrow(UniEatNotFoundException::new)
         );
+
+    }
+
+
+    //식당 필터 조회
+    @Transactional(readOnly = true)
+    public Restaurant fetchByFiltering(){
 
     }
 
