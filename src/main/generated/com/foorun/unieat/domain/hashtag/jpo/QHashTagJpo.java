@@ -27,7 +27,7 @@ public class QHashTagJpo extends EntityPathBase<HashTagJpo> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
-    public final ListPath<HashTagRestaurantJpo, QHashTagRestaurantJpo> hashTagRestaurant = this.<HashTagRestaurantJpo, QHashTagRestaurantJpo>createList("hashTagRestaurant", HashTagRestaurantJpo.class, QHashTagRestaurantJpo.class, PathInits.DIRECT2);
+    public final ListPath<HashTagRestaurantJpo, QHashTagRestaurantJpo> hashTagRestaurants = this.<HashTagRestaurantJpo, QHashTagRestaurantJpo>createList("hashTagRestaurants", HashTagRestaurantJpo.class, QHashTagRestaurantJpo.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

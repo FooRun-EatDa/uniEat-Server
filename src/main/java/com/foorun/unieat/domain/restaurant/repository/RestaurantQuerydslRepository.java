@@ -85,7 +85,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     private BooleanBuilder categoryChecking(List<String> category){
         BooleanBuilder builder = new BooleanBuilder();
         for (String s : category) {
-            builder.and(categoryJpo.category_name.eq(s));
+            builder.and(categoryJpo.categoryName.eq(s));
         }
 
         return builder;

@@ -10,7 +10,6 @@ import java.util.Arrays;
 import static com.foorun.unieat.constant.ServiceConstant.INFINITY_NUM;
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 @Getter
 public enum Prices {
 
