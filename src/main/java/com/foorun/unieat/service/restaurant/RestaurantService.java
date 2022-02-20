@@ -1,6 +1,7 @@
 package com.foorun.unieat.service.restaurant;
 
 
+import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
@@ -42,8 +43,12 @@ public class RestaurantService   {
 
     //식당 필터 조회
     @Transactional(readOnly = true)
-    public Restaurant fetchByFiltering(){
+    public List<RestaurantSimple> fetchByFiltering(FilteringRestaurant filteringRestaurant,PageRequest pageRequest){
 
+        return restaurantQuerydslRepository.findByFilter(filteringRestaurant,pageRequest)
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
 
     }
 
