@@ -13,18 +13,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Table(name = "restaurant_feeling")
 public class RestaurantFeelingJpo {
-
     @Id
     @Column(name="restaurant_feeling_id")
     private Long id;
 
-
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private ReviewJpo review;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     private MemberJpo member;
-
-
 }

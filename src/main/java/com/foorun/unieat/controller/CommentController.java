@@ -23,7 +23,7 @@ public class CommentController {
     @ApiOperation(value = SwaggerApiInfo.POST_COMMENT)
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> post(@RequestBody Comment comment) {
-        return ResponseEntity.ok(
-                ApiResponse.execute(() -> commentService.save(comment)));
+        commentService.save(comment);
+        return ResponseEntity.ok(ApiResponse.success());
     }
 }

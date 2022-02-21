@@ -1,0 +1,3 @@
+pigeon:
+  base-url: ${FOORUN_PIGEON_BASE_URL}
+  context-uri: /pigeon

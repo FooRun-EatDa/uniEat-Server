@@ -59,6 +59,7 @@ public class CommentJpo extends BaseTimeJpo {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "parent")
+    @Builder.Default
     private List<CommentJpo> comments = new ArrayList<>();
 
     /**

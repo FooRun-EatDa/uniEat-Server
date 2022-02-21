@@ -98,22 +98,26 @@ public class RestaurantJpo {
     @OneToMany
     @JoinColumn(name="category_id")
     @ToString.Exclude
+    @Builder.Default
     private Set<CategoryJpo> categorys = new HashSet<>();
 
     @OneToMany
     @JoinColumn(name="food_id")
     @ToString.Exclude
+    @Builder.Default
     private Set<FoodJpo> foods = new HashSet<>();
 
 
     @OneToMany
     @JoinColumn(name="review_id")
     @ToString.Exclude
+    @Builder.Default
     private Set<ReviewJpo> reviews = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant")
     @Column(name="hash_tag_restaurnat_id")
     @ToString.Exclude
+    @Builder.Default
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
 

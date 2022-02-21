@@ -38,7 +38,7 @@ public class PostController {
     @ApiOperation(value = SwaggerApiInfo.GET_POST)
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Post>> get(
-            @ApiParam(required = true, name = "게시글 고유 ID") @PathVariable("id") long id) {
+            @ApiParam(required = true, value = "게시글 고유 ID") @PathVariable("id") long id) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(postService.fetch(id)));
     }
@@ -63,7 +63,7 @@ public class PostController {
 
     @ApiOperation(value = SwaggerApiInfo.DELETE_POST)
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> delete(@ApiParam(required = true, name = "게시글 고유 ID") @PathVariable("id") long id) {
+    public ResponseEntity<ApiResponse<Void>> delete(@ApiParam(required = true, value = "게시글 고유 ID") @PathVariable("id") long id) {
         postService.removeSoft(id);
         return ResponseEntity
                 .ok(ApiResponse.success());

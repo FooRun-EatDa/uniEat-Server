@@ -10,6 +10,7 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "category")
 public class CategoryJpo {
 
     @Id

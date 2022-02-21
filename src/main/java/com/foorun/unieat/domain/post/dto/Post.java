@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Post implements JsonSerializable {
+    @Builder.Default
     private Long id = IdentifyGenerator.number();
     private Long memberId;
     private String category;

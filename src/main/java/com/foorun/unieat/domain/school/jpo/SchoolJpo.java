@@ -15,17 +15,29 @@ import javax.persistence.*;
 @Entity
 @Table(name = "school")
 public class SchoolJpo extends BaseTimeJpo {
+    /**
+     * 학교 고유 ID
+     */
     @Id
-    @Column(name = "school_id", columnDefinition = "학교 고유 ID")
+    @Column(name = "school_id")
     private Long id;
 
+    /**
+     * 지역 고유 ID
+     */
     @ManyToOne
-    @JoinColumn(name = "region_id", columnDefinition = "지역 고유 ID")
+    @JoinColumn(name = "region_id")
     private RegionCodeJpo region;
 
-    @Column(columnDefinition = "학교 이름")
+    /**
+     * 학교 이름
+     */
+    @Column
     private String name;
 
-    @Column(columnDefinition = "상태")
+    /**
+     * 상태
+     */
+    @Column
     private String status;
 }
