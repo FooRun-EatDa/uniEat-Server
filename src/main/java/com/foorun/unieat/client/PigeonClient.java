@@ -23,12 +23,12 @@ public class PigeonClient {
     private final RestTemplate pigeonRestTemplate;
 
     public <T> PigeonResponse<T> send(PigeonRequest<? extends PigeonForm> pigeonRequest) {
-        ResponseEntity<PigeonResponse<T>> responseEntity = pigeonRestTemplate.exchange(URI.create(
+        ResponseEntity<PigeonResponse<T>> responseEntity = pigeonRestTemplate.exchange(
                 String.format("/%s/%s",
                         pigeonRequest.getMethod().getLowerCase(),
-                        pigeonRequest.getMode().getLowerCase())),
+                        pigeonRequest.getMode().getLowerCase()),
                 HttpMethod.POST,
-                HttpEntity.EMPTY,
+                new HttpEntity<>(pigeonRequest.getForm()),
                 new ParameterizedTypeReference<PigeonResponse<T>>() {});
 
         if (responseEntity.getStatusCode() != HttpStatus.OK) {

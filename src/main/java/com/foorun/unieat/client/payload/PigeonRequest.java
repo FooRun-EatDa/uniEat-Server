@@ -6,7 +6,6 @@ import com.foorun.unieat.domain.JsonSerializable;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 /**
  * Pigeon 클라이언트 요청 양식
@@ -24,9 +23,15 @@ public class PigeonRequest<T extends PigeonForm> implements JsonSerializable {
     private LocalDateTime createdAt;
     private T form;
 
-    public static PigeonRequest<PigeonForm> formSingleEmailOf(String content, String... email) {
+    public static PigeonRequest<PigeonForm> formSingleEmailOfVerificationCode(String to, Long verificationCode) {
         return PigeonRequest.builder()
-                .form(PigeonEmailForm.of(content, Arrays.asList(email)))
+                .form(PigeonEmailForm.builder()
+                        .to(to)
+                        .subject("Uni-Eat 이메일 인증 코드입니다.")
+                        .templateName("email/verification")
+                        .useTemplate(true)
+                        .build()
+                        .addProperty("verificationCode", verificationCode))
                 .mode(PigeonMode.SINGLE)
                 .method(PigeonMethod.EMAIL)
                 .build();

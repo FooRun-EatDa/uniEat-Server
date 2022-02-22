@@ -39,11 +39,12 @@ public class MemberSignUpService {
     /**
      * 회원가입 프로세스 - 이메일 인증 메일 발송
      */
+    @Transactional
     public void sendVerificationEmail(String email) {
         final int CODE_LENGTH = 6;
         final Long verificationCode = IdentifyGenerator.number(CODE_LENGTH);
         PigeonResponse<Void> pigeonResponse = pigeonClient
-                .send(PigeonRequest.formSingleEmailOf(String.valueOf(verificationCode), email));
+                .send(PigeonRequest.formSingleEmailOfVerificationCode(email, verificationCode));
 
         if (pigeonResponse.getCode() != HttpStatus.OK.value()) {
             throw new UniEatLogicalException();
