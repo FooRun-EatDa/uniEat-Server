@@ -16,6 +16,7 @@ public class Swagger2FoxConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
+                .pathMapping("/")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.foorun.unieat.controller"))
                 .paths(PathSelectors.ant("/**/**"))
