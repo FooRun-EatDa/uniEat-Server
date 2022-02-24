@@ -7,9 +7,13 @@ import com.foorun.unieat.client.payload.PigeonResponse;
 import com.foorun.unieat.domain.email.jpo.EmailVerificationCodeJpo;
 import com.foorun.unieat.domain.email.repository.EmailVerificationCodeRepository;
 import com.foorun.unieat.domain.member.dto.MemberSignUp;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
+import com.foorun.unieat.domain.school.jpo.SchoolJpo;
+import com.foorun.unieat.domain.school.repository.SchoolRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatLogicalException;
+import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.notfound.UniEatResourceExpiryException;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,7 @@ public class MemberSignUpService {
     private final MemberRepository memberRepository;
     private final EmailVerificationCodeRepository emailVerificationCodeRepository;
     private final PigeonClient pigeonClient;
+    private final SchoolRepository schoolRepository;
 
     /**
      * 회원가입 프로세스 - 이메일 중복 확인
@@ -74,10 +79,17 @@ public class MemberSignUpService {
         return memberRepository.existsByNickname(nickname);
     }
 
-    @Transactional
+    /**
+     * 회원가입 프로세스 - 회원 생성
+     */
     @Validation
+    @Transactional
     public void signUp(MemberSignUp memberSignUp) {
-//        memberRepository.save(memberSignUp);
+        MemberJpo memberJpo = memberSignUp.asJpo();
+        SchoolJpo schoolJpo = schoolRepository.findById(memberSignUp.getSchoolId())
+                        .orElseThrow(UniEatNotFoundException::new);
+        memberJpo.setSchool(schoolJpo);
+        memberRepository.save(memberJpo);
     }
 
     /**
