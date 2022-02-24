@@ -19,7 +19,7 @@ public class jwtProviderTest {
     @Test
     public void jwtProviderTest(){
 
-        String token = jwtProvider.createToken("hyun", Role.USER);
+        String token = jwtProvider.createToken("aaaa@aaaa.aa.aa", "hyun", Role.USER);
         assertThat(token).isNotEmpty();
 
         assertThat(jwtProvider.IsValidateToken(token)).isTrue();
