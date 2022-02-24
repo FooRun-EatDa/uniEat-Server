@@ -17,7 +17,6 @@ import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.notfound.UniEatResourceExpiryException;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +50,7 @@ public class MemberSignUpService {
         PigeonResponse<Void> pigeonResponse = pigeonClient
                 .send(PigeonRequest.formSingleEmailOfVerificationCode(email, verificationCode));
 
-        if (pigeonResponse.getCode() != HttpStatus.OK.value()) {
+        if (pigeonResponse.isSuccess()) {
             throw new UniEatLogicalException();
         }
         emailVerificationCodeRepository.save(EmailVerificationCodeJpo.of(email, String.valueOf(verificationCode)));
