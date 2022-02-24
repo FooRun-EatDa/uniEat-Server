@@ -2,6 +2,7 @@ package com.foorun.unieat.controller;
 
 import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
+import com.foorun.unieat.domain.common.jwt.JwtToken;
 import com.foorun.unieat.domain.member.dto.MemberSignIn;
 import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.service.member.MemberSignInService;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +27,10 @@ public class MemberController {
     @ApiOperation(value = SwaggerApiInfo.SIGN_IN)
     @PostMapping("/sign-in")
     public ResponseEntity<ApiResponse<Void>> signIn(@RequestBody MemberSignIn memberSignIn) {
-        memberSignInService.signIn(memberSignIn);
-        return ResponseEntity.ok(ApiResponse.success());
+        JwtToken jwtToken = memberSignInService.signIn(memberSignIn);
+        return ResponseEntity.ok()
+                .headers(HttpHeaders.readOnlyHttpHeaders(jwtToken.asHeaders()))
+                .body(ApiResponse.success());
     }
 
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP)
