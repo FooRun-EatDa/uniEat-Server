@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.util.Arrays;
+
 @Getter
 @RequiredArgsConstructor
 public enum ResponseCode {
@@ -19,4 +21,11 @@ public enum ResponseCode {
     private final int code;
     private final HttpStatus status;
     private final String message;
+
+    public static ResponseCode findByHttpStatus(HttpStatus httpStatus) {
+        return Arrays.stream(values())
+                .filter(responseCode -> responseCode.getStatus() == httpStatus)
+                .findFirst()
+                .orElse(ResponseCode.CODE_500);
+    }
 }
