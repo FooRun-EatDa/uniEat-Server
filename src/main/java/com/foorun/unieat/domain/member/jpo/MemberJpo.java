@@ -74,14 +74,14 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     private String nickname;
 
     /**
-     * 회원 생년월일 (주민번호 앞 7자리)
+     * 회원 생년월일 (주민번호 앞 6자리)
      */
-    private Integer dateOfBirth;
+    private Integer dateOfBirth;    //  TODO : Maybe value is started 0 ..?
 
     /**
      * 회원 성별(0 = 남자, 1 = 여자)
      */
-    private int gender;
+    private char gender;
 
     /**
      * 이용자 권한(0 = 관리자, 1 = 일반 이용자, 2 = Black 회원)
@@ -92,6 +92,16 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      * 회원 상태
      */
     private String status;
+
+    /**
+     * 개인정보 수집 동의 여부
+     */
+    private boolean agreeTerms;
+
+    /**
+     * 이벤트 수신 동의 여부
+     */
+    private boolean agreeEventLetter;
 
     @Override
     public boolean isNew() {
