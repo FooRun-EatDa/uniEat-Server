@@ -2,15 +2,19 @@ package com.foorun.unieat.service.member;
 
 import com.foorun.unieat.annotation.Validation;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
+import com.foorun.unieat.domain.history.member.jpo.HistoryMemberSignInJpo;
+import com.foorun.unieat.domain.history.member.repository.HistoryMemberSignInRepository;
 import com.foorun.unieat.domain.member.dto.MemberSignIn;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.exception.UniEatForbiddenException;
+import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberSignInService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
+    private final HistoryMemberSignInRepository historyMemberSignInRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 사용자 Sign-In
@@ -29,11 +35,12 @@ public class MemberSignInService implements UserDetailsService {
     @Transactional
     public JwtToken signIn(MemberSignIn memberSignIn) {
         MemberJpo memberJpo = ensureMember(memberSignIn.getEmail());
-        JwtToken jwtToken = jwtProvider.createTokens(memberJpo.getEmail(), memberJpo.getNickname(), memberJpo.getRole());
-        if (memberJpo.isEqualsPassword(memberSignIn.getPassword())) {
+        if (bCryptPasswordEncoder.matches(memberSignIn.getPassword(), memberJpo.getPassword())) {
             memberJpo.latestSignInNow();
+            historyMemberSignInRepository.save(HistoryMemberSignInJpo.of(memberJpo.getId()));
+            return jwtProvider.createTokens(memberJpo.getEmail(), memberJpo.getNickname(), memberJpo.getRole());
         }
-        return jwtToken;
+        throw new UniEatNotFoundException();
     }
 
     private MemberJpo ensureMember(String email) {
