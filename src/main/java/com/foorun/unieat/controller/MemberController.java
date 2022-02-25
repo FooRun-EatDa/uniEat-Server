@@ -3,13 +3,13 @@ package com.foorun.unieat.controller;
 import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
-import com.foorun.unieat.domain.member.dto.MemberSignIn;
-import com.foorun.unieat.domain.member.dto.MemberSignUp;
+import com.foorun.unieat.domain.member.dto.*;
+import com.foorun.unieat.service.member.MemberResetPasswordService;
 import com.foorun.unieat.service.member.MemberSignInService;
 import com.foorun.unieat.service.member.MemberSignUpService;
+import com.foorun.unieat.service.member.MemberVerifyEmailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberSignUpService memberSignUpService;
     private final MemberSignInService memberSignInService;
+    private final MemberResetPasswordService memberResetPasswordService;
+    private final MemberVerifyEmailService memberVerifyEmailService;
 
     @ApiOperation(value = SwaggerApiInfo.SIGN_IN)
     @PostMapping("/sign-in")
@@ -58,24 +60,27 @@ public class MemberController {
                 ApiResponse.valueOf(memberSignUpService.isDuplicateNickname(nickname)));
     }
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일"),
-            @ApiImplicitParam(name = "verificationCode", required = true, value = "사용자가 입력한 인증코드")})
-    @ApiOperation(value = SwaggerApiInfo.SIGN_UP_VERIFY_EMAIL)
-    @GetMapping("/sign-up/verify-email")
-    public ResponseEntity<ApiResponse<Boolean>> signUpVerifyEmail(
-            @RequestParam("email") String email,
-            @RequestParam("verificationCode") String verificationCode) {
+    @ApiOperation(value = SwaggerApiInfo.GET_VERIFY_EMAIL)
+    @GetMapping("/verify-email")
+    public ResponseEntity<ApiResponse<Boolean>> verifyEmail(
+            @ModelAttribute MemberVerifyEmailPayload memberVerifyEmailPayload) {
         return ResponseEntity.ok(
-                ApiResponse.valueOf(memberSignUpService.verifyEmail(email, verificationCode)));
+                ApiResponse.valueOf(memberVerifyEmailService.verify(memberVerifyEmailPayload)));
     }
 
-    @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일")
-    @ApiOperation(value = SwaggerApiInfo.SIGN_UP_SEND_VERIFICATION_EMAIL)
-    @GetMapping("/sign-up/send-verification-email")
-    public ResponseEntity<ApiResponse<Void>> signUpSendVerificationEmail(
-            @RequestParam("email") String email) {
-        memberSignUpService.sendVerificationEmail(email);
+    @ApiOperation(value = SwaggerApiInfo.POST_VERIFY_EMAIL)
+    @PostMapping("/verify-email")
+    public ResponseEntity<ApiResponse<Void>> verifyEmail(
+            @RequestBody MemberSendVerifyEmailPayload memberSendVerifyEmailPayload) {
+        memberVerifyEmailService.send(memberSendVerifyEmailPayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.RESET_PASSWORD)
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<Void>> resetPassword(
+            @RequestBody MemberResetPasswordPayload memberResetPasswordPayload) {
+        memberResetPasswordService.resetPassword(memberResetPasswordPayload);
         return ResponseEntity.ok(ApiResponse.success());
     }
 }

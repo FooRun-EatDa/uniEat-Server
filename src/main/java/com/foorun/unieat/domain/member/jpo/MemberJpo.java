@@ -120,11 +120,10 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     private Role role;
 
     /**
-     * 비밀번호 일치 확인
-     * @return 일치하는가 ?
+     * 비밀번호 변경
      */
-    public boolean isEqualsPassword(String password) {
-        return this.password.equals(password);
+    public void changePassword(String password) {
+        this.password = password;
     }
 
     /**

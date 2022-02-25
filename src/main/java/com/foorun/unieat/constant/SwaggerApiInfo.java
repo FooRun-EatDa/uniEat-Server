@@ -6,8 +6,9 @@ public interface SwaggerApiInfo {
     String SIGN_UP = "회원가입 요청";
     String SIGN_UP_CHECK_EMAIL = "이메일 중복 확인";
     String SIGN_UP_CHECK_NICKNAME = "닉네임 중복 확인";
-    String SIGN_UP_SEND_VERIFICATION_EMAIL = "이메일 인증 메일 전송";
-    String SIGN_UP_VERIFY_EMAIL = "이메일 인증번호 검증";
+    String POST_VERIFY_EMAIL = "이메일 인증 메일 전송";
+    String GET_VERIFY_EMAIL = "이메일 인증번호 검증";
+    String RESET_PASSWORD = "비밀번호 초기화";
 
     String POST = "게시글 Operations";
     String GET_POST_LIST = "게시글 목록 조회";

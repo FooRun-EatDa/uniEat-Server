@@ -43,4 +43,12 @@ public class EmailVerificationCodeJpo {
                 .code(code)
                 .build();
     }
+
+    /**
+     * 인증 코드 일치 여부 확인
+     * @return 일치하는가 ?
+     */
+    public boolean isEqualsCode(String code) {
+        return this.code.equals(code);
+    }
 }

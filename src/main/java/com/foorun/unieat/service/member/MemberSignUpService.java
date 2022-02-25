@@ -1,21 +1,13 @@
 package com.foorun.unieat.service.member;
 
 import com.foorun.unieat.annotation.Validation;
-import com.foorun.unieat.client.PigeonClient;
-import com.foorun.unieat.client.payload.PigeonRequest;
-import com.foorun.unieat.client.payload.PigeonResponse;
-import com.foorun.unieat.domain.email.jpo.EmailVerificationCodeJpo;
-import com.foorun.unieat.domain.email.repository.EmailVerificationCodeRepository;
 import com.foorun.unieat.domain.member.dto.MemberSignUp;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
 import com.foorun.unieat.domain.school.repository.SchoolRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
-import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
-import com.foorun.unieat.exception.notfound.UniEatResourceExpiryException;
-import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +18,6 @@ import static com.foorun.unieat.util.RegexUtil.REGEX_EMAIL;
 @RequiredArgsConstructor
 public class MemberSignUpService {
     private final MemberRepository memberRepository;
-    private final EmailVerificationCodeRepository emailVerificationCodeRepository;
-    private final PigeonClient pigeonClient;
     private final SchoolRepository schoolRepository;
 
     /**
@@ -38,34 +28,6 @@ public class MemberSignUpService {
     public boolean isDuplicateEmail(String email) {
         validateEmail(email);
         return memberRepository.existsByEmail(email);
-    }
-
-    /**
-     * 회원가입 프로세스 - 이메일 인증 메일 발송
-     */
-    @Transactional
-    public void sendVerificationEmail(String email) {
-        final int CODE_LENGTH = 4;
-        final Long verificationCode = IdentifyGenerator.number(CODE_LENGTH);
-        PigeonResponse<Void> pigeonResponse = pigeonClient
-                .send(PigeonRequest.formSingleEmailOfVerificationCode(email, verificationCode));
-
-        if (pigeonResponse.isSuccess()) {
-            throw new UniEatLogicalException();
-        }
-        emailVerificationCodeRepository.save(EmailVerificationCodeJpo.of(email, String.valueOf(verificationCode)));
-    }
-
-    /**
-     * 회원가입 프로세스 - 이메일 인증 코드 확인
-     * @param verificationCode 사용자가 입력한 이메일 인증 코드
-     */
-    public boolean verifyEmail(String email, String verificationCode) {
-        EmailVerificationCodeJpo emailVerificationCodeJpo = emailVerificationCodeRepository
-                .findById(email)
-                .orElseThrow(UniEatResourceExpiryException::new);
-
-        return verificationCode.equals(emailVerificationCodeJpo.getCode());
     }
 
     /**
