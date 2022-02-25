@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/member/sign-*/**",
                         "/swagger*/**",
+                        "/school/**",
                         "/webjars/**",
                         "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
@@ -73,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/v2/api-docs/**",
                 "/member/sign-*/**",
+                "/school/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html");
     }
