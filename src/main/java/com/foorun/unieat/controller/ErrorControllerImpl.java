@@ -2,6 +2,7 @@ package com.foorun.unieat.controller;
 
 import com.foorun.unieat.constant.ResponseCode;
 import com.foorun.unieat.domain.common.api.ApiResponse;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/error")
 @RequiredArgsConstructor
+@Api(hidden = true)
 public class ErrorControllerImpl implements ErrorController {
     private final HttpServletResponse response;
 
