@@ -45,7 +45,7 @@ public class MemberSignUpService {
      */
     @Transactional
     public void sendVerificationEmail(String email) {
-        final int CODE_LENGTH = 6;
+        final int CODE_LENGTH = 4;
         final Long verificationCode = IdentifyGenerator.number(CODE_LENGTH);
         PigeonResponse<Void> pigeonResponse = pigeonClient
                 .send(PigeonRequest.formSingleEmailOfVerificationCode(email, verificationCode));
