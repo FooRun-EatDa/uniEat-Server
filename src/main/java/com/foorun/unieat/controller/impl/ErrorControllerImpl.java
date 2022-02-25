@@ -1,4 +1,4 @@
-package com.foorun.unieat.controller;
+package com.foorun.unieat.controller.impl;
 
 import com.foorun.unieat.constant.ResponseCode;
 import com.foorun.unieat.domain.common.api.ApiResponse;
