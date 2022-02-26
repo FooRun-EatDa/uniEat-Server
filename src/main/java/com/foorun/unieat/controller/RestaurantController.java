@@ -33,10 +33,10 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping(consumes =APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="lastIdx") int lastIdx){
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="page") int page){
 
         return ResponseEntity.ok(
-                ApiResponse.valueOf(restaurantService.fetch(new Paging(lastIdx, PAGING_SIZE)))
+                ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
         );
 
     }
@@ -53,6 +53,19 @@ public class RestaurantController {
     }
 
 
+    /**
+     * 검색을 이용한 식당 리스트 조회
+     */
+    @ApiOperation(value = SwaggerApiInfo.GET_STORE_BY_SEARCH, notes = "검색 키워드를 통한 식당 리스트 조회")
+    @GetMapping(value = "",consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByKeyWord(
+            @RequestParam(name="keyword") String keyword,
+            @RequestParam(name="lastPage") int page){
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(
+                        restaurantService.fetchBySearching(keyword,new Paging(page, PAGING_SIZE)))
+        );
+    }
 
 
 

@@ -52,7 +52,15 @@ public class RestaurantService   {
 
     }
 
+    //식당 검색
+    @Transactional(readOnly = true)
+    public List<RestaurantSimple> fetchBySearching(String keyWord,PageRequest pageRequest){
+        return restaurantQuerydslRepository.findBySearch(keyWord,pageRequest)
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
 
+    }
 
 
 }
