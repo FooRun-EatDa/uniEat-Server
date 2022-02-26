@@ -23,4 +23,5 @@ public interface SwaggerApiInfo {
     String GET_STORE_SIMPLE = "간략한 식당 정보 조회";
     String GET_STORE_DETAIL = "식당 상세 정보 조회";
     String GET_STORE_BY_SEARCH = "검색을 이용한 식당 정보 조회";
+    String GET_NEAREST_STORE = "주변 맛집 조회";
 }

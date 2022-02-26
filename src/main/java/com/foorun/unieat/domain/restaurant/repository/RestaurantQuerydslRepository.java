@@ -4,10 +4,6 @@ package com.foorun.unieat.domain.restaurant.repository;
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
 
-import com.foorun.unieat.domain.category.dto.Category;
-import com.foorun.unieat.domain.category.jpo.QCategoryJpo;
-import com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo;
-import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
@@ -23,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.foorun.unieat.domain.category.jpo.QCategoryJpo.categoryJpo;
-import static com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo.*;
 import static com.foorun.unieat.domain.hashtag.jpo.QHashTagRestaurantJpo.hashTagRestaurantJpo;
 import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo.restaurantJpo;
 
@@ -116,5 +111,9 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
                 .limit(pageable.getPageSize())
                 .fetch();
     }
+
+
+
+
 
 }
