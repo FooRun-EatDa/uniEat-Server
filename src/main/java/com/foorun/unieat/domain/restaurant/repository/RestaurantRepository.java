@@ -21,7 +21,7 @@ public interface RestaurantRepository extends JpaRepository<RestaurantJpo,Long> 
             "* cos(radians(R.latitude))" +
             "* cos(radians(R.longitude) - radians(:source_long) )" +
             "+ sin(radians(:source_lat) )" +
-            "* sin(radians(R.latitude)) ) )  > :NEAR_BY "
+            "* sin(radians(R.latitude)) ) )  < :NEAR_BY "
     )
     public List<RestaurantJpo> findNearest(@Param("source_lat")float latitude,
                                            @Param("source_lon")float longitude,

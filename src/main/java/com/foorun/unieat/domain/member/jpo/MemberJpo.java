@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
@@ -48,6 +49,14 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
 
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<BookmarkJpo> bookmarks = new HashSet<>();
+
+
+
     /**
      * 회원 Email 주소
      */
@@ -92,6 +101,10 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      * 회원 상태
      */
     private String status;
+
+
+
+
 
     @Override
     public boolean isNew() {
