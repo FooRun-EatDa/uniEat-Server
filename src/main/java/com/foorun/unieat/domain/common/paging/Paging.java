@@ -24,4 +24,8 @@ public class Paging extends PageRequest {
     public Paging(int page, int offset) {
         super(page, offset, Sort.unsorted());
     }
+
+    public static Paging fromZeroOf(int offset) {
+        return new Paging(0, offset);
+    }
 }
