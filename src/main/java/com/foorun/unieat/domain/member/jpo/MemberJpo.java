@@ -139,6 +139,6 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     }
 
     public MemberUserDetails asUserDetails() {
-        return MemberUserDetails.of(email, nickname, getRole());
+        return MemberUserDetails.of(this);
     }
 }

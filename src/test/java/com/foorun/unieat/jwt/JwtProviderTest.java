@@ -17,7 +17,7 @@ public class JwtProviderTest {
 
     @Test
     public void jwtProviderTest(){
-        String token = jwtProvider.createToken("aaaa@aaaa.aa.aa", "hyun", Role.USER);
+        String token = jwtProvider.createToken(1L, "aaaa@aaaa.aa.aa", "hyun", Role.USER);
         assertThat(token).isNotEmpty();
         assertThat(jwtProvider.isExpiredToken(token)).isTrue();
     }

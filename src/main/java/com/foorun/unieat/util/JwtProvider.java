@@ -3,8 +3,8 @@ package com.foorun.unieat.util;
 import com.foorun.unieat.constant.JwtConstant;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
 import com.foorun.unieat.domain.member.Role;
+import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.exception.UniEatForbiddenException;
-import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -12,6 +12,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+
+import static com.foorun.unieat.constant.JwtConstant.*;
 
 @Component
 public class JwtProvider {
@@ -40,13 +43,14 @@ public class JwtProvider {
      * @param role 권한 - MemberJpo.role
      * @return token
      */
-    public String createToken(String email, String nickname, Role role) {
-        Claims claims = Jwts.claims().setSubject(email);
-        claims.put("role", role);
-        claims.put("email", email);
-        claims.put("nickname", nickname);
+    public String createToken(Long memberId, String email, String nickname, Role role) {
+        Claims claims = Jwts.claims();
+        claims.put(CLAIM_MEMBER_ID, memberId);
+        claims.put(CLAIM_ROLE, role);
+        claims.put(CLAIM_EMAIL, email);
+        claims.put(CLAIM_NICKNAME, nickname);
         Date now = new Date();
-        return String.format("Bearer %s", Jwts.builder()
+        return String.format("%s %s", TOKEN_PREFIX, Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenExpiryTime))
@@ -58,13 +62,29 @@ public class JwtProvider {
      * RefreshToken 생성
      * @return refreshToken
      */
-    public String createRefreshToken() {
+    public String createRefreshToken(Long memberId) {
+        Claims claims = Jwts.claims();
+        claims.put(CLAIM_MEMBER_ID, memberId);
         Date now = new Date();
         return Jwts.builder()
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + refreshTokenExpiryTime))
                 .signWith(key)
                 .compact();
+    }
+
+    /**
+     * Token, RefreshToken 함께 생성
+     * @param memberUserDetails {@link UserDetails} implementation domain
+     * @return {@link JwtToken}
+     */
+    public JwtToken createTokens(MemberUserDetails memberUserDetails) {
+        return createTokens(
+                memberUserDetails.getId(),
+                memberUserDetails.getEmail(),
+                memberUserDetails.getNickname(),
+                memberUserDetails.getRole());
     }
 
     /**
@@ -74,8 +94,8 @@ public class JwtProvider {
      * @param role 권한 - MemberJpo.role
      * @return {@link JwtToken}
      */
-    public JwtToken createTokens(String email, String nickname, Role role) {
-        return JwtToken.of(createToken(email, nickname, role), createRefreshToken());
+    public JwtToken createTokens(Long memberId, String email, String nickname, Role role) {
+        return JwtToken.of(createToken(memberId, email, nickname, role), createRefreshToken(memberId));
     }
 
     /**
@@ -84,7 +104,7 @@ public class JwtProvider {
      * @return 토큰에 저장된 유저 닉네임
      */
     public String getMemberNickname(String token) {
-        return getClaimProperty(token, "nickname", String.class);
+        return getClaimProperty(token, CLAIM_NICKNAME, String.class);
     }
 
     /**
@@ -93,7 +113,7 @@ public class JwtProvider {
      * @return 토큰에 저장된 유저 권한
      */
     public Role getMemberRole(String token) {
-        return Role.valueOf(getClaimProperty(token, "role", String.class));
+        return Role.valueOf(getClaimProperty(token, CLAIM_ROLE, String.class));
     }
 
     /**
@@ -102,7 +122,16 @@ public class JwtProvider {
      * @return 토큰에 저장된 유저 닉네임
      */
     public String getMemberEmail(String token) {
-        return getClaimProperty(token, "email", String.class);
+        return getClaimProperty(token, CLAIM_EMAIL, String.class);
+    }
+
+    /**
+     * 토큰으로부터 유저 고유 ID 추출
+     * @param token JWT 토큰
+     * @return 토큰에 저장된 유저 ID
+     */
+    public Long getMemberId(String token) {
+        return getClaimProperty(token, CLAIM_MEMBER_ID, Long.class);
     }
 
     private <T> T getClaimProperty(String token, String property, Class<T> clazz) {
