@@ -26,6 +26,7 @@ public class PostReadTests extends ControllerTest {
         mockMvc.perform(get("/post")
                         .param("page", "0")
                         .param("offset", "20")
+                        .param("category", "lightning")
                         .headers(HttpHeaders.EMPTY))
                 .andDo(print())
                 .andExpect(status().is(HttpStatus.OK.value()));
