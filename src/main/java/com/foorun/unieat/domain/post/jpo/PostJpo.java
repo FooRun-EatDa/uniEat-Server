@@ -2,11 +2,14 @@ package com.foorun.unieat.domain.post.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.comment.jpo.CommentJpo;
+import com.foorun.unieat.domain.common.PostType;
+import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Getter
@@ -25,7 +28,8 @@ public class PostJpo extends BaseTimeJpo {
     /**
      * 게시글 카테고리
      */
-    private String category;
+    @Enumerated(EnumType.ORDINAL)
+    private PostType category;
 
     /**
      * 제목
@@ -50,7 +54,6 @@ public class PostJpo extends BaseTimeJpo {
     @OneToMany
     @JoinColumn(name = "post_id")
     @ToString.Exclude
-    @OrderBy("id asc")
     @Builder.Default
     private Set<CommentJpo> comments = new HashSet<>();
 
@@ -59,6 +62,11 @@ public class PostJpo extends BaseTimeJpo {
     @ToString.Exclude
     @Builder.Default
     private MemberJpo member = new MemberJpo();
+
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "post")
+    private Set<PostFeelingJpo> postFeelings = new LinkedHashSet<>();
 
     /**
      * 댓글(Comment) 객체 Dirty Checking

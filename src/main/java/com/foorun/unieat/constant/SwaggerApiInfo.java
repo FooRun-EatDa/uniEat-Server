@@ -11,6 +11,7 @@ public interface SwaggerApiInfo {
     String RESET_PASSWORD = "비밀번호 초기화";
 
     String POST = "게시글 Operations";
+    String GET_POST_SUMMARY = "전체 게시판 카테고리별 게시글 목록 조회";
     String GET_POST_LIST = "게시글 목록 조회";
     String GET_POST = "게시글 단건 조회";
     String POST_POST = "게시글 생성";
