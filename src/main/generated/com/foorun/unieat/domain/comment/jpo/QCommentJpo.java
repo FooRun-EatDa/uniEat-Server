@@ -24,7 +24,7 @@ public class QCommentJpo extends EntityPathBase<CommentJpo> {
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
-    public final ListPath<CommentJpo, QCommentJpo> comments = this.<CommentJpo, QCommentJpo>createList("comments", CommentJpo.class, QCommentJpo.class, PathInits.DIRECT2);
+    public final SetPath<CommentJpo, QCommentJpo> comments = this.<CommentJpo, QCommentJpo>createSet("comments", CommentJpo.class, QCommentJpo.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");
 
