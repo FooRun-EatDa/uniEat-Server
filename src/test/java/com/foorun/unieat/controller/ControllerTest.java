@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class ControllerTest {
+
     @Autowired
     protected MockMvc mockMvc;
 
