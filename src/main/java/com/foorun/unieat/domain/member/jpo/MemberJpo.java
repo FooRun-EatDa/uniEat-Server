@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.member.jpo;
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -52,6 +55,11 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @ToString.Exclude
     @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private List<PostFeelingJpo> postFeelings = new ArrayList<>();
 
     /**
      * 회원 Email 주소
@@ -139,6 +147,6 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     }
 
     public MemberUserDetails asUserDetails() {
-        return MemberUserDetails.of(email, nickname, getRole());
+        return MemberUserDetails.of(this);
     }
 }

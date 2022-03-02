@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.member.dto;
 
 import com.foorun.unieat.domain.member.Role;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,12 +17,22 @@ import java.util.Collections;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class MemberUserDetails implements UserDetails {
+    private Long id;
     private String email;
     private String nickname;
     private Role role;
 
-    public static MemberUserDetails of(String email, String nickname, Role role) {
-        return new MemberUserDetails(email, nickname, role);
+    public static MemberUserDetails of(MemberJpo memberJpo) {
+        return of(memberJpo.getId(), memberJpo.getEmail(), memberJpo.getNickname(), memberJpo.getRole());
+    }
+
+    public static MemberUserDetails of(Long id, String email, String nickname, Role role) {
+        return MemberUserDetails.builder()
+                .id(id)
+                .email(email)
+                .nickname(nickname)
+                .role(role)
+                .build();
     }
 
     @Override
@@ -36,7 +47,7 @@ public class MemberUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return Long.toString(id);
     }
 
     @Override

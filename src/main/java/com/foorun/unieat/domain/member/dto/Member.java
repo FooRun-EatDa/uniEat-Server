@@ -1,5 +1,6 @@
 package com.foorun.unieat.domain.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
@@ -16,12 +17,18 @@ public class Member implements JsonSerializable {
     private String schoolId;
     private String email;
     private String profile;
-    private String password;
-    private String name;
     private String nickname;
     private Integer dateOfBirth;
     private int gender;
     private int grade;
+
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private String name;
+
+    @JsonIgnore
     private String status;
 
     /**

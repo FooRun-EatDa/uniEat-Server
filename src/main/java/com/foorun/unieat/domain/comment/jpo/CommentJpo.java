@@ -6,8 +6,8 @@ import com.foorun.unieat.exception.UniEatLogicalException;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -60,7 +60,7 @@ public class CommentJpo extends BaseTimeJpo {
     @ToString.Exclude
     @OneToMany(mappedBy = "parent")
     @Builder.Default
-    private List<CommentJpo> comments = new ArrayList<>();
+    private Set<CommentJpo> comments = new HashSet<>();
 
     /**
      * 최상위 댓글 여부 확인

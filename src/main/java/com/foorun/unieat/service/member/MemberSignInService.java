@@ -38,7 +38,7 @@ public class MemberSignInService implements UserDetailsService {
         if (bCryptPasswordEncoder.matches(memberSignIn.getPassword(), memberJpo.getPassword())) {
             memberJpo.latestSignInNow();
             historyMemberSignInRepository.save(HistoryMemberSignInJpo.of(memberJpo.getId()));
-            return jwtProvider.createTokens(memberJpo.getEmail(), memberJpo.getNickname(), memberJpo.getRole());
+            return jwtProvider.createTokens(memberJpo.asUserDetails());
         }
         throw new UniEatNotFoundException();
     }
@@ -48,9 +48,18 @@ public class MemberSignInService implements UserDetailsService {
                 .orElseThrow(UniEatForbiddenException::new);
     }
 
+    private MemberJpo ensureMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(UniEatForbiddenException::new);
+    }
+
+    /**
+     *
+     * @param memberId 기존 Long Type 의 MemberID가 String 타입으로 전달됨
+     */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return ensureMember(username)
+    public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+        return ensureMember(Long.parseLong(memberId))
                 .asUserDetails();
     }
 }

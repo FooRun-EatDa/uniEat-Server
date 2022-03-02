@@ -42,7 +42,7 @@ public class MemberController {
         return ResponseEntity.ok(ApiResponse.success());
     }
 
-    @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일", example = "cha2.hoon@gmail.com")
+    @ApiImplicitParam(name = "email", required = true, value = "사용자가 입력한 이메일", example = "cha2.hoon@gmail.com", dataTypeClass = String.class)
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_CHECK_EMAIL)
     @GetMapping("/sign-up/check-email")
     public ResponseEntity<ApiResponse<Boolean>> signUpCheckEmail(
@@ -51,7 +51,7 @@ public class MemberController {
                 ApiResponse.valueOf(memberSignUpService.isDuplicateEmail(email)));
     }
 
-    @ApiImplicitParam(name = "nickname", required = true, value = "사용자가 입력한 닉네임", example = "chaehoon")
+    @ApiImplicitParam(name = "nickname", required = true, value = "사용자가 입력한 닉네임", example = "chaehoon", dataTypeClass = String.class)
     @ApiOperation(value = SwaggerApiInfo.SIGN_UP_CHECK_NICKNAME)
     @GetMapping("/sign-up/check-nickname")
     public ResponseEntity<ApiResponse<Boolean>> signUpCheckNickname(

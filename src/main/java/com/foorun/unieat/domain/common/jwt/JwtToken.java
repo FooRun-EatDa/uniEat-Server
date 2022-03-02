@@ -17,6 +17,13 @@ public class JwtToken {
     private String refreshToken;
 
     /**
+     * @return JWT Token 에서 Prefix(Bearer ) 제외한 후
+     */
+    public String getTokenWithoutPrefix() {
+        return token.replaceFirst(String.format("%s ", JwtConstant.TOKEN_PREFIX), "");
+    }
+
+    /**
      * static factory method
      */
     public static JwtToken of(String token, String refreshToken) {

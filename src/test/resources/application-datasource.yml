@@ -1,9 +1,3 @@
-spring:
-  datasource:
-    url: ${FOORUN_DB_URL}
-    username: ${FOORUN_DB_USERNAME}
-    password: ${FOORUN_DB_PASSWORD}
-    driver-class-name: org.mariadb.jdbc.Driver
 mybatis:
   type-aliases-package: com.foorun.unieat.**.dto
   type-handlers-package: com.foorun.unieat.config.mybatis.handler
