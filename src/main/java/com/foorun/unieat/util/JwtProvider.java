@@ -143,7 +143,7 @@ public class JwtProvider {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token.contains(TOKEN_PREFIX) ? token.replaceFirst(TOKEN_PREFIX, "") : token);
+                .parseClaimsJws(token.contains(TOKEN_PREFIX) ? token.replaceFirst(TOKEN_PREFIX + " ", "") : token);
     }
 
     /**
