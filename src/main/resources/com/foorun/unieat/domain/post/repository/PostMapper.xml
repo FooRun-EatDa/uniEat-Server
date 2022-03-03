@@ -27,7 +27,6 @@
                         ,   M.status
                         ,   M.created_at
                         ,   M.updated_at
-                        ,   M.check_delete
                         ,   M.agree_terms
                         ,   M.agree_event_letter
                         ,   M.latest_sign_in_at
