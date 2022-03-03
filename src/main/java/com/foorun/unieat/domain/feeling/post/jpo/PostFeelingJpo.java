@@ -16,17 +16,27 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "post_feeling")
+@IdClass(PostFeelingIdJpo.class)
 public class PostFeelingJpo extends BaseTimeJpo implements JsonSerializable {
     @Id
-    private Long id;
-
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private PostJpo post;
 
+    @Id
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private MemberJpo member;
+
+    /**
+     * static factory method
+     */
+    public static PostFeelingJpo of(PostJpo postJpo, MemberJpo memberJpo) {
+        return builder()
+                .post(postJpo)
+                .member(memberJpo)
+                .build();
+    }
 }

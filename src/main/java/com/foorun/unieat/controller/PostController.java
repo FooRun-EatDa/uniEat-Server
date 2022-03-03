@@ -8,6 +8,7 @@ import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.post.dto.Post;
 import com.foorun.unieat.domain.post.dto.PostList;
 import com.foorun.unieat.domain.post.dto.PostSummaryMap;
+import com.foorun.unieat.service.post.PostFeelingService;
 import com.foorun.unieat.service.post.PostListService;
 import com.foorun.unieat.service.post.PostService;
 import io.swagger.annotations.Api;
@@ -15,6 +16,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -29,6 +32,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class PostController {
     private final PostService postService;
     private final PostListService postListService;
+    private final PostFeelingService postFeelingService;
 
     @ApiOperation(value = SwaggerApiInfo.GET_POST_SUMMARY)
     @GetMapping("/summary")
@@ -78,6 +82,39 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable("id") long id) {
         postService.removeSoft(id);
+        return ResponseEntity
+                .ok(ApiResponse.success());
+    }
+
+    @ApiImplicitParam(name = "id", required = true, value = "게시글 고유 ID", example = "1", dataTypeClass = Long.class)
+    @ApiOperation(value = SwaggerApiInfo.POST_POST_FEELING)
+    @PostMapping("/feeling")
+    public ResponseEntity<ApiResponse<Void>> postFeeling(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam("id") long id) {
+        postFeelingService.feeling(userDetails, id);
+        return ResponseEntity
+                .ok(ApiResponse.success());
+    }
+
+    @ApiImplicitParam(name = "id", required = true, value = "게시글 고유 ID", example = "1", dataTypeClass = Long.class)
+    @ApiOperation(value = SwaggerApiInfo.DELETE_POST_FEELING)
+    @DeleteMapping("/feeling/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteFeeling(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable("id") long id) {
+        postFeelingService.unfeeling(userDetails, id);
+        return ResponseEntity
+                .ok(ApiResponse.success());
+    }
+
+    @ApiImplicitParam(name = "id", required = true, value = "게시글 고유 ID", example = "1", dataTypeClass = Long.class)
+    @ApiOperation(value = SwaggerApiInfo.PUT_POST_FEELING)
+    @PutMapping("/feeling/toggle/{id}")
+    public ResponseEntity<ApiResponse<Void>> putFeeling(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable("id") long id) {
+        postFeelingService.toggleFeeling(userDetails, id);
         return ResponseEntity
                 .ok(ApiResponse.success());
     }

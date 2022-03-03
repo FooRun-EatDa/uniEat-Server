@@ -8,7 +8,6 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -55,7 +54,7 @@ public class PostJpo extends BaseTimeJpo {
     @JoinColumn(name = "post_id")
     @ToString.Exclude
     @Builder.Default
-    private Set<CommentJpo> comments = new HashSet<>();
+    private Set<CommentJpo> comments = new LinkedHashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
