@@ -6,6 +6,7 @@ import com.foorun.unieat.domain.comment.dto.Comment;
 import com.foorun.unieat.domain.comment.jpo.CommentJpo;
 import com.foorun.unieat.domain.common.PostType;
 import com.foorun.unieat.domain.feeling.post.dto.PostFeeling;
+import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -27,11 +28,11 @@ import static com.foorun.unieat.util.StreamUtil.map;
 public class Post implements JsonSerializable {
     @Builder.Default
     private Long id = IdentifyGenerator.number();
-    private Long memberId;
     private PostType category;
     private String title;
     private String content;
     private String thumbnail;
+    private Member member;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String status;
@@ -54,6 +55,7 @@ public class Post implements JsonSerializable {
     public static Post of(PostJpo postJpo) {
         Post post = createEmpty();
         BeanUtils.copyProperties(postJpo, post);
+        post.member = Member.of(postJpo.getMember());
         post.comments = map(postJpo.getComments(),
                 CommentJpo::isRoot,
                 Comment::of);

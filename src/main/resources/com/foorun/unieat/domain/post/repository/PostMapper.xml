@@ -14,6 +14,24 @@
                         ,   P.created_at
                         ,   P.updated_at
                         ,   P.status
+                        ,   M.member_id
+                        ,   M.school_id
+                        ,   M.email
+                        ,   M.profile
+                        ,   M.nickname
+                        ,   M.date_of_birth
+                        ,   M.gender
+                        ,   M.grade
+                        ,   M.password
+                        ,   M.name
+                        ,   M.status
+                        ,   M.created_at
+                        ,   M.updated_at
+                        ,   M.check_delete
+                        ,   M.agree_terms
+                        ,   M.agree_event_letter
+                        ,   M.latest_sign_in_at
+                        ,   M.role
                         ,   (
                             SELECT  COUNT(TRUE)
                             FROM    comment AS C
