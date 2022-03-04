@@ -1,12 +1,15 @@
 package com.foorun.unieat.domain.comment.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.exception.UniEatLogicalException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.util.Objects.isNull;
@@ -61,6 +64,11 @@ public class CommentJpo extends BaseTimeJpo {
     @OneToMany(mappedBy = "parent")
     @Builder.Default
     private Set<CommentJpo> comments = new HashSet<>();
+
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "comment")
+    private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
 
     /**
      * 최상위 댓글 여부 확인

@@ -23,6 +23,9 @@ public interface SwaggerApiInfo {
 
     String COMMENT = "댓글 Operations";
     String POST_COMMENT = "댓글 생성";
+    String POST_COMMENT_FEELING = "댓글 좋아요";
+    String DELETE_COMMENT_FEELING = "댓글 좋아요 취소";
+    String PUT_COMMENT_FEELING = "댓글 좋아요/좋아요 취소";
 
     String GET_STORE_SIMPLE = "간략한 식당 정보 조회";
     String GET_STORE_DETAIL = "식당 상세 정보 조회";

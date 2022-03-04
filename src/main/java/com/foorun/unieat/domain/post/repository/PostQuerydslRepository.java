@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.foorun.unieat.domain.comment.jpo.QCommentJpo.commentJpo;
+import static com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo.commentFeelingJpo;
 import static com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.postFeelingJpo;
 import static com.foorun.unieat.domain.post.jpo.QPostJpo.postJpo;
 
@@ -33,7 +34,9 @@ public class PostQuerydslRepository implements QuerydslSelectMulti<PostJpo>, Que
     @Override
     public Optional<PostJpo> find(Long id) {
         return Optional.ofNullable(jpaQueryFactory.selectFrom(postJpo)
-                .innerJoin(postJpo.comments, commentJpo)
+                .leftJoin(postJpo.comments, commentJpo)
+                .fetchJoin()
+                .leftJoin(commentJpo.commentFeelings, commentFeelingJpo)
                 .fetchJoin()
                 .leftJoin(commentJpo.comments)
                 .fetchJoin()
