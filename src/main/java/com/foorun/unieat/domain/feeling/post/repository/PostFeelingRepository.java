@@ -1,4 +1,4 @@
-package com.foorun.unieat.domain.post.repository;
+package com.foorun.unieat.domain.feeling.post.repository;
 
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;

@@ -4,7 +4,7 @@ import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
-import com.foorun.unieat.domain.post.repository.PostFeelingRepository;
+import com.foorun.unieat.domain.feeling.post.repository.PostFeelingRepository;
 import com.foorun.unieat.domain.post.repository.PostQuerydslRepository;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
