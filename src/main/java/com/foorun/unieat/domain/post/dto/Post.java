@@ -1,5 +1,6 @@
 package com.foorun.unieat.domain.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.comment.dto.Comment;
@@ -32,12 +33,14 @@ public class Post implements JsonSerializable {
     private String title;
     private String content;
     private String thumbnail;
-    private Member member;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String status;
+    private Member member;
     private List<Comment> comments;
     private List<PostFeeling> feelings;
+
+    @JsonIgnore
+    private String status;
 
     /**
      * factory method
@@ -56,11 +59,8 @@ public class Post implements JsonSerializable {
         Post post = createEmpty();
         BeanUtils.copyProperties(postJpo, post);
         post.member = Member.of(postJpo.getMember());
-        post.comments = map(postJpo.getComments(),
-                CommentJpo::isRoot,
-                Comment::of);
-        post.feelings = map(postJpo.getPostFeelings(),
-                PostFeeling::of,
+        post.comments = map(postJpo.getComments(), CommentJpo::isRoot, Comment::of);
+        post.feelings = map(postJpo.getPostFeelings(), PostFeeling::of,
                 Comparator.comparing(PostFeeling::getCreatedAt).reversed());
         return post;
     }
