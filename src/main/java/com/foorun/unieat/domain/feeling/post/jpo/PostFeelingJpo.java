@@ -1,12 +1,14 @@
 package com.foorun.unieat.domain.feeling.post.jpo;
 
-import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,7 +19,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "post_feeling")
 @IdClass(PostFeelingIdJpo.class)
-public class PostFeelingJpo extends BaseTimeJpo implements JsonSerializable {
+@EntityListeners(AuditingEntityListener.class)
+public class PostFeelingJpo implements JsonSerializable {
     @Id
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +33,9 @@ public class PostFeelingJpo extends BaseTimeJpo implements JsonSerializable {
     @JoinColumn(name = "member_id")
     private MemberJpo member;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+
     /**
      * static factory method
      */
@@ -37,6 +43,7 @@ public class PostFeelingJpo extends BaseTimeJpo implements JsonSerializable {
         return builder()
                 .post(postJpo)
                 .member(memberJpo)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
