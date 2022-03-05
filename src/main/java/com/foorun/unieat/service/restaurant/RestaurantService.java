@@ -83,9 +83,11 @@ public class RestaurantService   {
     }
 
     //검색 로그 저장
+    //시큐리티 컨텍스트로부터 인증된 유저 정보 가져와 검색 로그 추가에 사용
     @Transactional
     public void saveSearchText(String searchText){
         try {
+
             MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             SearchLogJpo searchLogJpo  = SearchLogDto.builder().searchText(searchText).build().asJpo();
             memberRepository.findByEmail(userDetails.getEmail()).ifPresent(
@@ -99,8 +101,6 @@ public class RestaurantService   {
             log.info("인증되지 않은 유저.");
             throw new RuntimeException();
         }
-
-
 
 
     }
