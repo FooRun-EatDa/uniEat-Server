@@ -2,8 +2,11 @@ package com.foorun.unieat.domain.member.dto;
 
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.Validatable;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import static com.foorun.unieat.util.RegexUtil.isMatchMemberEmail;
 
 @Getter
 @Setter
@@ -20,6 +23,8 @@ public class MemberSignIn implements JsonSerializable, Validatable {
 
     @Override
     public void validate() {
-
+        if (!isMatchMemberEmail(email)) {
+            throw new UniEatBadRequestException();
+        }
     }
 }

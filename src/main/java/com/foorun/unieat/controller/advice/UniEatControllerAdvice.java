@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class UniEatControllerAdvice {
     @ExceptionHandler(UniEatRuntimeException.class)
     public ResponseEntity<ApiResponse<Void>> except(UniEatRuntimeException e) {
+        e.printStackTrace();
         return ResponseEntity
                 .status(e.getStatus())
                 .body(ApiResponse.error(e.getResponseCode()));

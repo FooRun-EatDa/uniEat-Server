@@ -37,7 +37,7 @@ public class PostService {
     @Transactional
     public Long save(Post post) {
         PostJpo postJpo = post.asJpo();
-        postJpo.setMember(ensureMember(post.getMemberId()));
+        postJpo.setMember(ensureMember(post.getMember().getId()));
         return postRepository.save(postJpo).getId();
     }
 

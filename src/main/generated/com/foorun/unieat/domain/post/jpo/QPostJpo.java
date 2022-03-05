@@ -24,7 +24,7 @@ public class QPostJpo extends EntityPathBase<PostJpo> {
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
-    public final StringPath category = createString("category");
+    public final EnumPath<com.foorun.unieat.domain.common.PostType> category = createEnum("category", com.foorun.unieat.domain.common.PostType.class);
 
     public final SetPath<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo> comments = this.<com.foorun.unieat.domain.comment.jpo.CommentJpo, com.foorun.unieat.domain.comment.jpo.QCommentJpo>createSet("comments", com.foorun.unieat.domain.comment.jpo.CommentJpo.class, com.foorun.unieat.domain.comment.jpo.QCommentJpo.class, PathInits.DIRECT2);
 
@@ -36,6 +36,8 @@ public class QPostJpo extends EntityPathBase<PostJpo> {
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
+
+    public final SetPath<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo> postFeelings = this.<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo>createSet("postFeelings", com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo.class, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.class, PathInits.DIRECT2);
 
     public final StringPath status = createString("status");
 

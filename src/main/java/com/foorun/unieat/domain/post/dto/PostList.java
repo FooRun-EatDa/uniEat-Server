@@ -1,5 +1,7 @@
 package com.foorun.unieat.domain.post.dto;
 
+import com.foorun.unieat.domain.common.PostType;
+import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -12,17 +14,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
 public class PostList {
     private Long id;
-    private Long memberId;
-    private String category;
+    private PostType category;
     private String title;
     private String content;
     private String thumbnail;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String status;
+    private Member member;
     private int commentCount;
+    private int feelingCount;
 
     /**
      * factory method
@@ -40,7 +44,9 @@ public class PostList {
     public static PostList of(PostJpo postJpo) {
         PostList post = createEmpty();
         BeanUtils.copyProperties(postJpo, post);
+        post.member = Member.of(postJpo.getMember());
         post.setCommentCount(postJpo.getComments().size());
+        post.setFeelingCount(postJpo.getPostFeelings().size());
         return post;
     }
 }

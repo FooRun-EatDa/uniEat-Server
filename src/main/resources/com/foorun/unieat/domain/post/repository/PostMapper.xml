@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${base-namespace}.post.repository.PostMapper">
+    <select id="findByPostType" resultMap="${base-namespace}.postMaps.postList">
+        SELECT              P.post_id
+                        ,   P.member_id
+                        ,   P.category
+                        ,   P.title
+                        ,   P.content
+                        ,   P.thumbnail
+                        ,   P.created_at
+                        ,   P.updated_at
+                        ,   P.status
+                        ,   M.member_id
+                        ,   M.school_id
+                        ,   M.email
+                        ,   M.profile
+                        ,   M.nickname
+                        ,   M.date_of_birth
+                        ,   M.gender
+                        ,   M.grade
+                        ,   M.password
+                        ,   M.name
+                        ,   M.status
+                        ,   M.created_at
+                        ,   M.updated_at
+                        ,   M.agree_terms
+                        ,   M.agree_event_letter
+                        ,   M.latest_sign_in_at
+                        ,   M.role
+                        ,   (
+                            SELECT  COUNT(TRUE)
+                            FROM    comment AS C
+                            WHERE   C.post_id = P.post_id
+                        ) AS comment_count
+                        ,   (
+                            SELECT  COUNT(TRUE)
+                            FROM    post_feeling AS PF
+                            WHERE   PF.post_id = P.post_id
+                        ) AS feeling_count
+        FROM            post AS P
+        INNER JOIN      member AS M ON P.member_id = M.member_id
+        WHERE           TRUE
+        <choose>
+            <when test="postType.name() == 'BEST'">
+                <![CDATA[
+                    HAVING          feeling_count >= 10
+                ]]>
+                ORDER BY        feeling_count DESC
+            </when>
+            <otherwise>
+                ORDER BY        P.created_at DESC
+            </otherwise>
+        </choose>
+        LIMIT           ${pageable.offset}, ${pageable.pageSize}
+    </select>
+</mapper>

@@ -28,7 +28,11 @@ public class QFoodJpo extends EntityPathBase<FoodJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+<<<<<<< HEAD
     public final StringPath imgUrl = createString("imgUrl");
+=======
+    public final StringPath img_url = createString("img_url");
+>>>>>>> develop
 
     public final StringPath name = createString("name");
 

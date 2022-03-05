@@ -1,14 +1,22 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
+import com.foorun.unieat.domain.member.Role;
+import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -19,6 +27,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "member")
+@DynamicUpdate
 public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     /**
      * 회원 고유 번호
@@ -48,6 +57,16 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
 
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private List<PostFeelingJpo> postFeelings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
+
     /**
      * 회원 Email 주소
      */
@@ -74,14 +93,14 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     private String nickname;
 
     /**
-     * 회원 생년월일 (주민번호 앞 7자리)
+     * 회원 생년월일 (주민번호 앞 6자리)
      */
-    private Integer dateOfBirth;
+    private Integer dateOfBirth;    //  TODO : Maybe value is started 0 ..?
 
     /**
      * 회원 성별(0 = 남자, 1 = 여자)
      */
-    private int gender;
+    private char gender;
 
     /**
      * 이용자 권한(0 = 관리자, 1 = 일반 이용자, 2 = Black 회원)
@@ -93,8 +112,47 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      */
     private String status;
 
+    /**
+     * 최근 로그인 일시
+     */
+    private LocalDateTime latestSignInAt;
+
+    /**
+     * 개인정보 수집 동의 여부
+     */
+    private boolean agreeTerms;
+
+    /**
+     * 이벤트 수신 동의 여부
+     */
+    private boolean agreeEventLetter;
+
+    /**
+     * 사용자 권한
+     */
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    /**
+     * 비밀번호 변경
+     */
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * 최근 로그인 일시 현재 시간 기준으로 갱신
+     */
+    public void latestSignInNow() {
+        this.latestSignInAt = LocalDateTime.now();
+    }
+
     @Override
     public boolean isNew() {
         return true;
+    }
+
+    public MemberUserDetails asUserDetails() {
+        return MemberUserDetails.of(this);
     }
 }

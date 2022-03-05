@@ -1,10 +1,11 @@
 package com.foorun.unieat.domain.email.jpo;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "email_verification_code")
-@EntityListeners(AuditingEntityListener.class)
 public class EmailVerificationCodeJpo {
     /**
      * 이메일
@@ -33,14 +33,22 @@ public class EmailVerificationCodeJpo {
     /**
      * 발급일시
      */
-    @CreatedDate
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public static EmailVerificationCodeJpo of(String email, String code) {
         return builder()
                 .email(email)
                 .code(code)
                 .build();
+    }
+
+    /**
+     * 인증 코드 일치 여부 확인
+     * @return 일치하는가 ?
+     */
+    public boolean isEqualsCode(String code) {
+        return this.code.equals(code);
     }
 }

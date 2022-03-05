@@ -1,0 +1,7 @@
+mybatis:
+  type-aliases-package: com.foorun.unieat.**.dto
+  type-handlers-package: com.foorun.unieat.config.mybatis.handler
+  mapper-locations:
+    - classpath*:com/foorun/unieat/domain/**/*.xml
+  configuration-properties:
+    base-namespace: com.foorun.unieat.domain
