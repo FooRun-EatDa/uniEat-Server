@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PostFeeling implements JsonSerializable {
-    private Long id;
     private Long postId;
     private Member member;
     private LocalDateTime createdAt;
@@ -35,7 +34,6 @@ public class PostFeeling implements JsonSerializable {
      */
     public static PostFeeling of(PostFeelingJpo postFeelingJpo) {
         PostFeeling post = createEmpty();
-        post.id = postFeelingJpo.getId();
         post.postId = postFeelingJpo.getPost().getId();
         post.member = Member.of(postFeelingJpo.getMember());
         post.createdAt = postFeelingJpo.getCreatedAt();

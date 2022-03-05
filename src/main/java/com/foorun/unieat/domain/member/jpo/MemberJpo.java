@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
@@ -60,6 +61,11 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @ToString.Exclude
     @Builder.Default
     private List<PostFeelingJpo> postFeelings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
 
     /**
      * 회원 Email 주소

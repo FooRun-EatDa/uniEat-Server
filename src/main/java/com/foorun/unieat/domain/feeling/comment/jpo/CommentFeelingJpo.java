@@ -1,8 +1,8 @@
-package com.foorun.unieat.domain.feeling.post.jpo;
+package com.foorun.unieat.domain.feeling.comment.jpo;
 
 import com.foorun.unieat.domain.JsonSerializable;
+import com.foorun.unieat.domain.comment.jpo.CommentJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
-import com.foorun.unieat.domain.post.jpo.PostJpo;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,21 +17,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Entity
-@Table(name = "post_feeling")
-@IdClass(PostFeelingIdJpo.class)
+@Table(name = "comment_feeling")
+@IdClass(CommentFeelingIdJpo.class)
 @EntityListeners(AuditingEntityListener.class)
-public class PostFeelingJpo implements JsonSerializable {
-    @Id
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private PostJpo post;
-
+public class CommentFeelingJpo implements JsonSerializable {
     @Id
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private MemberJpo member;
+
+    @Id
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id")
+    private CommentJpo comment;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -39,10 +39,10 @@ public class PostFeelingJpo implements JsonSerializable {
     /**
      * static factory method
      */
-    public static PostFeelingJpo of(PostJpo postJpo, MemberJpo memberJpo) {
+    public static CommentFeelingJpo of(MemberJpo memberJpo, CommentJpo commentJpo) {
         return builder()
-                .post(postJpo)
                 .member(memberJpo)
+                .comment(commentJpo)
                 .createdAt(LocalDateTime.now())
                 .build();
     }
