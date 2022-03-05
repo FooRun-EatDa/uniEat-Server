@@ -69,7 +69,7 @@ public class RestaurantController {
             @RequestParam(name="lastPage") int page){
         return ResponseEntity.ok(
                 ApiResponse.valueOf(
-                        restaurantService.fetchBySearching(keyword,new Paging(page, PAGING_SIZE),))
+                        restaurantService.fetchBySearching(keyword,new Paging(page, PAGING_SIZE)))
         );
     }
 

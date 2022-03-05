@@ -73,7 +73,7 @@ public class RestaurantService   {
 
     //식당 검색
     @Transactional(readOnly = true)
-    public List<RestaurantSimple> fetchBySearching(String searchText,PageRequest pageRequest,Long memberId){
+    public List<RestaurantSimple> fetchBySearching(String searchText,PageRequest pageRequest){
         saveSearchText(searchText);
         return restaurantQuerydslRepository.findBySearch(searchText,pageRequest)
                 .stream()
