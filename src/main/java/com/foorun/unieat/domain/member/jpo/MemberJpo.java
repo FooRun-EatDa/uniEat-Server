@@ -12,6 +12,7 @@ import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
+import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.domain.Persistable;
@@ -65,13 +66,13 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     @Builder.Default
-    private List<PostFeelingJpo> postFeelings = new ArrayList<>();
+    private Set<PostFeelingJpo> postFeelings = new HashSet<>();
 
 
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     @Builder.Default
-    private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
+    private Set<CommentFeelingJpo> commentFeelings = new HashSet<>();
 
 
 
@@ -80,6 +81,11 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Builder.Default
     private Set<BookmarkJpo> bookmarks = new HashSet<>();
 
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<SearchLogJpo> searchLogs = new HashSet<>();
 
 
     /**
