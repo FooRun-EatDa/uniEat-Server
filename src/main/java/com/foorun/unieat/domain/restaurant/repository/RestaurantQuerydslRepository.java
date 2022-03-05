@@ -4,13 +4,12 @@ package com.foorun.unieat.domain.restaurant.repository;
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
 
-import com.foorun.unieat.domain.category.dto.Category;
-import com.foorun.unieat.domain.category.jpo.QCategoryJpo;
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +36,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     @Override
     public List<RestaurantJpo> find(Pageable pageable) {
         return jpaQueryFactory.selectFrom(restaurantJpo)
-                //.orderBy(NumberExpression.random().asc())
+                .orderBy(NumberExpression.random().asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -58,38 +57,22 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     //3개 테이블 조인 -> 효율성?
     public List<RestaurantJpo> findByFilter(FilteringRestaurant filtering, Pageable pageable) {
         return jpaQueryFactory.select(restaurantJpo)
-                .join(restaurantJpo.hashTagRestaurants, hashTagRestaurantJpo).on(
-                        hashTagChecking(filtering.getHashTags())
-                )
-                .join(restaurantJpo.categorys, categoryJpo).on(
-                        categoryChecking(filtering.getCategories())
-                )
+                .join(restaurantJpo.hashTagRestaurants, hashTagRestaurantJpo)
+                .join(restaurantJpo.categorys, categoryJpo)
                 .where(
-                        priceChecking(filtering.getPrices())
-                        ,regionChecking(filtering.getRegions())
-                ).offset(pageable.getOffset())
+                        priceChecking(filtering.getPrices()),
+//                        regionChecking(filtering.getRegions()),
+                        hashTagRestaurantJpo.hashTag.content.in(filtering.getHashTags()),
+                        categoryJpo.categoryName.in(filtering.getCategories())
+                )
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
     }
 
 
-    private BooleanBuilder hashTagChecking(List<String> hashTag){
-        BooleanBuilder builder = new BooleanBuilder();
-        for (String s : hashTag) {
-            builder.and(hashTagRestaurantJpo.hashTag.content.eq(s)); // hastag 내용이 필터에 담긴 해시태그와 같을 경우에만 return
-        }
-        return builder;
-    }
 
-    private BooleanBuilder categoryChecking(List<String> category){
-        BooleanBuilder builder = new BooleanBuilder();
-        for (String s : category) {
-            builder.and(categoryJpo.categoryName.eq(s));
-        }
-
-        return builder;
-    }
 
 
     private BooleanBuilder priceChecking(List<Integer> prices){
@@ -105,7 +88,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
 
     /**
      *
-     * 학생들이 부르는 지역
+     * 학생들이 부르는 지역 매핑 테이블 필요
      * 미완성
      */
     private BooleanExpression regionChecking(List<String> region){
@@ -113,6 +96,22 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
 //        return restaurantJpo.regionCode.eq(region);
         return null;
     }
+
+
+    /**
+     * 검색으로 식당 찾기
+     */
+
+    public List<RestaurantJpo> findBySearch(String keyWord,Pageable pageable){
+        return jpaQueryFactory.selectFrom(restaurantJpo)
+                .where(
+                        restaurantJpo.name.contains(keyWord)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
 
 
 

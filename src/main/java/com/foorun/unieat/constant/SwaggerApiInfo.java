@@ -37,4 +37,8 @@ public interface SwaggerApiInfo {
 
     String SCHOOL = "학교 Operations";
     String GET_SCHOOL = "학교 목록 조회";
+
+    String GET_STORE_BY_SEARCH = "검색을 이용한 식당 정보 조회";
+    String GET_NEAREST_STORE = "주변 맛집 조회";
+
 }

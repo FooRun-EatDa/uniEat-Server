@@ -1,5 +1,6 @@
 package com.foorun.unieat.domain.restaurant.jpo;
 
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
@@ -121,6 +122,10 @@ public class RestaurantJpo {
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bookmark_id")
+    @ToString.Exclude
+    private BookmarkJpo bookmark;
 
 
 

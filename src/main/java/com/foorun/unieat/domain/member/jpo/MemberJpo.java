@@ -1,7 +1,11 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+<<<<<<< HEAD
 import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
+=======
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+>>>>>>> fetch_head
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
@@ -57,15 +61,26 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
 
+
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     @Builder.Default
     private List<PostFeelingJpo> postFeelings = new ArrayList<>();
 
+
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     @Builder.Default
     private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
+
+
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<BookmarkJpo> bookmarks = new HashSet<>();
+
+
 
     /**
      * 회원 Email 주소
@@ -146,6 +161,7 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     public void latestSignInNow() {
         this.latestSignInAt = LocalDateTime.now();
     }
+
 
     @Override
     public boolean isNew() {
