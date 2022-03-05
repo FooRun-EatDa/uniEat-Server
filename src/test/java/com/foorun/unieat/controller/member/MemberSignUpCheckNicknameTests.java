@@ -30,6 +30,9 @@ public class MemberSignUpCheckNicknameTests extends MemberSignUpTests {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("code").value("200"))
                 .andExpect(jsonPath("data").value(false));
+
+
+
     }
 
     @DisplayName("닉네임 중복 확인 - 중복일 경우")
