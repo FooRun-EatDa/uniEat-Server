@@ -8,7 +8,6 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.foorun.unieat.util.StreamUtil.map;
 
@@ -46,12 +45,9 @@ public class Comment {
             comment.parentId = commentJpo.getParent().getId();
         }
         if (commentJpo.hasChildren()) {
-            comment.comments = commentJpo.getComments()
-                    .stream()
-                    .map(Comment::of)
-                    .collect(Collectors.toList());
+            comment.comments = map(commentJpo.getComments(), Comment::of);
         }
-        comment.feelings = map(commentJpo.getCommentFeelings(), CommentFeeling::of);
+        comment.feelings = map(commentJpo.getFeelings(), CommentFeeling::of);
         BeanUtils.copyProperties(commentJpo, comment);
         return comment;
     }

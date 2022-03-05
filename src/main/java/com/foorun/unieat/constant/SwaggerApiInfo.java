@@ -22,7 +22,11 @@ public interface SwaggerApiInfo {
     String PUT_POST_FEELING = "게시글 좋아요/좋아요 취소";
 
     String COMMENT = "댓글 Operations";
+    String GET_COMMENT_LIST = "댓글 목록 조회";
+    String GET_COMMENT = "댓글 단건 조회";
     String POST_COMMENT = "댓글 생성";
+    String PUT_COMMENT = "댓글 수정";
+    String DELETE_COMMENT = "댓글 삭제";
     String POST_COMMENT_FEELING = "댓글 좋아요";
     String DELETE_COMMENT_FEELING = "댓글 좋아요 취소";
     String PUT_COMMENT_FEELING = "댓글 좋아요/좋아요 취소";

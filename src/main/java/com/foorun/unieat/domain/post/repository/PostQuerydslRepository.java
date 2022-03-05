@@ -36,7 +36,7 @@ public class PostQuerydslRepository implements QuerydslSelectMulti<PostJpo>, Que
         return Optional.ofNullable(jpaQueryFactory.selectFrom(postJpo)
                 .leftJoin(postJpo.comments, commentJpo)
                 .fetchJoin()
-                .leftJoin(commentJpo.commentFeelings, commentFeelingJpo)
+                .leftJoin(commentJpo.feelings, commentFeelingJpo)
                 .fetchJoin()
                 .leftJoin(commentJpo.comments)
                 .fetchJoin()
