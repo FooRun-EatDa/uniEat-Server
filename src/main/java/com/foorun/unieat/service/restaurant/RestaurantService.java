@@ -106,6 +106,8 @@ public class RestaurantService   {
     }
 
 
+
+
     //주변 맛집
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
@@ -119,6 +121,12 @@ public class RestaurantService   {
     }
 
 
+    /**
+     * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고
+     *       유효한 검색만을 로그로 남김과 동시에 검색 로그에 저장한다
+     *       유효한 검색어에 대한 정의 필요 ..
+     *
+     */
 
 
 }
