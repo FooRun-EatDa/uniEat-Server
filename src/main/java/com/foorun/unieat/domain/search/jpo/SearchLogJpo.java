@@ -26,7 +26,7 @@ public class SearchLogJpo extends BaseTimeJpo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
-    private MemberJpo memberJpo;
+    private MemberJpo member;
 
 
 

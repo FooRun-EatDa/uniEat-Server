@@ -28,6 +28,10 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final BooleanPath agreeTerms = createBoolean("agreeTerms");
 
+    public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmarks = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmarks", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
+
+    public final SetPath<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo> commentFeelings = this.<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo>createSet("commentFeelings", com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo.class, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -49,7 +53,7 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final StringPath password = createString("password");
 
-    public final ListPath<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo> postFeelings = this.<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo>createList("postFeelings", com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo.class, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.class, PathInits.DIRECT2);
+    public final SetPath<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo> postFeelings = this.<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo>createSet("postFeelings", com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo.class, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.class, PathInits.DIRECT2);
 
     public final StringPath profile = createString("profile");
 
@@ -57,12 +61,11 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final SetPath<com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo> reviewFeelings = this.<com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo>createSet("reviewFeelings", com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo.class, com.foorun.unieat.domain.feeling.jpo.QReviewFeelingJpo.class, PathInits.DIRECT2);
 
-<<<<<<< HEAD
-=======
     public final EnumPath<com.foorun.unieat.domain.member.Role> role = createEnum("role", com.foorun.unieat.domain.member.Role.class);
 
->>>>>>> develop
     public final com.foorun.unieat.domain.school.jpo.QSchoolJpo school;
+
+    public final SetPath<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo> searchLogs = this.<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo>createSet("searchLogs", com.foorun.unieat.domain.search.jpo.SearchLogJpo.class, com.foorun.unieat.domain.search.jpo.QSearchLogJpo.class, PathInits.DIRECT2);
 
     public final StringPath status = createString("status");
 

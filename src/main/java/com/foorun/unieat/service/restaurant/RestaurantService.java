@@ -89,7 +89,7 @@ public class RestaurantService   {
             SearchLogJpo searchLogJpo  = SearchLog.builder().searchText(searchText).build().asJpo();
             memberRepository.findByEmail(userDetails.getEmail()).ifPresent(
                     user->{
-                            searchLogJpo.setMemberJpo(user);
+                            searchLogJpo.setMember(user);
                             searchLogRepository.save(searchLogJpo);
                     }
             );
@@ -104,7 +104,7 @@ public class RestaurantService   {
     @Transactional(readOnly = true)
     public List<SearchLog> fetchSearchLog(Long memberId){
         return Optional.ofNullable(memberRepository.findById(memberId))
-                .map(member -> searchLogRepository.findSearchLogJpoByMemberJpo(member.get(),new Paging(PAGING_SIZE,0)))
+                .map(member -> searchLogRepository.findSearchLogJpoByMember(member.get(),new Paging(PAGING_SIZE,0)))
                 .orElseThrow(UniEatBadRequestException::new)
                 .stream().map(SearchLog::of).collect(Collectors.toList());
 
