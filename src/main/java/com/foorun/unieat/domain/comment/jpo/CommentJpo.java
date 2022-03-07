@@ -1,13 +1,14 @@
 package com.foorun.unieat.domain.comment.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.exception.UniEatLogicalException;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -49,6 +50,11 @@ public class CommentJpo extends BaseTimeJpo {
      */
     private String status;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    @ToString.Exclude
+    private MemberJpo member;
+
     /**
      * 댓글 연관 게시글
      */
@@ -60,7 +66,12 @@ public class CommentJpo extends BaseTimeJpo {
     @ToString.Exclude
     @OneToMany(mappedBy = "parent")
     @Builder.Default
-    private Set<CommentJpo> comments = new HashSet<>();
+    private Set<CommentJpo> comments = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "comment")
+    private Set<CommentFeelingJpo> feelings = new LinkedHashSet<>();
 
     /**
      * 최상위 댓글 여부 확인
@@ -95,5 +106,12 @@ public class CommentJpo extends BaseTimeJpo {
             throw new UniEatLogicalException();
         }
         this.comments.add(commentJpo);
+    }
+
+    /**
+     * 게시글을 삭제됨 상태로 처리 Dirty Checking
+     */
+    public void remove() {
+        this.status = "REMOVED";
     }
 }

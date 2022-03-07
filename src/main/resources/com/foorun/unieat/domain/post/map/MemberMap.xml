@@ -3,13 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${base-namespace}.postMaps">
-    <resultMap id="post" type="post">
-
+<mapper namespace="${base-namespace}.memberMaps">
+    <resultMap id="member" type="member">
+        <id property="id" column="member_id" />
+        <result property="schoolId" column="school_id" />
+        <result property="email" column="email" />
+        <result property="profile" column="profile" />
+        <result property="nickname" column="nickname" />
+        <result property="dateOfBirth" column="date_of_birth" />
+        <result property="gender" column="gender" />
+        <result property="grade" column="grade" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="status" column="status" />
     </resultMap>
 
     <resultMap id="postList" type="postList">
         <id property="id" column="post_id" />
+        <result property="memberId" column="member_id" />
         <result property="category" column="category" />
         <result property="title" column="title" />
         <result property="content" column="content" />
@@ -19,6 +30,5 @@
         <result property="status" column="status" />
         <result property="commentCount" column="comment_count" />
         <result property="feelingCount" column="feeling_count" />
-        <association property="member" resultMap="${base-namespace}.memberMaps.member" />
     </resultMap>
 </mapper>

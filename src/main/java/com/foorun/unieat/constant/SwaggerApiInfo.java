@@ -17,9 +17,22 @@ public interface SwaggerApiInfo {
     String POST_POST = "게시글 생성";
     String DELETE_POST = "게시글 삭제";
     String PUT_POST = "게시글 수정";
+    String POST_POST_FEELING = "게시글 좋아요";
+    String DELETE_POST_FEELING = "게시글 좋아요 취소";
+    String PUT_POST_FEELING = "게시글 좋아요/좋아요 취소";
 
     String COMMENT = "댓글 Operations";
+    String GET_COMMENT_LIST = "댓글 목록 조회";
+    String GET_COMMENT = "댓글 단건 조회";
     String POST_COMMENT = "댓글 생성";
+    String PUT_COMMENT = "댓글 수정";
+    String DELETE_COMMENT = "댓글 삭제";
+    String POST_COMMENT_FEELING = "댓글 좋아요";
+    String DELETE_COMMENT_FEELING = "댓글 좋아요 취소";
+    String PUT_COMMENT_FEELING = "댓글 좋아요/좋아요 취소";
+
+    String UPLOAD = "파일 업로드 Operations";
+    String POST_UPLOAD = "파일 업로드";
 
     String GET_STORE_SIMPLE = "간략한 식당 정보 조회";
     String GET_STORE_DETAIL = "식당 상세 정보 조회";

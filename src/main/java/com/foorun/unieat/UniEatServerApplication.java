@@ -11,6 +11,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableConfigurationProperties({ UniEatPigeonProperties.class })
 public class UniEatServerApplication {
 
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(UniEatServerApplication.class, args);
     }

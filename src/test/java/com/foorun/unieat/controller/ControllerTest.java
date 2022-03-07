@@ -23,6 +23,10 @@ public abstract class ControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
+
     @BeforeEach
     void setUp() {
         mockMvc = webAppContextSetup(webApplicationContext).addFilter(((request, response, chain) -> {
