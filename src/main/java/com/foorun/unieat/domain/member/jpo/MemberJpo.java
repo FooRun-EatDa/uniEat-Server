@@ -2,12 +2,14 @@ package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.school.jpo.SchoolJpo;
+import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.domain.Persistable;
@@ -57,15 +59,31 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Builder.Default
     private Set<RestaurantFeelingJpo> restaurantFeelings = new HashSet<>();
 
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    @Builder.Default
-    private List<PostFeelingJpo> postFeelings = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     @Builder.Default
-    private List<CommentFeelingJpo> commentFeelings = new ArrayList<>();
+    private Set<PostFeelingJpo> postFeelings = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<CommentFeelingJpo> commentFeelings = new HashSet<>();
+
+
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<BookmarkJpo> bookmarks = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<SearchLogJpo> searchLogs = new HashSet<>();
+
 
     /**
      * 회원 Email 주소
@@ -146,6 +164,7 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     public void latestSignInNow() {
         this.latestSignInAt = LocalDateTime.now();
     }
+
 
     @Override
     public boolean isNew() {

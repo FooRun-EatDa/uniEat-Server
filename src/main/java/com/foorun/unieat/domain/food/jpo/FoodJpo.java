@@ -22,7 +22,8 @@ public class FoodJpo extends BaseTimeJpo {
     /**
      * 메뉴 음식 이미지
      */
-    private String img_url;
+    @Column(name = "img_url")
+    private String imgUrl;
 
     private int price;
 

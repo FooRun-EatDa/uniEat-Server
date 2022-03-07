@@ -24,7 +24,7 @@ public class HashTagJpo extends BaseTimeJpo {
     private String content;
 
     @OneToMany(mappedBy = "hashTag")
-    private List<HashTagRestaurantJpo> hashTagRestaurant = new ArrayList<>();
+    private List<HashTagRestaurantJpo> hashTagRestaurants = new ArrayList<>();
 
 
 

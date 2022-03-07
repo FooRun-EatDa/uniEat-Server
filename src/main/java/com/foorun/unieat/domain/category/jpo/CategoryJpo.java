@@ -17,7 +17,8 @@ public class CategoryJpo {
     @Column(name="category_id")
     private Long id;
 
-    private String category_name;
+    @Column(name="category_name")
+    private String categoryName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="restaurant_id")

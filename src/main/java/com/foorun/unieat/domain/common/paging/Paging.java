@@ -28,4 +28,5 @@ public class Paging extends PageRequest {
     public static Paging fromZeroOf(int offset) {
         return new Paging(0, offset);
     }
+
 }

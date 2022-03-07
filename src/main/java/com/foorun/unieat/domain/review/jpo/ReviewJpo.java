@@ -23,7 +23,8 @@ public class ReviewJpo extends BaseTimeJpo {
 
     private String content;
 
-    private int star_score;
+    @Column(name="star_score")
+    private int starScore;
 
     private String status;
 
@@ -36,12 +37,12 @@ public class ReviewJpo extends BaseTimeJpo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     @ToString.Exclude
-    private MemberJpo memberJpo;
+    private MemberJpo member;
 
 
     @OneToMany(mappedBy = "review")
     @ToString.Exclude
-    private Set<ReviewFeelingJpo> reviewFeeling = new HashSet<>();
+    private Set<ReviewFeelingJpo> reviewFeelings = new HashSet<>();
 
 
 

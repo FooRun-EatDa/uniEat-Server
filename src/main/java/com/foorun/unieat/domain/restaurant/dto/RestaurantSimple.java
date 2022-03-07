@@ -1,7 +1,11 @@
 package com.foorun.unieat.domain.restaurant.dto;
 
-
+import com.foorun.unieat.domain.hashtag.dto.HashTageRestaurant;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import lombok.*;
+import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +18,17 @@ public class RestaurantSimple {
     private String name;
     private String explanation;
     private String imgUrl;
+    private List<HashTageRestaurant> hashTagRestaurants;
+
+    public static RestaurantSimple createEmpty() {
+        return new RestaurantSimple();
+    }
+
+
+    public static RestaurantSimple of(RestaurantJpo restaurantJpo){
+        RestaurantSimple restaurantSimple = createEmpty();
+        BeanUtils.copyProperties(restaurantJpo,restaurantSimple);
+        return restaurantSimple;
+    }
+
 }
