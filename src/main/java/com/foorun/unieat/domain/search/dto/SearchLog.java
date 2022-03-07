@@ -1,8 +1,6 @@
 package com.foorun.unieat.domain.search.dto;
 
 
-import com.foorun.unieat.domain.post.dto.Post;
-import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -14,16 +12,23 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class SearchLogDto {
+public class SearchLog {
 
     @Builder.Default
     private Long id = IdentifyGenerator.number();
 
     private String searchText;
 
-    public static SearchLogJpo createEmpty() {
-        return new SearchLogJpo();
+    public static SearchLog createEmpty() {
+        return new SearchLog();
     }
+
+    public static SearchLog of(SearchLogJpo searchLogJpo){
+        SearchLog searchLogDto = createEmpty();
+        BeanUtils.copyProperties(searchLogJpo,searchLogDto);
+        return searchLogDto;
+    }
+
     public SearchLogJpo asJpo() {
         SearchLogJpo searchLogJpo = new SearchLogJpo();
         BeanUtils.copyProperties(this, searchLogJpo);
