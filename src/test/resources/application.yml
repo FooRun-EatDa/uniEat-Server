@@ -20,17 +20,11 @@ spring:
       ddl-auto: create-drop
     database-platform: h2
 
-<<<<<<< HEAD
-  sql:
-    init:
-      platform: h2
+
 
 jwt:
-  secretKey: ${JWT_SECRET}
-=======
-jwt:
   secret-key: ${JWT_SECRET}
-<<<<<<< HEAD
+
 
 cloud:
   aws:
@@ -51,6 +45,4 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: ERROR
-=======
->>>>>>> develop
->>>>>>> feature/store
+

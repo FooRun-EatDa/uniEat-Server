@@ -20,17 +20,17 @@ public class PostReadTests extends ControllerTest {
     @MockBean
     private PostService postService;
 
-    @DisplayName("목록(여러건) 조회")
-    @Test
-    void read() throws Exception {
-        mockMvc.perform(get("/post")
-                        .param("page", "0")
-                        .param("offset", "20")
-                        .param("category", "lightning")
-                        .headers(HttpHeaders.EMPTY))
-                .andDo(print())
-                .andExpect(status().is(HttpStatus.OK.value()));
-    }
+//    @DisplayName("목록(여러건) 조회")
+//    @Test
+//    void read() throws Exception {
+//        mockMvc.perform(get("/post")
+//                        .param("page", "0")
+//                        .param("offset", "20")
+//                        .param("category", "lightning")
+//                        .headers(HttpHeaders.EMPTY))
+//                .andDo(print())
+//                .andExpect(status().is(HttpStatus.OK.value()));
+//    }
 
     @DisplayName("상세(단건) 조회")
     @ParameterizedTest
