@@ -29,6 +29,7 @@ public class AmazonS3ResourceStorage implements ResourceStorage {
             amazonS3Client.putObject(new PutObjectRequest(bucket, fullPath, file)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new UniEatLogicalException();
         } finally {
             if (file.exists()) {

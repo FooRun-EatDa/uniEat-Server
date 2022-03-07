@@ -31,6 +31,9 @@ public interface SwaggerApiInfo {
     String DELETE_COMMENT_FEELING = "댓글 좋아요 취소";
     String PUT_COMMENT_FEELING = "댓글 좋아요/좋아요 취소";
 
+    String UPLOAD = "파일 업로드 Operations";
+    String POST_UPLOAD = "파일 업로드";
+
     String GET_STORE_SIMPLE = "간략한 식당 정보 조회";
     String GET_STORE_DETAIL = "식당 상세 정보 조회";
 
