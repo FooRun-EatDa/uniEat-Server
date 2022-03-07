@@ -1,6 +1,7 @@
 package com.foorun.unieat.service.restaurant;
 
 
+import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.foorun.unieat.constant.ServiceConstant.NEAR_BY;
+import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 
 @Service
 @RequiredArgsConstructor
@@ -102,7 +104,7 @@ public class RestaurantService   {
     @Transactional(readOnly = true)
     public List<SearchLog> fetchSearchLog(Long memberId){
         return Optional.ofNullable(memberRepository.findById(memberId))
-                .map(member -> searchLogRepository.findSearchLogJpoByMemberJpo(member.get()))
+                .map(member -> searchLogRepository.findSearchLogJpoByMemberJpo(member.get(),new Paging(PAGING_SIZE,0)))
                 .orElseThrow(UniEatBadRequestException::new)
                 .stream().map(SearchLog::of).collect(Collectors.toList());
 

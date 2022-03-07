@@ -7,6 +7,7 @@ import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.search.dto.SearchLog;
 import com.foorun.unieat.service.restaurant.RestaurantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -63,13 +64,24 @@ public class RestaurantController {
             @ApiImplicitParam(name = "lastPage",value = "페이지 수",type = "int")
     })
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_BY_SEARCH, notes = "검색 키워드를 통한 식당 리스트 조회")
-    @GetMapping(value = "/search",consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/search")
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByKeyWord(
             @RequestParam(name="keyword") String keyword,
-            @RequestParam(name="lastPage") int page){
+            @RequestParam(name="lastPage") int page) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(
                         restaurantService.fetchBySearching(keyword,new Paging(page, PAGING_SIZE)))
+        );
+    }
+
+    @ApiImplicitParam(name = "id", value = "유저 id", type="Long")
+    @GetMapping(value = "/searchLog")
+    public ResponseEntity<ApiResponse<List<SearchLog>>> getSearchLog(
+            @RequestParam(name="id")Long id) {
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(
+                        restaurantService.fetchSearchLog(id)
+                )
         );
     }
 
@@ -78,7 +90,7 @@ public class RestaurantController {
      * 주변 맛집
      */
     @ApiOperation(value =  SwaggerApiInfo.GET_NEAREST_STORE, notes = "사용자 현재 위치에 따른 주변 맛집 검색")
-    @GetMapping(value = "/near", consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/near")
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@RequestBody MemberLocation memberLocation)
     {
         return ResponseEntity.ok(
