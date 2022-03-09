@@ -10,6 +10,7 @@ public interface ResourceStorage {
     Logger log = LoggerFactory.getLogger(ResourceStorage.class);
 
     void store(String directoryPath, MultipartFile multipartFile);
+    void remove(String directoryPath);
 
     @PostConstruct
     default void postConstruct() {

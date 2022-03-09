@@ -1,8 +1,8 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
-import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
@@ -16,9 +16,7 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -169,6 +167,10 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @Override
     public boolean isNew() {
         return true;
+    }
+
+    public boolean equals(Long id) {
+        return this.id.equals(id);
     }
 
     public MemberUserDetails asUserDetails() {

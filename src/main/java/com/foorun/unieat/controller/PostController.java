@@ -5,8 +5,10 @@ import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.PostType;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
+import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.post.dto.Post;
 import com.foorun.unieat.domain.post.dto.PostList;
+import com.foorun.unieat.domain.post.dto.PostSavePayload;
 import com.foorun.unieat.domain.post.dto.PostSummaryMap;
 import com.foorun.unieat.service.post.PostFeelingService;
 import com.foorun.unieat.service.post.PostListService;
@@ -17,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -61,8 +62,10 @@ public class PostController {
 
     @ApiOperation(value = SwaggerApiInfo.POST_POST)
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Long>> post(@RequestBody Post post) {
-        Long postId = postService.save(post);
+    public ResponseEntity<ApiResponse<Long>> post(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody PostSavePayload postSavePayload) {
+        Long postId = postService.save(memberUserDetails, postSavePayload);
         return ResponseEntity
                 .created(URI.create(String.format("/post/%d", postId)))
                 .body(ApiResponse.of(ResponseCode.CODE_201, postId));
@@ -70,8 +73,10 @@ public class PostController {
 
     @ApiOperation(value = SwaggerApiInfo.PUT_POST)
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<Long>> put(@RequestBody Post post) {
-        Long postId = postService.save(post);
+    public ResponseEntity<ApiResponse<Long>> put(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody PostSavePayload postSavePayload) {
+        Long postId = postService.modify(memberUserDetails, postSavePayload);
         return ResponseEntity
                 .created(URI.create(String.format("/post/%d", postId)))
                 .body(ApiResponse.of(ResponseCode.CODE_201, postId));
@@ -80,8 +85,10 @@ public class PostController {
     @ApiImplicitParam(name = "id", required = true, value = "게시글 고유 ID", example = "1", dataTypeClass = Long.class)
     @ApiOperation(value = SwaggerApiInfo.DELETE_POST)
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable("id") long id) {
-        postService.removeSoft(id);
+    public ResponseEntity<ApiResponse<Void>> delete(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @PathVariable("id") long id) {
+        postService.removeSoft(memberUserDetails, id);
         return ResponseEntity
                 .ok(ApiResponse.success());
     }
@@ -90,9 +97,9 @@ public class PostController {
     @ApiOperation(value = SwaggerApiInfo.POST_POST_FEELING)
     @PostMapping("/feeling")
     public ResponseEntity<ApiResponse<Void>> postFeeling(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
             @RequestParam("id") long id) {
-        postFeelingService.feeling(userDetails, id);
+        postFeelingService.feeling(memberUserDetails, id);
         return ResponseEntity
                 .ok(ApiResponse.success());
     }
@@ -101,9 +108,9 @@ public class PostController {
     @ApiOperation(value = SwaggerApiInfo.DELETE_POST_FEELING)
     @DeleteMapping("/feeling/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteFeeling(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
             @PathVariable("id") long id) {
-        postFeelingService.unfeeling(userDetails, id);
+        postFeelingService.unfeeling(memberUserDetails, id);
         return ResponseEntity
                 .ok(ApiResponse.success());
     }
@@ -112,9 +119,9 @@ public class PostController {
     @ApiOperation(value = SwaggerApiInfo.PUT_POST_FEELING)
     @PutMapping("/feeling/toggle/{id}")
     public ResponseEntity<ApiResponse<Void>> putFeeling(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
             @PathVariable("id") long id) {
-        postFeelingService.toggleFeeling(userDetails, id);
+        postFeelingService.toggleFeeling(memberUserDetails, id);
         return ResponseEntity
                 .ok(ApiResponse.success());
     }

@@ -2,6 +2,7 @@ package com.foorun.unieat.service.file.storage;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.util.MultipartUtil;
@@ -35,6 +36,13 @@ public class AmazonS3ResourceStorage implements ResourceStorage {
             if (file.exists()) {
                 file.delete();
             }
+        }
+    }
+
+    @Override
+    public void remove(String fullPath) {
+        if (amazonS3Client.doesObjectExist(bucket, fullPath)) {
+            amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fullPath));
         }
     }
 }

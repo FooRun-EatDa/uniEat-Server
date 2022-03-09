@@ -13,4 +13,9 @@ public class LocalResourceStorage implements ResourceStorage {
     public void store(String fullPath, MultipartFile multipartFile) {
 
     }
+
+    @Override
+    public void remove(String fullPath) {
+
+    }
 }

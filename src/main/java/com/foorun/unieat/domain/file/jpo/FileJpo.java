@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.file.jpo;
 
 import com.foorun.unieat.domain.JsonSerializable;
+import com.foorun.unieat.domain.common.StatusType;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.domain.Persistable;
@@ -28,7 +29,10 @@ public class FileJpo implements JsonSerializable, Persistable<String> {
     private Integer width;
     private Integer height;
     private long bytes;
-    private String status;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusType status = StatusType.ACTIVE;
 
     @CreatedDate
     private LocalDateTime createdAt;
