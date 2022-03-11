@@ -4,16 +4,19 @@ import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
 import com.foorun.unieat.domain.member.dto.*;
-import com.foorun.unieat.service.member.MemberResetPasswordService;
-import com.foorun.unieat.service.member.MemberSignInService;
-import com.foorun.unieat.service.member.MemberSignUpService;
-import com.foorun.unieat.service.member.MemberVerifyEmailService;
+import com.foorun.unieat.domain.member.dto.setting.MemberSettingNicknamePayload;
+import com.foorun.unieat.domain.member.dto.setting.MemberSettingNotificationPayload;
+import com.foorun.unieat.domain.member.dto.setting.MemberSettingPasswordPayload;
+import com.foorun.unieat.domain.member.dto.setting.MemberSettingProfilePayload;
+import com.foorun.unieat.service.member.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +28,8 @@ public class MemberController {
     private final MemberSignInService memberSignInService;
     private final MemberResetPasswordService memberResetPasswordService;
     private final MemberVerifyEmailService memberVerifyEmailService;
+    private final MemberSettingService memberSettingService;
+    private final MemberSignOutService memberSignOutService;
 
     @ApiOperation(value = SwaggerApiInfo.SIGN_IN)
     @PostMapping("/sign-in")
@@ -81,6 +86,58 @@ public class MemberController {
     public ResponseEntity<ApiResponse<Void>> resetPassword(
             @RequestBody MemberResetPasswordPayload memberResetPasswordPayload) {
         memberResetPasswordService.resetPassword(memberResetPasswordPayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.SETTING_NICKNAME)
+    @PutMapping("/setting-nickname")
+    public ResponseEntity<ApiResponse<Void>> settingNickname(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody @Validated MemberSettingNicknamePayload memberSettingNicknamePayload) {
+        memberSettingService.nickname(memberUserDetails, memberSettingNicknamePayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.SETTING_PROFILE)
+    @PutMapping("/setting-profile")
+    public ResponseEntity<ApiResponse<Void>> settingProfile(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody @Validated MemberSettingProfilePayload memberSettingProfilePayload) {
+        memberSettingService.profile(memberUserDetails, memberSettingProfilePayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.SETTING_NOTIFICATION)
+    @PutMapping("/setting-notification")
+    public ResponseEntity<ApiResponse<Void>> settingNotification(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody MemberSettingNotificationPayload memberSettingNotificationPayload) {
+        memberSettingService.notification(memberUserDetails, memberSettingNotificationPayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.SETTING_PASSWORD)
+    @PutMapping("/setting-password")
+    public ResponseEntity<ApiResponse<Void>> settingPassword(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestBody MemberSettingPasswordPayload memberSettingPasswordPayload) {
+        memberSettingService.password(memberUserDetails, memberSettingPasswordPayload);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.SIGN_OUT)
+    @PostMapping("/sign-out")
+    public ResponseEntity<ApiResponse<Void>> signOut(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails) {
+        memberSignOutService.signOut(memberUserDetails);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.WITHDRAW)
+    @PostMapping("/withdraw")
+    public ResponseEntity<ApiResponse<Void>> withdraw(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails) {
+        memberSettingService.withdraw(memberUserDetails);
         return ResponseEntity.ok(ApiResponse.success());
     }
 }

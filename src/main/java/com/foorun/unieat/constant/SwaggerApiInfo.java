@@ -9,6 +9,12 @@ public interface SwaggerApiInfo {
     String POST_VERIFY_EMAIL = "이메일 인증 메일 전송";
     String GET_VERIFY_EMAIL = "이메일 인증번호 검증";
     String RESET_PASSWORD = "비밀번호 초기화";
+    String SETTING_NICKNAME = "닉네임 변경";
+    String SETTING_PROFILE = "프로필 이미지 변경";
+    String SETTING_NOTIFICATION = "알림 설정 여부 변경";
+    String SETTING_PASSWORD = "비밀번호 변경";
+    String SIGN_OUT = "로그아웃";
+    String WITHDRAW = "회원 탈퇴";
 
     String POST = "게시글 Operations";
     String GET_POST_SUMMARY = "전체 게시판 카테고리별 게시글 목록 조회";
