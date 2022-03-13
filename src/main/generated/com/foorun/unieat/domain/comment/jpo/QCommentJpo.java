@@ -43,7 +43,7 @@ public class QCommentJpo extends EntityPathBase<CommentJpo> {
 
     public final BooleanPath secret = createBoolean("secret");
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

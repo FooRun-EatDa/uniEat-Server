@@ -33,7 +33,7 @@ public class QFileJpo extends EntityPathBase<FileJpo> {
 
     public final StringPath path = createString("path");
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
 
     public final NumberPath<Integer> width = createNumber("width", Integer.class);
 
