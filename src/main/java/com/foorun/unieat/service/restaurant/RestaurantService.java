@@ -120,6 +120,11 @@ public class RestaurantService   {
 
     }
 
+    public void bookmarking(int storeIdx) {
+
+
+    }
+
 
     /**
      * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고

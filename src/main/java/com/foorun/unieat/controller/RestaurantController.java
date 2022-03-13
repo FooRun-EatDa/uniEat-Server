@@ -78,7 +78,7 @@ public class RestaurantController {
      * 주변 맛집
      */
     @ApiOperation(value =  SwaggerApiInfo.GET_NEAREST_STORE, notes = "사용자 현재 위치에 따른 주변 맛집 검색")
-    @GetMapping(value = "/near", consumes = APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/near")
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@RequestBody MemberLocation memberLocation)
     {
         return ResponseEntity.ok(
@@ -87,7 +87,18 @@ public class RestaurantController {
     }
 
 
+    /**
+     *  식당 북마크 (좋아요)
+     */
 
+    @ApiOperation(value = SwaggerApiInfo.GET_BOOKMARKING, notes = "식당에 좋아요를 클릭하면 즐겨찾기에 등록됨, 유저가 좋아요한 식당 리스트에서 보여짐")
+    @GetMapping(value = "/bookmark/{restaurantId}")
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@PathVariable(name="restaurantId") int storeIdx){
+        restaurantService.bookmarking(storeIdx);
+        return ResponseEntity.ok(
+                ApiResponse.success()
+        );
+    }
 
 
 }
