@@ -8,6 +8,7 @@ import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.search.dto.SearchLog;
@@ -34,7 +35,7 @@ import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 @RequiredArgsConstructor
 @Slf4j
 public class RestaurantService   {
-
+    private final RestaurantMapper restaurantMapper;
     private final RestaurantQuerydslRepository restaurantQuerydslRepository;
     private final RestaurantRepository restaurantRepository;
     private final SearchLogRepository searchLogRepository;
@@ -113,16 +114,6 @@ public class RestaurantService   {
     //주변 맛집
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
-        return restaurantRepository.findNearest(
-                        memberLocation.getLatitude(),
-                        memberLocation.getLongitude(),
-                        NEAR_BY)
-                .stream().map(RestaurantSimple::of)
-                .collect(Collectors.toList());
-
+        return restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
     }
-
-
-
-
 }
