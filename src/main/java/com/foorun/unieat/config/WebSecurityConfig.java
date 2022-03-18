@@ -3,6 +3,7 @@ package com.foorun.unieat.config;
 import com.foorun.unieat.config.filter.JwtAuthenticationFilter;
 import com.foorun.unieat.config.handler.JwtAccessDeniedHandler;
 import com.foorun.unieat.config.handler.JwtAuthenticationEntryPoint;
+import com.foorun.unieat.constant.JwtConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,6 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader(JwtConstant.HEADER_NAME);
+        configuration.addExposedHeader(JwtConstant.HEADER_NAME_REFRESH_TOKEN);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",configuration);
         return source;
@@ -79,11 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/v2/api-docs/**",
-                "/member/sign-*/**",
-                "/school/**",
                 "/swagger-ui/**",
-                "/member/verify-email",
-                "/member/reset-password",
                 "/swagger-ui.html");
     }
 }
