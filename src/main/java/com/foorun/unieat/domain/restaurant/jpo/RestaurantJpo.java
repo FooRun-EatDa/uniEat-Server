@@ -11,6 +11,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
@@ -121,13 +122,7 @@ public class RestaurantJpo {
     @Builder.Default
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_id")
+    @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
-    private BookmarkJpo bookmark;
-
-
-
-
+    private List<BookmarkJpo> bookmark;
 }
