@@ -40,6 +40,13 @@ public class MemberUserDetails implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority(role.getKey()));
     }
 
+    public String getEmail(){return this.email;}
+
+    public String getNickname(){return this.nickname;}
+
+    public Long getId(){return this.id;}
+
+
     @Override
     public String getPassword() {
         return null;

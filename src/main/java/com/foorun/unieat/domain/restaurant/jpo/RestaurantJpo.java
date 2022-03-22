@@ -122,10 +122,10 @@ public class RestaurantJpo {
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookmark_id")
+    @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
-    private BookmarkJpo bookmark;
+    @Builder.Default
+    private Set<BookmarkJpo> bookmarks = new HashSet<>();
 
 
 

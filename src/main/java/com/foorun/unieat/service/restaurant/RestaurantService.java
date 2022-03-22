@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,17 +118,18 @@ public class RestaurantService   {
         return restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
     }
 
-    public void bookmarking(int storeIdx) {
+
+    //식당 좋아요
+    public void bookmarking(int storeIdx, UserDetails userDetails) {
+
 
 
     }
-
 
     /**
      * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고
      *       유효한 검색만을 로그로 남김과 동시에 검색 로그에 저장한다
      *       유효한 검색어에 대한 정의 필요 ..
-     *
      */
 
 

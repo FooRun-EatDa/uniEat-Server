@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -105,12 +107,15 @@ public class RestaurantController {
 
     @ApiOperation(value = SwaggerApiInfo.GET_BOOKMARKING, notes = "식당에 좋아요를 클릭하면 즐겨찾기에 등록됨, 유저가 좋아요한 식당 리스트에서 보여짐")
     @GetMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@PathVariable(name="restaurantId") int storeIdx){
-        restaurantService.bookmarking(storeIdx);
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal UserDetails userDetails, @PathVariable(name="restaurantId") int storeIdx){
+
+        restaurantService.bookmarking(storeIdx,userDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
         );
     }
+
+
 
 
 }
