@@ -14,6 +14,7 @@ import java.util.Optional;
 import static com.foorun.unieat.domain.comment.jpo.QCommentJpo.commentJpo;
 import static com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo.commentFeelingJpo;
 import static com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.postFeelingJpo;
+import static com.foorun.unieat.domain.post.jpo.QPostFileJpo.postFileJpo;
 import static com.foorun.unieat.domain.post.jpo.QPostJpo.postJpo;
 
 @Repository
@@ -38,11 +39,17 @@ public class PostQuerydslRepository implements QuerydslSelectMulti<PostJpo>, Que
                 .fetchJoin()
                 .leftJoin(commentJpo.feelings, commentFeelingJpo)
                 .fetchJoin()
+                .innerJoin(commentFeelingJpo.member)
+                .fetchJoin()
                 .leftJoin(commentJpo.comments)
                 .fetchJoin()
                 .leftJoin(postJpo.postFeelings, postFeelingJpo)
                 .fetchJoin()
                 .leftJoin(postFeelingJpo.member)
+                .fetchJoin()
+                .leftJoin(postJpo.files, postFileJpo)
+                .fetchJoin()
+                .leftJoin(postFileJpo.file)
                 .fetchJoin()
                 .orderBy(commentJpo.parent.id.asc(), commentJpo.id.asc())
                 .where(postJpo.id.eq(id))

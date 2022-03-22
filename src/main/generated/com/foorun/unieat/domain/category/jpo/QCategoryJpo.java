@@ -22,11 +22,7 @@ public class QCategoryJpo extends EntityPathBase<CategoryJpo> {
 
     public static final QCategoryJpo categoryJpo = new QCategoryJpo("categoryJpo");
 
-<<<<<<< HEAD
     public final StringPath categoryName = createString("categoryName");
-=======
-    public final StringPath category_name = createString("category_name");
->>>>>>> develop
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 

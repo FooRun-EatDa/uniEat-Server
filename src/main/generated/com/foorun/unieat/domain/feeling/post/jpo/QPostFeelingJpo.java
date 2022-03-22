@@ -22,19 +22,11 @@ public class QPostFeelingJpo extends EntityPathBase<PostFeelingJpo> {
 
     public static final QPostFeelingJpo postFeelingJpo = new QPostFeelingJpo("postFeelingJpo");
 
-    public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
 
     public final com.foorun.unieat.domain.post.jpo.QPostJpo post;
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QPostFeelingJpo(String variable) {
         this(PostFeelingJpo.class, forVariable(variable), INITS);

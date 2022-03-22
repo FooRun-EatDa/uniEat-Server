@@ -1,8 +1,9 @@
 package com.foorun.unieat.domain.member.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
-import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+import com.foorun.unieat.domain.common.StatusType;
+import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
@@ -16,9 +17,7 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -128,7 +127,9 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     /**
      * 회원 상태
      */
-    private String status;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusType status = StatusType.ACTIVE;
 
     /**
      * 최근 로그인 일시
@@ -144,6 +145,11 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      * 이벤트 수신 동의 여부
      */
     private boolean agreeEventLetter;
+
+    /**
+     * 알림 수신 활성 여부
+     */
+    private boolean agreeNotification;
 
     /**
      * 사용자 권한
@@ -165,10 +171,36 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
         this.latestSignInAt = LocalDateTime.now();
     }
 
+    /**
+     * 프로필 이미지 변경
+     * @param profile file 고유 ID
+     */
+    public void changeProfile(String profile) {
+        this.profile = profile;
+    }
+
+    /**
+     * 사용자 닉네임 변경
+     * @param nickname 별명
+     */
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * 탈퇴 처리 (삭제 상태로 변경)
+     */
+    public void withdraw() {
+        this.status = StatusType.REMOVED;
+    }
 
     @Override
     public boolean isNew() {
         return true;
+    }
+
+    public boolean equals(Long id) {
+        return this.id.equals(id);
     }
 
     public MemberUserDetails asUserDetails() {

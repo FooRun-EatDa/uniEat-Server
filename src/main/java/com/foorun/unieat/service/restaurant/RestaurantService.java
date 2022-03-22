@@ -1,25 +1,26 @@
 package com.foorun.unieat.service.restaurant;
 
 
+import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
-import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
-import com.foorun.unieat.domain.search.dto.SearchLogDto;
+import com.foorun.unieat.domain.search.dto.SearchLog;
 import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import com.foorun.unieat.domain.search.respository.SearchLogRepository;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
-import com.foorun.unieat.util.JwtProvider;
+import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +29,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.foorun.unieat.constant.ServiceConstant.NEAR_BY;
+import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class RestaurantService   {
-
+    private final RestaurantMapper restaurantMapper;
     private final RestaurantQuerydslRepository restaurantQuerydslRepository;
     private final RestaurantRepository restaurantRepository;
     private final SearchLogRepository searchLogRepository;
@@ -56,10 +58,7 @@ public class RestaurantService   {
                 restaurantQuerydslRepository.find(id)
                 .orElseThrow(UniEatNotFoundException::new)
         );
-
     }
-
-
     //식당 필터 조회
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchByFiltering(FilteringRestaurant filteringRestaurant,PageRequest pageRequest){
@@ -87,37 +86,35 @@ public class RestaurantService   {
     @Transactional
     public void saveSearchText(String searchText){
         try {
-
             MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            SearchLogJpo searchLogJpo  = SearchLogDto.builder().searchText(searchText).build().asJpo();
+            SearchLogJpo searchLogJpo  = SearchLog.builder().searchText(searchText).build().asJpo();
             memberRepository.findByEmail(userDetails.getEmail()).ifPresent(
                     user->{
-                            searchLogJpo.setMemberJpo(user);
+                            searchLogJpo.setMember(user);
                             searchLogRepository.save(searchLogJpo);
                     }
             );
         }
         catch (RuntimeException e){
             log.info("인증되지 않은 유저.");
-            throw new RuntimeException();
+            throw new UniEatUnAuthorizationException();
         }
-
-
     }
 
+    //검색 히스토리 조회
+    @Transactional(readOnly = true)
+    public List<SearchLog> fetchSearchLog(Long memberId){
+        return Optional.ofNullable(memberRepository.findById(memberId))
+                .map(member -> searchLogRepository.findSearchLogJpoByMember(member.get(),new Paging(PAGING_SIZE,0)))
+                .orElseThrow(UniEatBadRequestException::new)
+                .stream().map(SearchLog::of).collect(Collectors.toList());
 
-
+    }
 
     //주변 맛집
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
-        return restaurantRepository.findNearest(
-                        memberLocation.getLatitude(),
-                        memberLocation.getLongitude(),
-                        NEAR_BY)
-                .stream().map(RestaurantSimple::of)
-                .collect(Collectors.toList());
-
+        return restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
     }
 
     public void bookmarking(int storeIdx) {
@@ -132,6 +129,7 @@ public class RestaurantService   {
      *       유효한 검색어에 대한 정의 필요 ..
      *
      */
+
 
 
 }

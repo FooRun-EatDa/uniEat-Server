@@ -18,6 +18,7 @@ public class RestaurantSimple {
     private String name;
     private String explanation;
     private String imgUrl;
+    private double distance;
     private List<HashTageRestaurant> hashTagRestaurants;
 
     public static RestaurantSimple createEmpty() {
