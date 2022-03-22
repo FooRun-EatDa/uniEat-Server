@@ -43,10 +43,9 @@ import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 public class RestaurantService   {
     private final RestaurantMapper restaurantMapper;
     private final RestaurantQuerydslRepository restaurantQuerydslRepository;
-    private final RestaurantRepository restaurantRepository;
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
-    private final BookmarkRepository bookmarkRepository;
+
 
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetch(PageRequest pageRequest){
@@ -108,6 +107,12 @@ public class RestaurantService   {
         }
     }
 
+
+    /**
+     * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고
+     *       유효한 검색만을 로그로 남김과 동시에 검색 로그에 저장한다
+     *       유효한 검색어에 대한 정의 필요 ..
+     */
     //검색 히스토리 조회
     @Transactional(readOnly = true)
     public List<SearchLog> fetchSearchLog(Long memberId){
@@ -123,28 +128,6 @@ public class RestaurantService   {
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
         return restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
     }
-
-
-    //식당 좋아요 누르기
-    public Long bookmarking(int storeIdx, MemberUserDetails memberUserDetails) {
-        try {
-            RestaurantJpo restaurant = restaurantRepository.findById((long)storeIdx).orElseThrow(NullPointerException::new);
-            MemberJpo memberJpo = memberRepository.findByEmail(memberUserDetails.getEmail()).orElseThrow(NullPointerException::new);
-            Bookmark bookmark = Bookmark.of(restaurant,memberJpo);
-            return bookmarkRepository.save(bookmark.asJpo()).getId();
-
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            throw new UniEatNotFoundException();
-        }
-
-    }
-
-    /**
-     * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고
-     *       유효한 검색만을 로그로 남김과 동시에 검색 로그에 저장한다
-     *       유효한 검색어에 대한 정의 필요 ..
-     */
 
 
 

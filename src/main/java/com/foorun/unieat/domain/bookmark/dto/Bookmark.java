@@ -6,6 +6,7 @@ import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
+import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -32,6 +33,7 @@ public class Bookmark {
         return bookmark;
 
     }
+
 
 
     public BookmarkJpo asJpo(){
