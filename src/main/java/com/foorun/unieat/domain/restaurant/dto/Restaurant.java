@@ -13,6 +13,9 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
+import static com.foorun.unieat.util.StreamUtil.map;
+import static com.foorun.unieat.util.StreamUtil.mapToSet;
+
 @Getter @Setter
 @ToString
 @NoArgsConstructor
@@ -37,19 +40,27 @@ public class Restaurant implements JsonSerializable {
     private RegionCode regionCode;
     private List<Category> categorys;
     private List<Food> foods;
-    private List<Review> reviewFeelings;
+    private List<Review> reviews;
 
     public static Restaurant createEmpty(){return new Restaurant();}
 
     public static Restaurant of(RestaurantJpo restaurantJpo){
         Restaurant restaurant = createEmpty();
         BeanUtils.copyProperties(restaurantJpo,restaurant);
+
+        restaurant.categorys = map(restaurantJpo.getCategorys(),Category::of);
+        restaurant.foods = map(restaurantJpo.getFoods(),Food::of);
+        restaurant.reviews = map(restaurantJpo.getReviews(),Review::of);
+
         return restaurant;
     }
 
     public RestaurantJpo asJpo(){
         RestaurantJpo restaurantJpo = new RestaurantJpo();
         BeanUtils.copyProperties(this,restaurantJpo);
+        restaurantJpo.setCategorys(mapToSet(this.categorys,Category::asJpo));
+        restaurantJpo.setFoods(mapToSet(this.foods,Food::asJpo));
+        restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
         return restaurantJpo;
     }
 
