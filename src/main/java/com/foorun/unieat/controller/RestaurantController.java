@@ -5,6 +5,7 @@ import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
+import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.search.dto.SearchLog;
@@ -107,7 +108,7 @@ public class RestaurantController {
 
     @ApiOperation(value = SwaggerApiInfo.GET_BOOKMARKING, notes = "식당에 좋아요를 클릭하면 즐겨찾기에 등록됨, 유저가 좋아요한 식당 리스트에서 보여짐")
     @GetMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal UserDetails userDetails, @PathVariable(name="restaurantId") int storeIdx){
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails userDetails, @PathVariable(name="restaurantId") int storeIdx){
 
         restaurantService.bookmarking(storeIdx,userDetails);
         return ResponseEntity.ok(

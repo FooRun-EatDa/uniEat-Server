@@ -1,13 +1,18 @@
 package com.foorun.unieat.service.restaurant;
 
 
+import com.foorun.unieat.domain.bookmark.dto.Bookmark;
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
@@ -41,6 +46,7 @@ public class RestaurantService   {
     private final RestaurantRepository restaurantRepository;
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
+    private final BookmarkRepository bookmarkRepository;
 
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetch(PageRequest pageRequest){
@@ -119,10 +125,18 @@ public class RestaurantService   {
     }
 
 
-    //식당 좋아요
-    public void bookmarking(int storeIdx, UserDetails userDetails) {
+    //식당 좋아요 누르기
+    public Long bookmarking(int storeIdx, MemberUserDetails memberUserDetails) {
+        try {
+            RestaurantJpo restaurant = restaurantRepository.findById((long)storeIdx).orElseThrow(NullPointerException::new);
+            MemberJpo memberJpo = memberRepository.findByEmail(memberUserDetails.getEmail()).orElseThrow(NullPointerException::new);
+            Bookmark bookmark = Bookmark.of(restaurant,memberJpo);
+            return bookmarkRepository.save(bookmark.asJpo()).getId();
 
-
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            throw new UniEatNotFoundException();
+        }
 
     }
 
