@@ -11,6 +11,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
@@ -124,10 +125,6 @@ public class RestaurantJpo {
 
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
-    @Builder.Default
-    private Set<BookmarkJpo> bookmarks = new HashSet<>();
-
-
-
+    private List<BookmarkJpo> bookmark;
 
 }

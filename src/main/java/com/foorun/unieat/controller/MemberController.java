@@ -1,5 +1,6 @@
 package com.foorun.unieat.controller;
 
+import com.foorun.unieat.constant.JwtConstant;
 import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Api(tags = SwaggerApiInfo.MEMBER)
+@CrossOrigin(allowCredentials = "true", originPatterns = "*", exposedHeaders = {JwtConstant.HEADER_NAME, JwtConstant.HEADER_NAME_REFRESH_TOKEN})
 public class MemberController {
     private final MemberSignUpService memberSignUpService;
     private final MemberSignInService memberSignInService;
