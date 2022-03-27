@@ -1,9 +1,8 @@
 package com.foorun.unieat.domain.file.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.foorun.unieat.domain.file.jpo.BaseFileJpo;
 import com.foorun.unieat.domain.file.jpo.FileJpo;
-import com.foorun.unieat.domain.post.jpo.PostFileJpo;
 import com.foorun.unieat.util.FileUtil;
 import com.foorun.unieat.util.MultipartUtil;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,6 +27,9 @@ public class FileDetail {
     @ApiModelProperty(notes = "파일 경로", example = "images/5073596e-ac44-46d5-9a89-c29610df4ebd.jpeg", required = true, position = 1)
     private String path;
 
+    @ApiModelProperty(notes = "파일 URL 경로", example = "https://{hostname}/images/5073596e-ac44-46d5-9a89-c29610df4ebd.jpeg", hidden = true, position = 2)
+    private String url;
+
     @ApiModelProperty(notes = "파일명", example = "풍경이미지", position = 2)
     private String name;
 
@@ -51,9 +53,12 @@ public class FileDetail {
     private boolean thumbnail = false;
 
     @Builder.Default
-    @JsonIgnore
     @ApiModelProperty(notes = "삭제된 파일인지 여부", example = "false", position = 9)
     private boolean delete = false;
+
+    @Builder.Default
+    @ApiModelProperty(notes = "새로 생성된 파일인지 여부", example = "false", position = 9)
+    private boolean newly = false;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -73,17 +78,19 @@ public class FileDetail {
                 .id(fileId)
                 .name(multipartFile.getOriginalFilename())
                 .format(format)
+                .url(String.format("%s/%s", FileUtil.getAmazonS3BaseURL(), MultipartUtil.createPath(fileId, format)))
                 .path(MultipartUtil.createPath(fileId, format))
                 .bytes(multipartFile.getSize())
                 .build();
     }
 
-    public static FileDetail of(PostFileJpo postFileJpo) {
+    public static FileDetail of(BaseFileJpo baseFileJpo) {
         return FileDetail.builder()
-                .id(postFileJpo.getFile().getId())
-                .path(String.format("%s/%s", FileUtil.getAmazonS3BaseURL(), postFileJpo.getFile().getPath()))
-                .sequence(postFileJpo.getSequence())
-                .thumbnail(postFileJpo.isThumbnail())
+                .id(baseFileJpo.getFile().getId())
+                .url(String.format("%s/%s", FileUtil.getAmazonS3BaseURL(), baseFileJpo.getFile().getPath()))
+                .path(baseFileJpo.getFile().getPath())
+                .sequence(baseFileJpo.getSequence())
+                .thumbnail(baseFileJpo.isThumbnail())
                 .build();
     }
 
