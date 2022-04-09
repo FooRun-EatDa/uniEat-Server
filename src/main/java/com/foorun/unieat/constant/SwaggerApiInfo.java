@@ -49,4 +49,5 @@ public interface SwaggerApiInfo {
     String GET_STORE_BY_SEARCH = "검색을 이용한 식당 정보 조회";
     String GET_NEAREST_STORE = "주변 맛집 조회";
 
+    String Review = "식당 리뷰 게시판 관련 operation";
 }

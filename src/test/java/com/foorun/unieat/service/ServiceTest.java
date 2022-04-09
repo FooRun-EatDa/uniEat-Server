@@ -14,15 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public abstract class ServiceTest {
 
-    @Mock
-    private RestaurantQuerydslRepository restaurantQuerydslRepository;
-    @Mock
-    private RestaurantRepository restaurantRepository;
-    @Mock
-    private JPAQueryFactory jpaQueryFactory;
-
-    @InjectMocks
-    private RestaurantService restaurantService;
+;
 
 
 }

@@ -37,11 +37,9 @@ public class RestaurantController {
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="page") int page){
-
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
         );
-
     }
 
     /**

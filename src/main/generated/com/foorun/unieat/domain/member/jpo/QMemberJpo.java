@@ -26,6 +26,8 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final BooleanPath agreeEventLetter = createBoolean("agreeEventLetter");
 
+    public final BooleanPath agreeNotification = createBoolean("agreeNotification");
+
     public final BooleanPath agreeTerms = createBoolean("agreeTerms");
 
     public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmarks = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmarks", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
@@ -67,7 +69,7 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final SetPath<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo> searchLogs = this.<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo>createSet("searchLogs", com.foorun.unieat.domain.search.jpo.SearchLogJpo.class, com.foorun.unieat.domain.search.jpo.QSearchLogJpo.class, PathInits.DIRECT2);
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

@@ -15,6 +15,7 @@ import java.util.Set;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Table(name = "review")
 public class ReviewJpo extends BaseTimeJpo {
     @Id
@@ -23,10 +24,13 @@ public class ReviewJpo extends BaseTimeJpo {
 
     private String content;
 
+    private String imgUrl;
+
     @Column(name="star_score")
     private int starScore;
 
     private String status;
+
 
 
     @ManyToOne(fetch = FetchType.LAZY)

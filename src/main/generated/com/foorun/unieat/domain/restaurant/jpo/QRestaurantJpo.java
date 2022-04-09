@@ -24,7 +24,7 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final StringPath address = createString("address");
 
-    public final com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo bookmark;
+    public final ListPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmark = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createList("bookmark", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo> categorys = this.<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo>createSet("categorys", com.foorun.unieat.domain.category.jpo.CategoryJpo.class, com.foorun.unieat.domain.category.jpo.QCategoryJpo.class, PathInits.DIRECT2);
 
@@ -78,7 +78,6 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public QRestaurantJpo(Class<? extends RestaurantJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.bookmark = inits.isInitialized("bookmark") ? new com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo(forProperty("bookmark"), inits.get("bookmark")) : null;
         this.regionCode = inits.isInitialized("regionCode") ? new com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo(forProperty("regionCode"), inits.get("regionCode")) : null;
     }
 
