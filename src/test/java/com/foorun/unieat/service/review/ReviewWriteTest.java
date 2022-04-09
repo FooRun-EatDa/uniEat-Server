@@ -10,6 +10,7 @@ import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.ReviewAddReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
+import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,22 +20,12 @@ import org.mockito.Mock;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ReviewWriteTest extends ServiceTest {
 
-    @InjectMocks
-    private ReviewService reviewService;
-
-    @Mock
-    private ReviewRepository reviewRepository;
-
-    @Mock
-    private MemberRepository memberRepository;
-
-    @Mock
-    private RestaurantRepository restaurantRepository;
 
     @Mock
     private MemberUserDetails memberUserDetails = MemberUserDetails.builder()
@@ -45,34 +36,57 @@ public class ReviewWriteTest extends ServiceTest {
             .build();
 
 
+    private ReviewAddReq reviewAddReq = ReviewAddReq.builder()
+            .content("정말 맛있어요!")
+            .imgUrl("http://s3.aws.cloud.img/dksdkgkg.jpg")
+            .restaurantId(11L)
+            .starScore(3)
+            .build();
+
     @DisplayName("리뷰 등록")
     @Test
     void reviewWriteTest(){
         //given
-        ReviewAddReq reviewAddReq = ReviewAddReq.builder()
-                .content("정말 맛있어요!")
-                .imgUrl("http://s3.aws.cloud.img/dksdkgkg.jpg")
-                .restaurantId(11L)
-                .starScore(3)
-                .build();
 
-        when(reviewRepository.save(any(ReviewJpo.class))).then(invocation -> {
+        ReviewJpo mock = any(ReviewJpo.class);
+
+        when(reviewRepository.save(mock)).then(invocation -> {
             System.out.println(invocation);
             ReviewJpo review = invocation.getArgument(0, ReviewJpo.class);
             review.setId(1L);
             return review;
         });
+
+        when(memberRepository.findById(memberUserDetails.getId()))
+                .thenReturn(Optional.of(mock(MemberJpo.class)));
+
+
         when(restaurantRepository.findById(reviewAddReq.getRestaurantId()))
                 .thenReturn(Optional.of(mock(RestaurantJpo.class)));
 
-
+        when(memberRepository.findById(memberUserDetails.getId())).thenReturn(Optional.of(mock(MemberJpo.class)));
         //when
         Long savedStoreId = reviewService.addReview(memberUserDetails, reviewAddReq);
 
         //then
         assertEquals(savedStoreId, 1L);
         verify(reviewRepository).save(any(ReviewJpo.class));
-
     }
+
+
+    @DisplayName("리뷰 등록 실패 : 유효하지 않은 레스토랑")
+    @Test
+    void reviewWriteFailTest(){
+        //given
+        when(memberRepository.findById(memberUserDetails.getId()))
+                .thenReturn(Optional.of(mock(MemberJpo.class)));
+
+        assertThrows(UniEatNotFoundException.class,()->{
+            reviewService.addReview(memberUserDetails,reviewAddReq);
+        });
+    }
+
+
+
 
 }
