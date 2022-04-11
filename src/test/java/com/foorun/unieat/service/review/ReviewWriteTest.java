@@ -10,6 +10,7 @@ import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.ReviewAddReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
+import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -76,7 +77,7 @@ public class ReviewWriteTest extends ServiceTest {
 
     @DisplayName("리뷰 등록 실패 : 유효하지 않은 레스토랑")
     @Test
-    void reviewWriteFailTest(){
+    void reviewWriteFailTest_invalid_store(){
         //given
         when(memberRepository.findById(memberUserDetails.getId()))
                 .thenReturn(Optional.of(mock(MemberJpo.class)));
@@ -86,6 +87,16 @@ public class ReviewWriteTest extends ServiceTest {
         });
     }
 
+
+    @DisplayName("리뷰 등록 실패 : 유효하지 않은 유저")
+    @Test
+    void reviewWriteFailTest_memberUserDestails(){
+
+        assertThrows(UniEatForbiddenException.class,()->{
+            reviewService.addReview(memberUserDetails,reviewAddReq);
+        });
+
+    }
 
 
 
