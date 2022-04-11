@@ -12,6 +12,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+/**
+ * 리뷰 글에 대한 좋아요 여부 정보
+ */
 @Table(name = "review_feeling")
 public class ReviewFeelingJpo {
     @Id

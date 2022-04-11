@@ -10,7 +10,9 @@ import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.ReviewAddReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
+import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
@@ -41,12 +43,12 @@ public class ReviewWriteTest extends ServiceTest {
             .content("정말 맛있어요!")
             .imgUrl("http://s3.aws.cloud.img/dksdkgkg.jpg")
             .restaurantId(11L)
-            .starScore(3)
+            .starScore(2)
             .build();
 
     @DisplayName("리뷰 등록")
     @Test
-    void reviewWriteTest(){
+    void When_Review_Posting_Expect_SavedReviewId_SameAs_ReqReviewId(){
         //given
 
         ReviewJpo mock = any(ReviewJpo.class);
@@ -77,7 +79,7 @@ public class ReviewWriteTest extends ServiceTest {
 
     @DisplayName("리뷰 등록 실패 : 유효하지 않은 레스토랑")
     @Test
-    void reviewWriteFailTest_invalid_store(){
+    void Should_Throw_Exception_When_Invalid_Store_Given(){
         //given
         when(memberRepository.findById(memberUserDetails.getId()))
                 .thenReturn(Optional.of(mock(MemberJpo.class)));
@@ -90,7 +92,7 @@ public class ReviewWriteTest extends ServiceTest {
 
     @DisplayName("리뷰 등록 실패 : 유효하지 않은 유저")
     @Test
-    void reviewWriteFailTest_memberUserDestails(){
+    void Should_Throw_Exception_When_MemberUserDetail_Invalid(){
 
         assertThrows(UniEatForbiddenException.class,()->{
             reviewService.addReview(memberUserDetails,reviewAddReq);
@@ -98,6 +100,22 @@ public class ReviewWriteTest extends ServiceTest {
 
     }
 
+    @DisplayName("리뷰 등록 실패 : 리뷰 점수 0~2점 이외 일 경우")
+    @Test
+    void Should_Throw_Exception_When_Score_Invalid(){
+
+        ReviewAddReq review = ReviewAddReq.builder().starScore(3).content("등록안되는 리뷰").build();
+        ReviewAddReq review2 = ReviewAddReq.builder().starScore(-1).content("등록안되는 리뷰").build();
+
+        assertThrows(UniEatBadRequestException.class,()->{
+            reviewService.addReview(memberUserDetails,review);
+        });
+
+        assertThrows(UniEatBadRequestException.class,()->{
+            reviewService.addReview(memberUserDetails,review2);
+        });
+
+    }
 
 
 }

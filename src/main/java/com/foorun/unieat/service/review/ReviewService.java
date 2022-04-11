@@ -9,6 +9,7 @@ import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.ReviewAddReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,10 @@ public class ReviewService  {
 
 
     public Long addReview(MemberUserDetails memberUserDetails, ReviewAddReq reviewDto) {
+
+        if(!starScoreInvalidCheck(reviewDto))throw new UniEatBadRequestException();
+
+
         MemberJpo member = memberRepository.findById(memberUserDetails.getId())
                 .orElseThrow(UniEatForbiddenException::new);
         RestaurantJpo restaurant = restaurantRepository.findById(reviewDto.getRestaurantId())
@@ -35,4 +40,11 @@ public class ReviewService  {
         reviewJpo.setMember(member);
         return reviewRepository.save(reviewJpo).getId();
     }
+    private boolean starScoreInvalidCheck(ReviewAddReq reviewAddReq){
+        if(0 <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2) return true;
+        else return false;
+    }
+
+    
+
 }

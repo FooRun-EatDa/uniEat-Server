@@ -5,6 +5,8 @@ import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @ToString
@@ -24,7 +26,7 @@ public class ReviewAddReq {
         return ReviewJpo.builder()
                 .id(IdentifyGenerator.number())
                 .content(this.content)
-                .starScore(this.getStarScore())
+                .starScore(Objects.isNull(this.getStarScore()) ? 0 : this.getStarScore())
                 .imgUrl(this.imgUrl)
                 .build();
     }

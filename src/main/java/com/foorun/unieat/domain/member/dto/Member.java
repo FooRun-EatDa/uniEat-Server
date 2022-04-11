@@ -20,7 +20,7 @@ public class Member implements JsonSerializable {
     private String nickname;
     private Integer dateOfBirth;
     private int gender;
-    private int grade;
+    private int grade; //이용자 권한
 
     @JsonIgnore
     private String password;
