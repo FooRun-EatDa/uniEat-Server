@@ -10,6 +10,8 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Objects;
+
 @Slf4j
 @RestControllerAdvice
 public class ACommonControllerAdvice {
@@ -25,7 +27,7 @@ public class ACommonControllerAdvice {
         log.error("Excepted MethodArgumentNotValidException ==> {}", e.getMessage());
         return ResponseEntity.badRequest()
                 .body(ApiResponse.badRequest(String.format("요청 파라미터 ['%s']가 유효하지 않습니다 ==> %s",
-                        e.getFieldError().getField(), e.getFieldError().getDefaultMessage())));
+                        Objects.requireNonNull(e.getFieldError()).getField(), e.getFieldError().getDefaultMessage())));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
