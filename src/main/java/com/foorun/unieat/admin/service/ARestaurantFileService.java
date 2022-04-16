@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class ARestaurantFileService {
     public long save(long restaurantId, List<FileDetail> fileDetails) {
         RestaurantJpo restaurantJpo = restaurantRepository.findById(restaurantId)
                 .orElseThrow(UniEatNotFoundException::new);
+        restaurantJpo.setUpdatedAt(LocalDateTime.now());
         fileDetails.forEach(fileDetail -> save(restaurantJpo, fileDetail));
         return restaurantId;
     }

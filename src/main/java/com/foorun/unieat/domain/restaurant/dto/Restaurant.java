@@ -50,6 +50,7 @@ public class Restaurant implements JsonSerializable {
 
     public void applyRevision(RestaurantJpo restaurantJpo) {
         BeanUtils.copyProperties(this, restaurantJpo);
+        restaurantJpo.setUpdatedAt(LocalDateTime.now());
     }
 
     public RestaurantJpo asJpo() {
