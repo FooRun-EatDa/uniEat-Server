@@ -30,14 +30,6 @@ import static org.mockito.Mockito.*;
 public class ReviewWriteTest extends ServiceTest {
 
 
-    @Mock
-    private MemberUserDetails memberUserDetails = MemberUserDetails.builder()
-            .id(2L)
-            .email("hyun123@naver.com")
-            .role(Role.USER)
-            .nickname("user")
-            .build();
-
 
     private ReviewAddReq reviewAddReq = ReviewAddReq.builder()
             .content("정말 맛있어요!")
@@ -50,7 +42,6 @@ public class ReviewWriteTest extends ServiceTest {
     @Test
     void When_Review_Posting_Expect_SavedReviewId_SameAs_ReqReviewId(){
         //given
-
         ReviewJpo mock = any(ReviewJpo.class);
 
         when(reviewRepository.save(mock)).then(invocation -> {
@@ -63,11 +54,11 @@ public class ReviewWriteTest extends ServiceTest {
         when(memberRepository.findById(memberUserDetails.getId()))
                 .thenReturn(Optional.of(mock(MemberJpo.class)));
 
-
         when(restaurantRepository.findById(reviewAddReq.getRestaurantId()))
                 .thenReturn(Optional.of(mock(RestaurantJpo.class)));
 
         when(memberRepository.findById(memberUserDetails.getId())).thenReturn(Optional.of(mock(MemberJpo.class)));
+
         //when
         Long savedStoreId = reviewService.addReview(memberUserDetails, reviewAddReq);
 

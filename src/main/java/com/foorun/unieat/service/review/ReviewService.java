@@ -1,19 +1,31 @@
 package com.foorun.unieat.service.review;
 
 
+import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
+import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewAddReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
+import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
+import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -23,8 +35,11 @@ public class ReviewService  {
     private final ReviewRepository reviewRepository;
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
+    private final ReviewQueryDslRepository reviewQueryDslRepository;
 
 
+    //리뷰 작성, 비회원 불가
+    @Transactional
     public Long addReview(MemberUserDetails memberUserDetails, ReviewAddReq reviewDto) {
 
         if(!starScoreInvalidCheck(reviewDto))throw new UniEatBadRequestException();
@@ -40,11 +55,51 @@ public class ReviewService  {
         reviewJpo.setMember(member);
         return reviewRepository.save(reviewJpo).getId();
     }
+
     private boolean starScoreInvalidCheck(ReviewAddReq reviewAddReq){
         if(0 <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2) return true;
         else return false;
     }
 
-    
+
+
+    //리뷰 삭제
+    @Transactional
+    public boolean reviewDelete(Long reviewId, MemberUserDetails memberUserDetails){
+        //리뷰 작성자 본인 혹은 어드민인 경우에만 삭제가능
+        if(!reviewDeleteValid(reviewId,memberUserDetails)) throw new UniEatForbiddenException();
+        reviewRepository.deleteById(reviewId);
+        return true;
+    }
+
+    private boolean reviewDeleteValid(Long reviewId,MemberUserDetails memberUserDetails){
+        try{
+        if(memberUserDetails.getRole().equals(Role.ADMIN)) return true; //어드민이라면 삭제가능
+            //어드민이 아니라면 작성자인지 확인
+            return reviewQueryDslRepository.isMemberEqaulToReviewWriter(reviewId,memberUserDetails);
+        }catch (NullPointerException e){
+            throw new UniEatUnAuthorizationException();
+        }
+    }
+
+
+    //리뷰 조회, 비회원도 가능
+    @Transactional(readOnly = true)
+    public List<Review> getReviewList(Pageable pageable){
+        return reviewQueryDslRepository.find(pageable)
+                .stream()
+                .map(Review::of)
+                .collect(Collectors.toList());
+    }
+
+
+    //리뷰 수정
+    @Transactional
+    public Review updateReview(Long reviewId,MemberUserDetails memberUserDetails){
+
+        return null;
+    }
+
+
 
 }

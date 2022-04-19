@@ -1,6 +1,8 @@
 package com.foorun.unieat.service;
 
 
+import com.foorun.unieat.domain.member.Role;
+import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
@@ -30,5 +32,13 @@ public abstract class ServiceTest {
     @Mock
     protected RestaurantRepository restaurantRepository;
 
+
+    @Mock
+    protected MemberUserDetails memberUserDetails = MemberUserDetails.builder()
+            .id(2L)
+            .email("hyun123@naver.com")
+            .role(Role.USER)
+            .nickname("user")
+            .build();
 
 }

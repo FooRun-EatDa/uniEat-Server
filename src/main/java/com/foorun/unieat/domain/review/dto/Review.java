@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
+import static com.foorun.unieat.util.StreamUtil.map;
+
 @Getter
 @Setter
 @ToString
@@ -29,6 +31,17 @@ public class Review {
         ReviewJpo reviewJpo = new ReviewJpo();
         BeanUtils.copyProperties(this,reviewJpo);
         return reviewJpo;
+
+    }
+
+    public static Review of(ReviewJpo reviewJpo){
+        Review review = new Review();
+        BeanUtils.copyProperties(reviewJpo,review);
+        review.member = Member.of(reviewJpo.getMember());
+        review.restaurant = Restaurant.of(reviewJpo.getRestaurant());
+        review.reviewFeelings = map(reviewJpo.getReviewFeelings(),ReviewFeeling::of);
+
+        return review;
 
     }
 
