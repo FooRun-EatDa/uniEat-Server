@@ -22,6 +22,7 @@ public class Review {
     private String content;
     private int starScore;
 
+    private String imgUrl;
     private Restaurant restaurant;
     private Member member;
     private List<ReviewFeeling> reviewFeelings;
@@ -40,10 +41,12 @@ public class Review {
         review.member = Member.of(reviewJpo.getMember());
         review.restaurant = Restaurant.of(reviewJpo.getRestaurant());
         review.reviewFeelings = map(reviewJpo.getReviewFeelings(),ReviewFeeling::of);
-
+        review.imgUrl = reviewJpo.getImgUrl();
         return review;
-
     }
+
+
+
 
 
 }

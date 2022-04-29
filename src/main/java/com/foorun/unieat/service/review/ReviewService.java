@@ -8,7 +8,7 @@ import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.Review;
-import com.foorun.unieat.domain.review.dto.ReviewAddReq;
+import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
@@ -17,14 +17,11 @@ import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -40,7 +37,7 @@ public class ReviewService  {
 
     //리뷰 작성, 비회원 불가
     @Transactional
-    public Long addReview(MemberUserDetails memberUserDetails, ReviewAddReq reviewDto) {
+    public Long addReview(MemberUserDetails memberUserDetails, ReviewReq reviewDto) {
 
         if(!starScoreInvalidCheck(reviewDto))throw new UniEatBadRequestException();
 
@@ -56,7 +53,7 @@ public class ReviewService  {
         return reviewRepository.save(reviewJpo).getId();
     }
 
-    private boolean starScoreInvalidCheck(ReviewAddReq reviewAddReq){
+    private boolean starScoreInvalidCheck(ReviewReq reviewAddReq){
         if(0 <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2) return true;
         else return false;
     }
@@ -83,7 +80,7 @@ public class ReviewService  {
     }
 
 
-    //리뷰 조회, 비회원도 가능
+    //리뷰 리스트 조회, 비회원도 가능
     @Transactional(readOnly = true)
     public List<Review> getReviewList(Pageable pageable){
         return reviewQueryDslRepository.find(pageable)
@@ -92,12 +89,24 @@ public class ReviewService  {
                 .collect(Collectors.toList());
     }
 
+    //리뷰 상세 조회, 비회원도 가능
+    @Transactional(readOnly = true)
+    public Review getReviewDetail(Long reviewId){
+        return Review.of(reviewQueryDslRepository.find(reviewId)
+                .orElseThrow(UniEatNotFoundException::new));
+
+    }
 
     //리뷰 수정
     @Transactional
-    public Review updateReview(Long reviewId,MemberUserDetails memberUserDetails){
+    public Review updateReview(ReviewReq updateReq, MemberUserDetails memberUserDetails){
+        ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getRestaurantId()).orElseThrow(UniEatNotFoundException::new);
+        updateReviewJpo(reviewJpo,updateReq);
+        return Review.of(reviewJpo); // 업데이트된 리뷰 그대로 리턴
+    }
 
-        return null;
+    private void updateReviewJpo(ReviewJpo reviewJpo, ReviewReq updateReq){
+
     }
 
 

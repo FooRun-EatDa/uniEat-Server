@@ -7,7 +7,8 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
-import com.foorun.unieat.domain.review.dto.ReviewAddReq;
+
+import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
@@ -31,7 +32,7 @@ public class ReviewWriteTest extends ServiceTest {
 
 
 
-    private ReviewAddReq reviewAddReq = ReviewAddReq.builder()
+    private ReviewReq reviewAddReq = ReviewReq.builder()
             .content("정말 맛있어요!")
             .imgUrl("http://s3.aws.cloud.img/dksdkgkg.jpg")
             .restaurantId(11L)
@@ -95,8 +96,8 @@ public class ReviewWriteTest extends ServiceTest {
     @Test
     void Should_Throw_Exception_When_Score_Invalid(){
 
-        ReviewAddReq review = ReviewAddReq.builder().starScore(3).content("등록안되는 리뷰").build();
-        ReviewAddReq review2 = ReviewAddReq.builder().starScore(-1).content("등록안되는 리뷰").build();
+        ReviewReq review = ReviewReq.builder().starScore(3).content("등록안되는 리뷰").build();
+        ReviewReq review2 = ReviewReq.builder().starScore(-1).content("등록안되는 리뷰").build();
 
         assertThrows(UniEatBadRequestException.class,()->{
             reviewService.addReview(memberUserDetails,review);

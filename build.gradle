@@ -41,6 +41,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.mockito:mockito-inline:3.4.0' //Mockito: static method mocking 위해 추가
     implementation 'com.querydsl:querydsl-jpa:4.4.0'
     implementation 'com.querydsl:querydsl-apt:4.4.0'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
