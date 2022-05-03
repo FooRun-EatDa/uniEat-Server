@@ -123,6 +123,13 @@ public class RestaurantService   {
     }
 
 
+    //맛집 북마크
+    @Transactional
+    public void bookmarking(){
+
+    }
+
+
 
 
 }
