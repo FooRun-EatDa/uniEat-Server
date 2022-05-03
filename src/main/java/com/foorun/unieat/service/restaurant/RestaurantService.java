@@ -2,13 +2,17 @@
 package com.foorun.unieat.service.restaurant;
 
 
+import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+import com.foorun.unieat.domain.bookmark.respository.BookmarkRepository;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.search.dto.SearchLog;
@@ -40,6 +44,8 @@ public class RestaurantService   {
     private final RestaurantRepository restaurantRepository;
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
+    private final BookmarkRepository bookmarkRepository;
+
 
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetch(PageRequest pageRequest){
@@ -124,11 +130,7 @@ public class RestaurantService   {
     }
 
 
-    //맛집 북마크
-    @Transactional
-    public void bookmarking(){
 
-    }
 
 
 
