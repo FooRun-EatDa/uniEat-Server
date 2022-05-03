@@ -16,12 +16,14 @@ import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
+import com.foorun.unieat.service.review.validChecker.ReviewValidCheck;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -33,6 +35,8 @@ public class ReviewService  {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
     private final ReviewQueryDslRepository reviewQueryDslRepository;
+    private final ReviewValidCheck reviewValidCheck;
+
 
 
     //리뷰 작성, 비회원 불가
@@ -53,12 +57,10 @@ public class ReviewService  {
         return reviewRepository.save(reviewJpo).getId();
     }
 
-    private boolean starScoreInvalidCheck(ReviewReq reviewAddReq){
+    public boolean starScoreInvalidCheck(ReviewReq reviewAddReq){
         if(0 <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2) return true;
         else return false;
     }
-
-
 
     //리뷰 삭제
     @Transactional
@@ -100,15 +102,29 @@ public class ReviewService  {
     //리뷰 수정
     @Transactional
     public Review updateReview(ReviewReq updateReq, MemberUserDetails memberUserDetails){
-        ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getRestaurantId()).orElseThrow(UniEatNotFoundException::new);
+        ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getId()).orElseThrow(UniEatNotFoundException::new);
+        if(!reviewValidCheck.updateValidCheck(reviewJpo,memberUserDetails)) throw new UniEatForbiddenException();
         updateReviewJpo(reviewJpo,updateReq);
         return Review.of(reviewJpo); // 업데이트된 리뷰 그대로 리턴
     }
 
     private void updateReviewJpo(ReviewJpo reviewJpo, ReviewReq updateReq){
 
+        reviewJpo.setContent(Optional.of(updateReq.getContent()).orElse(reviewJpo.getContent()));
+        reviewJpo.setImgUrl(Optional.of(updateReq.getImgUrl()).orElse(reviewJpo.getImgUrl()));
+        reviewJpo.setStarScore(Optional.of(updateReq.getStarScore()).orElse(reviewJpo.getStarScore()));
+
     }
 
+//    //리뷰를 수정할 수 있는 권한이 있는지 확인
+//    public Boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
+//        Long writerId = reviewJpo.getMember().getId();
+//        Long memberId = member.getId();
+//        if(writerId != memberId)return false;
+//        else return true;
+//
+//    }
+//
 
 
 }

@@ -33,9 +33,13 @@ public abstract class ServiceTest {
     protected RestaurantRepository restaurantRepository;
 
 
-    @Mock
-    protected MemberUserDetails memberUserDetails = MemberUserDetails.builder()
-            .id(2L)
+    protected static final Long memberId = 1L;
+
+
+
+    protected MemberUserDetails memberUserDetails =
+            MemberUserDetails.builder()
+            .id(memberId)
             .email("hyun123@naver.com")
             .role(Role.USER)
             .nickname("user")
