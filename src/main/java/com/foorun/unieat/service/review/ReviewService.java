@@ -116,6 +116,12 @@ public class ReviewService  {
 
     }
 
+
+    //TODO: 리뷰 신고 기능
+
+
+
+
 //    //리뷰를 수정할 수 있는 권한이 있는지 확인
 //    public Boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
 //        Long writerId = reviewJpo.getMember().getId();

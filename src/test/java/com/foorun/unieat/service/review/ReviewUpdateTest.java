@@ -135,12 +135,13 @@ public class ReviewUpdateTest extends ServiceTest {
 
     }
 
-
-
     //ReviewJpo 업데이트하고 해당 Review를 반영하는 함수라고 가정
     private Review updateReview(ReviewReq updateReq){
         Review review = new Review();
         review.setId(reviewId);
         return updateReq.updateReviewByReq(review);
     }
+
+
+
 }

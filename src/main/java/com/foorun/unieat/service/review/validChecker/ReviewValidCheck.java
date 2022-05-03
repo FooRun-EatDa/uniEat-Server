@@ -20,6 +20,11 @@ public class ReviewValidCheck {
         else return true;
     }
 
+    public boolean removeValidCheck(){
+
+       return true;
+    }
+
 
 
 

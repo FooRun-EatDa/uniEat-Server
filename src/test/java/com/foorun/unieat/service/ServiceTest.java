@@ -37,6 +37,7 @@ public abstract class ServiceTest {
 
 
 
+    @Mock
     protected MemberUserDetails memberUserDetails =
             MemberUserDetails.builder()
             .id(memberId)

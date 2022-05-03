@@ -27,7 +27,8 @@ public class ReviewQueryDslRepository implements QuerydslSelectMulti<ReviewJpo>,
     @Override
     public List<ReviewJpo> find(Pageable pageable) {
         return jpaQueryFactory.selectFrom(reviewJpo)
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+//                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                .orderBy(reviewJpo.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
