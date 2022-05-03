@@ -33,13 +33,15 @@ public class QPostJpo extends EntityPathBase<PostJpo> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final SetPath<PostFileJpo, QPostFileJpo> files = this.<PostFileJpo, QPostFileJpo>createSet("files", PostFileJpo.class, QPostFileJpo.class, PathInits.DIRECT2);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
 
     public final SetPath<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo> postFeelings = this.<com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo>createSet("postFeelings", com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo.class, com.foorun.unieat.domain.feeling.post.jpo.QPostFeelingJpo.class, PathInits.DIRECT2);
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
 
     public final StringPath thumbnail = createString("thumbnail");
 

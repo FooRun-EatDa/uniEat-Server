@@ -7,7 +7,9 @@ import com.foorun.unieat.domain.comment.dto.Comment;
 import com.foorun.unieat.domain.comment.jpo.CommentJpo;
 import com.foorun.unieat.domain.common.PostType;
 import com.foorun.unieat.domain.feeling.post.dto.PostFeeling;
+import com.foorun.unieat.domain.file.dto.FileDetail;
 import com.foorun.unieat.domain.member.dto.Member;
+import com.foorun.unieat.domain.post.jpo.PostFileJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -16,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.foorun.unieat.util.StreamUtil.map;
 
@@ -38,6 +41,7 @@ public class Post implements JsonSerializable {
     private Member member;
     private List<Comment> comments;
     private List<PostFeeling> feelings;
+    private List<FileDetail> files;
 
     @JsonIgnore
     private String status;
@@ -62,6 +66,10 @@ public class Post implements JsonSerializable {
         post.comments = map(postJpo.getComments(), CommentJpo::isRoot, Comment::of);
         post.feelings = map(postJpo.getPostFeelings(), PostFeeling::of,
                 Comparator.comparing(PostFeeling::getCreatedAt).reversed());
+        post.files = postJpo.getFiles().stream()
+                .sorted(Comparator.comparingInt(PostFileJpo::getSequence))
+                .map(FileDetail::of)
+                .collect(Collectors.toList());
         return post;
     }
 

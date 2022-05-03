@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.comment.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
+import com.foorun.unieat.domain.common.StatusType;
 import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.post.jpo.PostJpo;
@@ -48,7 +49,9 @@ public class CommentJpo extends BaseTimeJpo {
     /**
      * 댓글 상태
      */
-    private String status;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusType status = StatusType.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -109,9 +112,9 @@ public class CommentJpo extends BaseTimeJpo {
     }
 
     /**
-     * 게시글을 삭제됨 상태로 처리 Dirty Checking
+     * 댓글을 삭제됨 상태로 처리 Dirty Checking
      */
     public void remove() {
-        this.status = "REMOVED";
+        this.status = StatusType.REMOVED;
     }
 }

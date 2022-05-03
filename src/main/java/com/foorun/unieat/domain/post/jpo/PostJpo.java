@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.post.jpo;
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.comment.jpo.CommentJpo;
 import com.foorun.unieat.domain.common.PostType;
+import com.foorun.unieat.domain.common.StatusType;
 import com.foorun.unieat.domain.feeling.post.jpo.PostFeelingJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import lombok.*;
@@ -48,7 +49,9 @@ public class PostJpo extends BaseTimeJpo {
     /**
      * 게시글 상태
      */
-    private String status;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusType status = StatusType.ACTIVE;
 
     @OneToMany
     @JoinColumn(name = "post_id")
@@ -67,6 +70,11 @@ public class PostJpo extends BaseTimeJpo {
     @OneToMany(mappedBy = "post")
     private Set<PostFeelingJpo> postFeelings = new LinkedHashSet<>();
 
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "post")
+    private Set<PostFileJpo> files = new LinkedHashSet<>();
+
     /**
      * 댓글(Comment) 객체 Dirty Checking
      * @param commentJpo 댓글 JPA Object
@@ -79,6 +87,6 @@ public class PostJpo extends BaseTimeJpo {
      * 게시글을 삭제됨 상태로 처리 Dirty Checking
      */
     public void remove() {
-        this.status = "REMOVED";
+        this.status = StatusType.REMOVED;
     }
 }

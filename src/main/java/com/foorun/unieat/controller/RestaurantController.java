@@ -35,20 +35,18 @@ public class RestaurantController {
      * 추천 식당 (간략)정보 리스트 형식 조회
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
-    @GetMapping(consumes =APPLICATION_JSON_VALUE)
+    @GetMapping
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="page") int page){
-
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
         );
-
     }
 
     /**
      * idx를 이용해 특정 식당 상세 정보 조회
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_DETAIL, notes="특정 식당의 idx를 이용해 특정 식당 상세정보 조회")
-    @GetMapping(value = "/{id}",consumes =APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public ResponseEntity<ApiResponse<Restaurant>> getRestaurant(@PathVariable(name="id") Long idx){
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(idx))

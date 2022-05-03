@@ -1,3 +1,4 @@
+
 package com.foorun.unieat.service.restaurant;
 
 
@@ -55,7 +56,7 @@ public class RestaurantService   {
     public Restaurant fetch(Long id){
         return Restaurant.of(
                 restaurantQuerydslRepository.find(id)
-                .orElseThrow(UniEatNotFoundException::new)
+                        .orElseThrow(UniEatNotFoundException::new)
         );
     }
     //식당 필터 조회
@@ -89,8 +90,8 @@ public class RestaurantService   {
             SearchLogJpo searchLogJpo  = SearchLog.builder().searchText(searchText).build().asJpo();
             memberRepository.findByEmail(userDetails.getEmail()).ifPresent(
                     user->{
-                            searchLogJpo.setMember(user);
-                            searchLogRepository.save(searchLogJpo);
+                        searchLogJpo.setMember(user);
+                        searchLogRepository.save(searchLogJpo);
                     }
             );
         }

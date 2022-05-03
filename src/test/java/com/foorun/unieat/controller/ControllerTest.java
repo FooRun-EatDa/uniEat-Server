@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class ControllerTest {
+
     @Autowired
     protected MockMvc mockMvc;
 
@@ -23,6 +24,10 @@ public abstract class ControllerTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
 
     @BeforeEach
     void setUp() {

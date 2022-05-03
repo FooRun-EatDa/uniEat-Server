@@ -18,7 +18,6 @@ import javax.persistence.*;
 public class SearchLogJpo extends BaseTimeJpo {
 
     @Id
-    @GeneratedValue
     private Long id;
 
 

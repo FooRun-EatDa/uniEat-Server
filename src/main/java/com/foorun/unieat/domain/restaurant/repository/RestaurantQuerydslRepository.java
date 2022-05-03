@@ -9,6 +9,7 @@ import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     @Override
     public List<RestaurantJpo> find(Pageable pageable) {
         return jpaQueryFactory.selectFrom(restaurantJpo)
-                .orderBy(NumberExpression.random().asc())
+                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
