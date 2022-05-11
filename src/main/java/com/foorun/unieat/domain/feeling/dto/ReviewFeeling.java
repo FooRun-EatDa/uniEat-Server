@@ -16,13 +16,15 @@ import org.springframework.beans.BeanUtils;
 public class ReviewFeeling {
 
     private Long id;
-
     private Member member;
-
     private Review review;
 
 
     public static ReviewFeeling of(ReviewFeelingJpo reviewFeelingJpo){
+<<<<<<< HEAD
+=======
+
+>>>>>>> fetch_head
         ReviewFeeling reviewFeeling = new ReviewFeeling();
         BeanUtils.copyProperties(reviewFeelingJpo,reviewFeeling);
         reviewFeeling.member = Member.of(reviewFeelingJpo.getMember());
@@ -30,4 +32,20 @@ public class ReviewFeeling {
         return reviewFeeling;
     }
 
+<<<<<<< HEAD
+=======
+
+    public ReviewFeelingJpo asJpo(){
+        ReviewFeelingJpo reviewFeelingJpo = new ReviewFeelingJpo();
+        BeanUtils.copyProperties(this,reviewFeelingJpo);
+        reviewFeelingJpo.setMember(this.member.asJpo());
+        reviewFeelingJpo.setReview(this.review.asJpo());
+        return reviewFeelingJpo;
+
+
+    }
+
+
+
+>>>>>>> fetch_head
 }

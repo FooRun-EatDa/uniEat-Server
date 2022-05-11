@@ -2,8 +2,8 @@
 package com.foorun.unieat.service.restaurant;
 
 
-import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.bookmark.respository.BookmarkRepository;
+
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
@@ -13,6 +13,8 @@ import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
+
+import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.search.dto.SearchLog;
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,9 +45,11 @@ public class RestaurantService   {
 
     private final RestaurantQuerydslRepository restaurantQuerydslRepository;
     private final RestaurantRepository restaurantRepository;
+    private final RestaurantMapper restaurantMapper;
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
+
 
 
     @Transactional(readOnly = true)
@@ -107,6 +112,12 @@ public class RestaurantService   {
         }
     }
 
+
+    /**
+     * TODO: 검색어를 유효한 검색어(Search-Hit 성공)과 무효한 검색(No Search-Hit)로 나누고
+     *       유효한 검색만을 로그로 남김과 동시에 검색 로그에 저장한다
+     *       유효한 검색어에 대한 정의 필요 ..
+     */
     //검색 히스토리 조회
     @Transactional(readOnly = true)
     public List<SearchLog> fetchSearchLog(Long memberId){
@@ -120,18 +131,8 @@ public class RestaurantService   {
     //주변 맛집
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
-        return restaurantRepository.findNearest(
-                        memberLocation.getLatitude(),
-                        memberLocation.getLongitude(),
-                        NEAR_BY)
-                .stream().map(RestaurantSimple::of)
-                .collect(Collectors.toList());
-
+        return  restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
     }
-
-
-
-
 
 
 

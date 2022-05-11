@@ -122,7 +122,9 @@ public class RestaurantJpo {
     @Builder.Default
     private Set<HashTagRestaurantJpo> hashTagRestaurants = new HashSet<>();
 
+
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
     private List<BookmarkJpo> bookmark;
+
 }

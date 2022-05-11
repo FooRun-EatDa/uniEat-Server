@@ -10,6 +10,10 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 import static com.foorun.unieat.util.StreamUtil.map;
+<<<<<<< HEAD
+=======
+import static com.foorun.unieat.util.StreamUtil.mapToSet;
+>>>>>>> fetch_head
 
 @Getter
 @Setter
@@ -47,6 +51,30 @@ public class Review {
 
 
 
+
+
+    public static Review of(ReviewJpo reviewJpo){
+
+        Review review = new Review();
+        BeanUtils.copyProperties(reviewJpo,review);
+        review.restaurant = Restaurant.of(reviewJpo.getRestaurant());
+        review.member = Member.of(reviewJpo.getMember());
+        review.reviewFeelings = map(reviewJpo.getReviewFeelings(),ReviewFeeling::of);
+        return review;
+
+    }
+
+
+    public ReviewJpo asJpo(){
+
+        ReviewJpo reviewJpo = new ReviewJpo();
+        BeanUtils.copyProperties(this,reviewJpo);
+        reviewJpo.setRestaurant(this.restaurant.asJpo());
+        reviewJpo.setMember(this.member.asJpo());
+        reviewJpo.setReviewFeelings(mapToSet(this.reviewFeelings,ReviewFeeling::asJpo));
+
+        return reviewJpo;
+    }
 
 
 }
