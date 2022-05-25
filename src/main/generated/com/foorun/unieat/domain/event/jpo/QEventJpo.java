@@ -24,6 +24,8 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
+    public final SetPath<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo> coupons = this.<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo>createSet("coupons", com.foorun.unieat.domain.coupon.entity.CouponJpo.class, com.foorun.unieat.domain.coupon.entity.QCouponJpo.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -33,11 +35,15 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath imgUrl = createString("imgUrl");
+
     public final StringPath name = createString("name");
 
     public final StringPath notice = createString("notice");
 
     public final com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo restaurant;
+
+    public final EnumPath<com.foorun.unieat.domain.event.EventStatus> status = createEnum("status", com.foorun.unieat.domain.event.EventStatus.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

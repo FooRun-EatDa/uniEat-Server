@@ -37,12 +37,14 @@ public class Event implements JsonSerializable {
     //이벤트 유의사항
     private String notice;
 
+    private String status;
 
 
     public static Event of(EventJpo eventJpo){
         Event event = new Event();
         BeanUtils.copyProperties(eventJpo,event);
         event.restaurantName = eventJpo.getRestaurant().getName();
+        event.status = eventJpo.getStatus().name();
         return event;
     }
 }
