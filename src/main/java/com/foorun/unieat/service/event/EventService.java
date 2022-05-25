@@ -59,7 +59,7 @@ public class EventService {
     public String isCouponValid(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
         EventJpo event = eventQuerydslRepository.find(eventId).orElseThrow(UniEatBadRequestException::new);
 
-        if(!expiredCheck(event)){
+        if(!EventExpiredCheck(event)){
             return COUPON_EXPIRED;
         }
 
@@ -81,7 +81,7 @@ public class EventService {
 
     }
 
-    private boolean expiredCheck(EventJpo event) throws ParseException {
+    public boolean EventExpiredCheck(EventJpo event) throws ParseException {
         SimpleDateFormat eventExpiredDateSimple = new SimpleDateFormat(DATE_FORMAT);
         Date eventExpiredDate = eventExpiredDateSimple.parse(event.getExpiredDate());
         Date now = DateUtil.getDate();
