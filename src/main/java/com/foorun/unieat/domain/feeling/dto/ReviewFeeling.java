@@ -21,10 +21,7 @@ public class ReviewFeeling {
 
 
     public static ReviewFeeling of(ReviewFeelingJpo reviewFeelingJpo){
-<<<<<<< HEAD
-=======
 
->>>>>>> fetch_head
         ReviewFeeling reviewFeeling = new ReviewFeeling();
         BeanUtils.copyProperties(reviewFeelingJpo,reviewFeeling);
         reviewFeeling.member = Member.of(reviewFeelingJpo.getMember());
@@ -32,8 +29,6 @@ public class ReviewFeeling {
         return reviewFeeling;
     }
 
-<<<<<<< HEAD
-=======
 
     public ReviewFeelingJpo asJpo(){
         ReviewFeelingJpo reviewFeelingJpo = new ReviewFeelingJpo();
@@ -47,5 +42,4 @@ public class ReviewFeeling {
 
 
 
->>>>>>> fetch_head
 }
