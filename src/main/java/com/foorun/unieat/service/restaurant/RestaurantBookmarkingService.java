@@ -2,6 +2,7 @@ package com.foorun.unieat.service.restaurant;
 
 import com.foorun.unieat.domain.bookmark.dto.Bookmark;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
@@ -13,7 +14,6 @@ import com.foorun.unieat.exception.UniEatNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,17 +1,13 @@
-package com.foorun.unieat.domain.bookmark.respository;
+package com.foorun.unieat.domain.bookmark.repository;
 
-import com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo;
-import com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.*;
-import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo.*;
 
 @Repository
 @RequiredArgsConstructor
