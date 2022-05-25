@@ -2,7 +2,10 @@
 package com.foorun.unieat.service.restaurant;
 
 
+<<<<<<< HEAD
 import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
+=======
+>>>>>>> abfc283 (이벤트 조회 기능 작업)
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 
 import com.foorun.unieat.domain.common.paging.Paging;
@@ -11,7 +14,6 @@ import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantRepository;
 import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
-import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;

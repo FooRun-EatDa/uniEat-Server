@@ -1,6 +1,8 @@
 package com.foorun.unieat.domain.bookmark.repository;
 
+
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +37,6 @@ public class BookmarkQuerydslRepository {
                 bookmarkJpo.member.id.eq(memberId),
                 bookmarkJpo.restaurant.id.eq(restaurantId)
         ).fetchFirst();
+
     }
 }

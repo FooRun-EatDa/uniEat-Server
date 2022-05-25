@@ -84,6 +84,7 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     private Set<SearchLogJpo> searchLogs = new HashSet<>();
 
 
+
     /**
      * 회원 Email 주소
      */

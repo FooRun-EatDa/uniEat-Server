@@ -39,6 +39,8 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final StringPath district = createString("district");
 
+    public final SetPath<com.foorun.unieat.domain.event.jpo.EventJpo, com.foorun.unieat.domain.event.jpo.QEventJpo> events = this.<com.foorun.unieat.domain.event.jpo.EventJpo, com.foorun.unieat.domain.event.jpo.QEventJpo>createSet("events", com.foorun.unieat.domain.event.jpo.EventJpo.class, com.foorun.unieat.domain.event.jpo.QEventJpo.class, PathInits.DIRECT2);
+
     public final StringPath explanation = createString("explanation");
 
     public final SetPath<RestaurantFileJpo, QRestaurantFileJpo> files = this.<RestaurantFileJpo, QRestaurantFileJpo>createSet("files", RestaurantFileJpo.class, QRestaurantFileJpo.class, PathInits.DIRECT2);

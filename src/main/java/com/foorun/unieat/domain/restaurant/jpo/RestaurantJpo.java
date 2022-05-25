@@ -5,6 +5,8 @@ import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.common.StatusType;
+import com.foorun.unieat.domain.event.jpo.EventJpo;
+import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
@@ -148,5 +150,13 @@ public class RestaurantJpo extends BaseTimeJpo {
                 .filter(foodJpo -> foodJpo.getId() == id)
                 .findFirst();
     }
+
+
+    //하나의 식당이 여러개의 이벤트를 할 수 있음
+    @OneToMany(mappedBy = "restaurant")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<EventJpo> events = new HashSet<>();
+
 
 }
