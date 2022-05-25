@@ -34,6 +34,8 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final SetPath<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo> commentFeelings = this.<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo>createSet("commentFeelings", com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo.class, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo.class, PathInits.DIRECT2);
 
+    public final SetPath<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo> coupons = this.<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo>createSet("coupons", com.foorun.unieat.domain.coupon.entity.CouponJpo.class, com.foorun.unieat.domain.coupon.entity.QCouponJpo.class, PathInits.DIRECT2);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
