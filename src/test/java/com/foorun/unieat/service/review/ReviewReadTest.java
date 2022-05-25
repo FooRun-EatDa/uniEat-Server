@@ -3,7 +3,6 @@ package com.foorun.unieat.service.review;
 import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.review.dto.Review;
-import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.service.ServiceTest;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.*;
 public class ReviewReadTest extends ServiceTest {
 
 
-    private static MockedStatic<Review> reviewMockedStatic;
+
 
     @Mock
     private ReviewQueryDslRepository reviewQueryDslRepository;
@@ -33,6 +32,7 @@ public class ReviewReadTest extends ServiceTest {
     @InjectMocks
     private ReviewService reviewService;
 
+    private static MockedStatic<Review> reviewMockedStatic;
 
     private static Member member;
 
@@ -46,6 +46,8 @@ public class ReviewReadTest extends ServiceTest {
 
     @BeforeAll
     static void setUp(){
+
+
         member = Member.builder()
                 .id(1234567890L)
                 .email("testEmail")
@@ -62,6 +64,7 @@ public class ReviewReadTest extends ServiceTest {
                 .restaurant(restaurant)
                 .imgUrl("/images/128364819991929.jpg")
                 .build();
+
         reviewJpo = review.asJpo();
 
         reviewMockedStatic = mockStatic(Review.class);
