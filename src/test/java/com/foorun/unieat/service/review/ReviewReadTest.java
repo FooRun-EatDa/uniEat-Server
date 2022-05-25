@@ -25,13 +25,6 @@ public class ReviewReadTest extends ServiceTest {
 
 
 
-
-    @Mock
-    private ReviewQueryDslRepository reviewQueryDslRepository;
-
-    @InjectMocks
-    private ReviewService reviewService;
-
     private static MockedStatic<Review> reviewMockedStatic;
 
     private static Member member;
@@ -43,6 +36,14 @@ public class ReviewReadTest extends ServiceTest {
     private static ReviewJpo reviewJpo;
 
     private static final Long reviewId = 1L;
+
+
+
+    @Mock
+    private ReviewQueryDslRepository reviewQueryDslRepository;
+
+    @InjectMocks
+    private ReviewService reviewService;
 
     @BeforeAll
     static void setUp(){
@@ -72,7 +73,10 @@ public class ReviewReadTest extends ServiceTest {
     }
 
 
-
+    @AfterAll
+    static void close(){
+        reviewMockedStatic.close();
+    }
 
     /**
      * PAGING_SIZE 만큼의 페이징으로 리뷰 목록 조회
@@ -105,6 +109,7 @@ public class ReviewReadTest extends ServiceTest {
 //        assertDoesNotThrow(()-> reviewService.getReviewDetail(reviewId));
 
     }
+
 
 
 }
