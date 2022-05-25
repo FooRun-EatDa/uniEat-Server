@@ -1,11 +1,15 @@
 package com.foorun.unieat.service.event;
 
+import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
+import com.foorun.unieat.domain.coupon.repository.CouponRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
+import com.foorun.unieat.domain.event.EventStatus;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
+import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import com.foorun.unieat.util.DateUtil;
 import org.junit.jupiter.api.Assertions;
@@ -22,13 +26,16 @@ import java.util.Optional;
 import static com.foorun.unieat.constant.ServiceConstant.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class EventTest extends ServiceTest {
 
     @Mock
     private CouponQuerydslRepository couponQuerydslRepository;
+
+    @Mock
+    private CouponRepository couponRepository;
+
     @Mock
     private EventQuerydslRepository eventQuerydslRepository;
 
@@ -65,7 +72,8 @@ public class EventTest extends ServiceTest {
         when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.ofNullable(member));
 
 
-        Assertions.assertEquals(COUPON_VALID,eventService.isCouponValid(memberUserDetails,eventId));
+        Assertions.assertEquals(EventStatus.valueOf("VALID").ordinal()
+                ,eventService.isCouponValid(memberUserDetails,eventId).getStatus());
 
     }
 
@@ -78,8 +86,9 @@ public class EventTest extends ServiceTest {
         when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.ofNullable(member));
 
 
-        Assertions.assertEquals(COUPON_NOT_APPLICABLE,eventService.isCouponValid(memberUserDetails,eventId));
 
+        Assertions.assertEquals(EventStatus.valueOf("NOT_APPLICABLE").ordinal()
+                ,eventService.isCouponValid(memberUserDetails,eventId).getStatus());
     }
 
     @Test
@@ -98,6 +107,28 @@ public class EventTest extends ServiceTest {
 
     }
 
+    @Test
+    @DisplayName("쿠폰 사용 완료 테스트")
+    void GIVEN_USE_COUPON_THEN_SUCCESS(){
+        when(couponQuerydslRepository.findCouponByEventIdAndMemberId(anyLong(),anyLong()))
+                .thenReturn(Optional.ofNullable(mock(CouponJpo.class)));
+
+        eventService.useCoupon(memberUserDetails,eventId);
+
+        verify(couponRepository).delete(any(CouponJpo.class));
+
+    }
+
+    @Test
+    @DisplayName("쿠폰 사용 실패 : 해당 쿠폰 찾을 수 없음")
+    void GIVEN_COUPON_NOT_FOUND_THEN_FAIL(){
+
+        when(couponQuerydslRepository.findCouponByEventIdAndMemberId(anyLong(),anyLong())).thenThrow(UniEatNotFoundException.class);
+
+        Assertions.assertThrows(UniEatNotFoundException.class,()->{
+            eventService.useCoupon(memberUserDetails,eventId);
+        });
+    }
 
 
 

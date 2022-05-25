@@ -1,10 +1,13 @@
 package com.foorun.unieat.service.event;
 
+import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
 import com.foorun.unieat.domain.coupon.repository.CouponRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
 import com.foorun.unieat.domain.event.EventRespository;
+import com.foorun.unieat.domain.event.EventStatus;
 import com.foorun.unieat.domain.event.dto.Event;
+import com.foorun.unieat.domain.event.dto.EventValidResponse;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
@@ -52,25 +55,34 @@ public class EventService {
     }
 
 
-
     /**
      * 해당 이벤트 쿠폰 유효 여부 검사
      */
-    public String isCouponValid(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
+    public EventValidResponse isCouponValid(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
+
         EventJpo event = eventQuerydslRepository.find(eventId).orElseThrow(UniEatBadRequestException::new);
 
         if(!EventExpiredCheck(event)){
-            return COUPON_EXPIRED;
+            return EventValidResponse.builder()
+                    .desc(COUPON_EXPIRED)
+                    .status(EventStatus.EXPIRED.ordinal())
+                    .build();
         }
 
         MemberJpo member = memberRepository.findByEmail(memberUserDetails.getEmail())
                 .orElseThrow(UniEatNotFoundException::new);
 
         if(!validCheck(event,member)){
-            return COUPON_NOT_APPLICABLE;
+            return EventValidResponse.builder()
+                    .desc(COUPON_NOT_APPLICABLE)
+                    .status(EventStatus.NOT_APPLICABLE.ordinal())
+                    .build();
         }
 
-        else return COUPON_VALID;
+        else return EventValidResponse.builder()
+                .desc(COUPON_VALID)
+                .status(EventStatus.VALID.ordinal())
+                .build();
 
 
     }
@@ -91,7 +103,15 @@ public class EventService {
         else return false;
     }
 
+    /**
+     * 쿠폰 사용하기
+     */
+    public void useCoupon(MemberUserDetails memberUserDetails,Long eventId){
+        CouponJpo couponJpo = couponQuerydslRepository
+                .findCouponByEventIdAndMemberId(eventId,memberUserDetails.getId())
+                .orElseThrow(UniEatNotFoundException::new);
+        couponRepository.delete(couponJpo);
 
-
+    }
 
 }

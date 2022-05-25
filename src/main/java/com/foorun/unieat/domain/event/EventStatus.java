@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum EventStatus {
-    VALID("진행중"),
+    VALID("유효함"),
     EXPIRED("만료됨"),
     NOT_APPLICABLE("해당없음");
 
