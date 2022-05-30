@@ -1,9 +1,10 @@
 package com.foorun.unieat.domain.restaurant.jpo;
 
+import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
-import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.common.StatusType;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
@@ -12,6 +13,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter @Setter
@@ -21,7 +23,7 @@ import java.util.Set;
 @Builder
 @ToString(callSuper = true)
 @Table(name ="restaurant")
-public class RestaurantJpo {
+public class RestaurantJpo extends BaseTimeJpo {
     @Id
     @Column(name = "restaurant_id")
     private Long id;
@@ -41,7 +43,7 @@ public class RestaurantJpo {
      * 식당 이미지
      */
     @Column(name="img_url")
-    private String imguUrl;
+    private String imgUrl;
 
     /**
      * 식당 상세 설명
@@ -85,8 +87,9 @@ public class RestaurantJpo {
      */
     private String district;
 
-    private String status;
-
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusType status = StatusType.ACTIVE;
 
     /**
      * 식당의 행정적 위치 정보
@@ -96,19 +99,22 @@ public class RestaurantJpo {
     @ToString.Exclude
     private RegionCodeJpo regionCode;
 
-
     @OneToMany
     @JoinColumn(name="category_id")
     @ToString.Exclude
     @Builder.Default
     private Set<CategoryJpo> categorys = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name="food_id")
     @ToString.Exclude
     @Builder.Default
+    @OneToMany
+    @JoinColumn(name = "restaurant_id")
     private Set<FoodJpo> foods = new HashSet<>();
 
+    @ToString.Exclude
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant")
+    private Set<RestaurantFileJpo> files = new HashSet<>();
 
     @OneToMany
     @JoinColumn(name="review_id")
@@ -126,5 +132,11 @@ public class RestaurantJpo {
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
     private List<BookmarkJpo> bookmark;
+
+    public Optional<FoodJpo> getFoodById(long id) {
+        return foods.stream()
+                .filter(foodJpo -> foodJpo.getId() == id)
+                .findFirst();
+    }
 
 }

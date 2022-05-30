@@ -3,14 +3,14 @@ package com.foorun.unieat.domain.restaurant.dto;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.category.dto.Category;
 import com.foorun.unieat.domain.code.region.dto.RegionCode;
-import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.food.dto.Food;
-import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.review.dto.Review;
+import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.foorun.unieat.util.StreamUtil.map;
@@ -22,7 +22,6 @@ import static com.foorun.unieat.util.StreamUtil.mapToSet;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class Restaurant implements JsonSerializable {
-
     private Long id;
     private String name;
     private String explanation;
@@ -36,6 +35,8 @@ public class Restaurant implements JsonSerializable {
     private int price;
     private String district;
     private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     private RegionCode regionCode;
     private List<Category> categorys;
@@ -55,7 +56,12 @@ public class Restaurant implements JsonSerializable {
         return restaurant;
     }
 
-    public RestaurantJpo asJpo(){
+    public void applyRevision(RestaurantJpo restaurantJpo) {
+        BeanUtils.copyProperties(this, restaurantJpo);
+        restaurantJpo.setUpdatedAt(LocalDateTime.now());
+    }
+
+    public RestaurantJpo asJpo() {
         RestaurantJpo restaurantJpo = new RestaurantJpo();
         BeanUtils.copyProperties(this,restaurantJpo);
         restaurantJpo.setCategorys(mapToSet(this.categorys,Category::asJpo));
@@ -64,6 +70,8 @@ public class Restaurant implements JsonSerializable {
         return restaurantJpo;
     }
 
-
-
+    public long generateId() {
+        this.id = IdentifyGenerator.number();
+        return this.id;
+    }
 }

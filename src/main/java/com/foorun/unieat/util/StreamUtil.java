@@ -43,4 +43,11 @@ public final class StreamUtil {
                 .sorted(comparator)
                 .collect(Collectors.toList());
     }
+
+    public static <R, T> List<R> map(Set<T> list, Comparator<? super T> comparator, Function<T, R> function) {
+        return list.stream()
+                .sorted(comparator)
+                .map(function)
+                .collect(Collectors.toList());
+    }
 }

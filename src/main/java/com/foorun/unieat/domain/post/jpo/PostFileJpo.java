@@ -1,6 +1,7 @@
 package com.foorun.unieat.domain.post.jpo;
 
 import com.foorun.unieat.domain.JsonSerializable;
+import com.foorun.unieat.domain.file.jpo.BaseFileJpo;
 import com.foorun.unieat.domain.file.jpo.FileJpo;
 import lombok.*;
 
@@ -11,32 +12,21 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Entity
 @Table(name = "post_file")
 @IdClass(PostFileIdJpo.class)
-public class PostFileJpo implements JsonSerializable {
+public class PostFileJpo extends BaseFileJpo implements JsonSerializable {
     @Id
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private PostJpo post;
 
-    @Id
-    @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private FileJpo file;
-
-    /**
-     * 대표 이미지 여부
-     */
-    private boolean thumbnail;
-
-    /**
-     * 정렬 순서
-     */
-    private int sequence;
+    @Builder
+    protected PostFileJpo(boolean thumbnail, int sequence, PostJpo post, FileJpo file) {
+        super(thumbnail, sequence, file);
+        this.post = post;
+    }
 
     public static PostFileJpo of(PostJpo post, FileJpo file, boolean thumbnail, int sequence) {
         return PostFileJpo.builder()
