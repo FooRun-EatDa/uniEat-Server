@@ -9,6 +9,7 @@ import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.search.dto.SearchLog;
+import com.foorun.unieat.service.bookmark.BookmarkService;
 import com.foorun.unieat.service.restaurant.RestaurantBookmarkingService;
 import com.foorun.unieat.service.restaurant.RestaurantService;
 import io.swagger.annotations.Api;
@@ -35,6 +36,8 @@ public class RestaurantController {
 
     private final RestaurantService restaurantService;
     private final RestaurantBookmarkingService restaurantBookmarkingService;
+    private final BookmarkService bookmarkService;
+
     /**
      * 추천 식당 (간략)정보 리스트 형식 조회
      */
@@ -118,12 +121,12 @@ public class RestaurantController {
     /**
      * 좋아요한 식당 리스트
      */
-    @ApiOperation(value = SwaggerApiInfo.GET_BOOMARKEDLIST,notes = "유저가 좋아요(즐겨찾기)한 식당 리스트 가져옴")
-    @GetMapping(value = "/bookmark")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getBookmarkedRestaurantList(@AuthenticationPrincipal MemberUserDetails userDetails){
-        return ResponseEntity.ok(ApiResponse.valueOf(restaurantBookmarkingService.getBookmarkingList(userDetails)));
-
-    }
+//    @ApiOperation(value = SwaggerApiInfo.GET_BOOMARKEDLIST,notes = "유저가 좋아요(즐겨찾기)한 식당 리스트 가져옴")
+//    @GetMapping(value = "/bookmark")
+//    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getBookmarkedRestaurantList(@AuthenticationPrincipal MemberUserDetails userDetails){
+//        return ResponseEntity.ok(ApiResponse.valueOf((userDetails)));
+//
+//    }
 
 
 }

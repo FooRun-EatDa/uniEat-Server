@@ -22,6 +22,8 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public static final QRestaurantJpo restaurantJpo = new QRestaurantJpo("restaurantJpo");
 
+    public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
+
     public final StringPath address = createString("address");
 
     public final ListPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmark = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createList("bookmark", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
@@ -30,9 +32,14 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final StringPath content = createString("content");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final StringPath district = createString("district");
 
     public final StringPath explanation = createString("explanation");
+
+    public final SetPath<RestaurantFileJpo, QRestaurantFileJpo> files = this.<RestaurantFileJpo, QRestaurantFileJpo>createSet("files", RestaurantFileJpo.class, QRestaurantFileJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.food.jpo.FoodJpo, com.foorun.unieat.domain.food.jpo.QFoodJpo> foods = this.<com.foorun.unieat.domain.food.jpo.FoodJpo, com.foorun.unieat.domain.food.jpo.QFoodJpo>createSet("foods", com.foorun.unieat.domain.food.jpo.FoodJpo.class, com.foorun.unieat.domain.food.jpo.QFoodJpo.class, PathInits.DIRECT2);
 
@@ -40,7 +47,7 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath imguUrl = createString("imguUrl");
+    public final StringPath imgUrl = createString("imgUrl");
 
     public final StringPath latitude = createString("latitude");
 
@@ -58,7 +65,10 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final SetPath<com.foorun.unieat.domain.review.jpo.ReviewJpo, com.foorun.unieat.domain.review.jpo.QReviewJpo> reviews = this.<com.foorun.unieat.domain.review.jpo.ReviewJpo, com.foorun.unieat.domain.review.jpo.QReviewJpo>createSet("reviews", com.foorun.unieat.domain.review.jpo.ReviewJpo.class, com.foorun.unieat.domain.review.jpo.QReviewJpo.class, PathInits.DIRECT2);
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QRestaurantJpo(String variable) {
         this(RestaurantJpo.class, forVariable(variable), INITS);

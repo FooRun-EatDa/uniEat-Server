@@ -2,17 +2,15 @@
 package com.foorun.unieat.service.restaurant;
 
 
-import com.foorun.unieat.domain.bookmark.respository.BookmarkRepository;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
-import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
-import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 
 import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
@@ -27,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

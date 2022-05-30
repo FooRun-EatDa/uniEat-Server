@@ -2,6 +2,7 @@ package com.foorun.unieat.service.restaurant;
 
 import com.foorun.unieat.domain.bookmark.dto.Bookmark;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RestaurantBookmarkingService {
+    private final BookmarkQuerydslRepository bookmarkQuerydslRepository;
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
     private final RestaurantRepository restaurantRepository;
@@ -46,14 +48,14 @@ public class RestaurantBookmarkingService {
     /**
      * 찜한 맛집 리스트 조회
      */
-    public List<RestaurantSimple> getBookmarkingList(MemberUserDetails memberUserDetails) {
-        List<BookmarkJpo> bookmarkJpoList = bookmarkRepository.findBookmarkListByMemberId(memberUserDetails.getId()).orElseGet(null);
-        List<RestaurantSimple> restaurantSimples = bookmarkJpoList.stream()
-                .map(m-> RestaurantSimple.of(m.getRestaurant()))
-                .collect(Collectors.toList());
-        return restaurantSimples;
-
-    }
+//    public List<RestaurantSimple> getBookmarkingList(MemberUserDetails memberUserDetails) {
+//        List<BookmarkJpo> bookmarkJpoList = bookmarkQuerydslRepository.findBookmarkedRestaurantByMemberId(memberUserDetails.getId());
+//        List<RestaurantSimple> restaurantSimples = bookmarkJpoList.stream()
+//                .map(m-> RestaurantSimple.of(m.getRestaurant()))
+//                .collect(Collectors.toList());
+//        return restaurantSimples;
+//
+//    }
 
 
 

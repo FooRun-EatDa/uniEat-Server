@@ -1,4 +1,4 @@
-package com.foorun.unieat.domain.post.jpo;
+package com.foorun.unieat.domain.restaurant.jpo;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -11,23 +11,23 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QPostFileJpo is a Querydsl query type for PostFileJpo
+ * QRestaurantFileJpo is a Querydsl query type for RestaurantFileJpo
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QPostFileJpo extends EntityPathBase<PostFileJpo> {
+public class QRestaurantFileJpo extends EntityPathBase<RestaurantFileJpo> {
 
-    private static final long serialVersionUID = -750404390L;
+    private static final long serialVersionUID = -1014996806L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QPostFileJpo postFileJpo = new QPostFileJpo("postFileJpo");
+    public static final QRestaurantFileJpo restaurantFileJpo = new QRestaurantFileJpo("restaurantFileJpo");
 
     public final com.foorun.unieat.domain.file.jpo.QBaseFileJpo _super;
 
     // inherited
     public final com.foorun.unieat.domain.file.jpo.QFileJpo file;
 
-    public final QPostJpo post;
+    public final QRestaurantJpo restaurant;
 
     //inherited
     public final NumberPath<Integer> sequence;
@@ -35,27 +35,27 @@ public class QPostFileJpo extends EntityPathBase<PostFileJpo> {
     //inherited
     public final BooleanPath thumbnail;
 
-    public QPostFileJpo(String variable) {
-        this(PostFileJpo.class, forVariable(variable), INITS);
+    public QRestaurantFileJpo(String variable) {
+        this(RestaurantFileJpo.class, forVariable(variable), INITS);
     }
 
-    public QPostFileJpo(Path<? extends PostFileJpo> path) {
+    public QRestaurantFileJpo(Path<? extends RestaurantFileJpo> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QPostFileJpo(PathMetadata metadata) {
+    public QRestaurantFileJpo(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QPostFileJpo(PathMetadata metadata, PathInits inits) {
-        this(PostFileJpo.class, metadata, inits);
+    public QRestaurantFileJpo(PathMetadata metadata, PathInits inits) {
+        this(RestaurantFileJpo.class, metadata, inits);
     }
 
-    public QPostFileJpo(Class<? extends PostFileJpo> type, PathMetadata metadata, PathInits inits) {
+    public QRestaurantFileJpo(Class<? extends RestaurantFileJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this._super = new com.foorun.unieat.domain.file.jpo.QBaseFileJpo(type, metadata, inits);
         this.file = _super.file;
-        this.post = inits.isInitialized("post") ? new QPostJpo(forProperty("post"), inits.get("post")) : null;
+        this.restaurant = inits.isInitialized("restaurant") ? new QRestaurantJpo(forProperty("restaurant"), inits.get("restaurant")) : null;
         this.sequence = _super.sequence;
         this.thumbnail = _super.thumbnail;
     }
