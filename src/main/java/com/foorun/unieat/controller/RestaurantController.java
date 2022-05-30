@@ -92,7 +92,7 @@ public class RestaurantController {
      * 주변 맛집
      */
     @ApiOperation(value =  SwaggerApiInfo.GET_NEAREST_STORE, notes = "사용자 현재 위치에 따른 주변 맛집 검색")
-    @GetMapping(value = "/near")
+    @PostMapping(value = "/near")
     public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@ModelAttribute MemberLocation memberLocation)
     {
         return ResponseEntity.ok(
