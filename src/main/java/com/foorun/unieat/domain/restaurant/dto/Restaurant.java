@@ -2,6 +2,7 @@ package com.foorun.unieat.domain.restaurant.dto;
 
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.category.dto.Category;
+import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.dto.RegionCode;
 import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static com.foorun.unieat.util.StreamUtil.map;
 import static com.foorun.unieat.util.StreamUtil.mapToSet;
@@ -37,6 +39,8 @@ public class Restaurant implements JsonSerializable {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private boolean isLiked; // 유저가 좋아요 한 식당인지
 
     private RegionCode regionCode;
     private List<Category> categories;
@@ -69,6 +73,7 @@ public class Restaurant implements JsonSerializable {
         restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
         return restaurantJpo;
     }
+
 
     public long generateId() {
         this.id = IdentifyGenerator.number();

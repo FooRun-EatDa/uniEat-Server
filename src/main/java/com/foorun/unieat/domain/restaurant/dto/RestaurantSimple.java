@@ -1,6 +1,6 @@
 package com.foorun.unieat.domain.restaurant.dto;
 
-import com.foorun.unieat.domain.hashtag.dto.HashTageRestaurant;
+import com.foorun.unieat.domain.hashtag.dto.HashTagRestaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
@@ -21,6 +21,8 @@ public class RestaurantSimple {
     private String explanation;
     private String imgUrl;
     private double distance;
+
+    private boolean isLiked; // 유저가 좋아요한 식당인지 여부
     private List<String> hashTags;
 
     public static RestaurantSimple createEmpty() {
@@ -35,6 +37,7 @@ public class RestaurantSimple {
         });
 
         BeanUtils.copyProperties(restaurantJpo,restaurantSimple);
+        restaurantSimple.hashTags = map(restaurantJpo.getHashTagRestaurants(), HashTagRestaurant::extractHashTag);
         return restaurantSimple;
     }
 

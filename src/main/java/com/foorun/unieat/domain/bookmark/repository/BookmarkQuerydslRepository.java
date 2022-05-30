@@ -22,4 +22,10 @@ public class BookmarkQuerydslRepository {
                 ).fetch();
 
     }
+
+    public boolean isBookmarkedByMember(Long restaurantId,Long memberId){
+        return jpaQueryFactory.select(bookmarkJpo.restaurant).from(bookmarkJpo).where(
+                bookmarkJpo.member.id.eq(memberId).and(bookmarkJpo.restaurant.id.eq(restaurantId))
+        ).fetchFirst() != null;
+    }
 }

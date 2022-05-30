@@ -14,5 +14,5 @@ public class HashTag {
     private Long id;
     private String content;
 
-    private List<HashTageRestaurant> hashTageRestaurants;
+    private List<HashTagRestaurant> hashTagRestaurants;
 }
