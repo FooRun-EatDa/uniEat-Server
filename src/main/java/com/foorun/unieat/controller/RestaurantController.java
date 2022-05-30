@@ -79,10 +79,10 @@ public class RestaurantController {
     @ApiImplicitParam(name = "id", value = "유저 id", type="Long")
     @GetMapping(value = "/searchLog")
     public ResponseEntity<ApiResponse<List<SearchLog>>> getSearchLog(
-            @RequestParam(name="id")Long id) {
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(
-                        restaurantService.fetchSearchLog(id)
+                        restaurantService.fetchSearchLog(memberUserDetails.getId())
                 )
         );
     }
