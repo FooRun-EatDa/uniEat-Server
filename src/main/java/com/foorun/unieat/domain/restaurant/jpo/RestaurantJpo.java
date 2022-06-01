@@ -131,7 +131,18 @@ public class RestaurantJpo extends BaseTimeJpo {
 
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
-    private List<BookmarkJpo> bookmark;
+    @Builder.Default
+    private Set<BookmarkJpo> bookmark = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "restaurant")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<RestaurantTopLookupJpo> bestRestaurants = new HashSet<>();
+
+
+
+
 
     public Optional<FoodJpo> getFoodById(long id) {
         return foods.stream()

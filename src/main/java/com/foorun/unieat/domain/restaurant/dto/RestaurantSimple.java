@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
+import static com.foorun.unieat.util.StreamUtil.map;
+
 @Getter
 @Setter
 @ToString
@@ -19,7 +21,7 @@ public class RestaurantSimple {
     private String explanation;
     private String imgUrl;
     private double distance;
-    private List<HashTageRestaurant> hashTagRestaurants;
+    private List<String> hashTags;
 
     public static RestaurantSimple createEmpty() {
         return new RestaurantSimple();
@@ -28,6 +30,10 @@ public class RestaurantSimple {
 
     public static RestaurantSimple of(RestaurantJpo restaurantJpo){
         RestaurantSimple restaurantSimple = createEmpty();
+        restaurantSimple.hashTags = map(restaurantJpo.getHashTagRestaurants(),h-> {
+            return h.getHashTag().getContent();
+        });
+
         BeanUtils.copyProperties(restaurantJpo,restaurantSimple);
         return restaurantSimple;
     }

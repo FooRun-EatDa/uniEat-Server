@@ -6,11 +6,11 @@ import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.search.dto.SearchLog;
 import com.foorun.unieat.service.bookmark.BookmarkService;
-import com.foorun.unieat.service.restaurant.RestaurantBookmarkingService;
 import com.foorun.unieat.service.restaurant.RestaurantService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,19 +34,22 @@ public class RestaurantController {
 
 
     private final RestaurantService restaurantService;
-    private final RestaurantBookmarkingService restaurantBookmarkingService;
     private final BookmarkService bookmarkService;
 
     /**
-     * 추천 식당 (간략)정보 리스트 형식 조회
+     * 추천 식당 (간략)정보 리스트 형식 조회 (주변맛집)
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="page") int page){
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(){
         return ResponseEntity.ok(
-                ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
+                ApiResponse.valueOf(restaurantService.fetch())
         );
     }
+
+
+
+
 
     /**
      * idx를 이용해 특정 식당 상세 정보 조회
@@ -79,6 +81,20 @@ public class RestaurantController {
         );
     }
 
+
+
+    @ApiOperation(value = SwaggerApiInfo.POST_STORE_BY_FILTER, notes = "필터를 이용한 식당 검색")
+    @PostMapping(value = "/filter/search")
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByFilter(@ModelAttribute FilteringRestaurant filteringRestaurant,@RequestParam(name = "lastPage")int page)
+    {
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(restaurantService.fetchByFiltering(filteringRestaurant,new Paging(page,PAGING_SIZE)))
+        );
+    }
+
+
+
+    @ApiOperation(value = SwaggerApiInfo.GET_SEARCH_LOG, notes = "검색 기록 가져오기")
     @GetMapping(value = "/searchLog")
     public ResponseEntity<ApiResponse<List<SearchLog>>> getSearchLog(
             @AuthenticationPrincipal MemberUserDetails memberUserDetails) {
@@ -103,18 +119,22 @@ public class RestaurantController {
     }
 
 
+
     /**
      *  식당 북마크 (좋아요)
      */
 
     @ApiOperation(value = SwaggerApiInfo.GET_BOOKMARKING, notes = "식당에 좋아요를 클릭하면 즐겨찾기에 등록됨, 유저가 좋아요한 식당 리스트에서 보여짐")
     @GetMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails userDetails, @PathVariable(name="restaurantId") int storeIdx){
-        restaurantBookmarkingService.bookmarking(storeIdx,userDetails);
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails userDetails, @PathVariable(name="restaurantId") Long storeIdx){
+        bookmarkService.bookmarking(storeIdx,userDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
         );
     }
+
+
+
 
 
     /**
