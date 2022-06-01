@@ -5,6 +5,8 @@ package com.foorun.unieat.service.restaurant;
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 
 import com.foorun.unieat.domain.common.paging.Paging;
+import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantQuerydslRepository;
+import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantRepository;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
@@ -46,6 +48,8 @@ public class RestaurantService   {
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final HashTagRestaurantQuerydslRepository hashTagRestaurantQuerydslRepositoryRepository;
+
 
 
 
@@ -139,7 +143,13 @@ public class RestaurantService   {
     //주변 맛집
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
-        return  restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
+        List<RestaurantSimple> restaurantSimples = restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
+
+        //hashtag 넣기
+        return restaurantSimples.stream().map(r -> {
+            r.setHashTags(hashTagRestaurantQuerydslRepositoryRepository.getHashTagContentByRestaurantId(r.getId()));
+            return r;
+        }).collect(Collectors.toList());
     }
 
 
