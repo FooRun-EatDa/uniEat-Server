@@ -5,7 +5,7 @@
 
 <mapper namespace="${base-namespace}.restaurantMaps">
     <resultMap id="restaurantSimple" type="restaurantSimple">
-        <result property="id" column="id" />
+        <result property="id" column="restaurant_id" />
         <result property="name" column="name" />
         <result property="explanation" column="explanation" />
         <result property="imgUrl" column="img_url" />

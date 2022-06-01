@@ -30,6 +30,15 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
 
     private final JPAQueryFactory jpaQueryFactory;
 
+
+
+
+    public List<RestaurantJpo> find(){
+        return jpaQueryFactory.selectFrom(restaurantJpo)
+                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+                .fetch();
+    }
+
     /**
      * 심플 식당 정보 다건 조회,
      * 추후 랜덤으로 뿌려줘야할듯?

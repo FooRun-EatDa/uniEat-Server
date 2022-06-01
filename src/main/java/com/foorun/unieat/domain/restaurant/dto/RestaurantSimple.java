@@ -28,6 +28,7 @@ public class RestaurantSimple {
 
     public static RestaurantSimple of(RestaurantJpo restaurantJpo){
         RestaurantSimple restaurantSimple = createEmpty();
+        //TODO: 해시태그 넣기
         BeanUtils.copyProperties(restaurantJpo,restaurantSimple);
         return restaurantSimple;
     }

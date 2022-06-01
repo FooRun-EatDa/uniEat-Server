@@ -6,9 +6,13 @@ import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Column;
 
 @Getter @Setter
 @NoArgsConstructor
+@Component
 public class ReviewValidCheck {
 
 

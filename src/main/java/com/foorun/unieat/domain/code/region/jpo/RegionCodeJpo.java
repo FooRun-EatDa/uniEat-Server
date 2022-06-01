@@ -1,9 +1,12 @@
 package com.foorun.unieat.domain.code.region.jpo;
 
 import com.foorun.unieat.domain.code.region.jpo.embed.CoordinateJpo;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantTopLookupJpo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,6 +52,12 @@ public class RegionCodeJpo {
     @Embedded
     private CoordinateJpo coordinate;
 
+
+
+    @OneToMany(mappedBy = "regionCode")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<RestaurantTopLookupJpo> bestRestaurants = new HashSet<>();
 
 
 }

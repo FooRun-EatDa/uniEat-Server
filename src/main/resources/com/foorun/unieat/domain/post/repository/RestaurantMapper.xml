@@ -5,14 +5,14 @@
 
 <mapper namespace="${base-namespace}.restaurant.repository.RestaurantMapper">
     <select id="findNearest" resultMap="${base-namespace}.restaurantMaps.restaurantSimple">
-        SELECT      *
+        SELECT      R.*
                 ,   (6371 * acos( cos(radians(#{latitude}) )
                     * cos(radians(R.latitude))
                     * cos(radians(R.longitude) - radians(#{longitude}) )
                     + sin(radians(#{latitude}) )
                     * sin(radians(R.latitude)) )
                 ) AS distance
-        FROM        restaurant R
+        FROM        restaurant R JOIN restaurant_best B ON R.restaurant_id = B.restaurant_id
         HAVING      distance > #{nearBy}
         ORDER BY    distance
     </select>

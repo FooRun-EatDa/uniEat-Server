@@ -49,6 +49,17 @@ public class RestaurantService   {
 
 
 
+
+    @Transactional(readOnly = true)
+    public List<RestaurantSimple> fetch(){
+        //List 형식으로 불러온다
+        return restaurantQuerydslRepository.find()
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
+
+    }
+
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetch(PageRequest pageRequest){
         //List 형식으로 불러온다

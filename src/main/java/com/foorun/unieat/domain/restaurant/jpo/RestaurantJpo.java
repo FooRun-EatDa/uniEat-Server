@@ -125,6 +125,17 @@ public class RestaurantJpo {
 
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
-    private List<BookmarkJpo> bookmark;
+    @Builder.Default
+    private Set<BookmarkJpo> bookmark = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "restaurant")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<RestaurantTopLookupJpo> bestRestaurants = new HashSet<>();
+
+
+
+
 
 }
