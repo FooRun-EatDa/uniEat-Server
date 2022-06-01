@@ -53,7 +53,7 @@ public class ARestaurantFoodService {
         }
         FoodJpo foodJpo;
         if (food.isNewly()) {
-            foodJpo = food.asJpo();
+            foodJpo = food.asJpo(restaurantJpo);
         } else {
             foodJpo = foodRepository.findById(food.getId())
                     .orElseThrow(UniEatLogicalException::new);

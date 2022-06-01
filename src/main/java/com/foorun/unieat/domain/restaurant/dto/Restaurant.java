@@ -65,7 +65,7 @@ public class Restaurant implements JsonSerializable {
         RestaurantJpo restaurantJpo = new RestaurantJpo();
         BeanUtils.copyProperties(this,restaurantJpo);
         restaurantJpo.setCategorys(mapToSet(this.categorys,Category::asJpo));
-        restaurantJpo.setFoods(mapToSet(this.foods,Food::asJpo));
+//        restaurantJpo.setFoods(mapToSet(this.foods,Food::asJpo));
         restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
         return restaurantJpo;
     }

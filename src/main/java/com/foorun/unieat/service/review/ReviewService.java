@@ -16,7 +16,7 @@ import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
-import com.foorun.unieat.service.review.validChecker.ReviewValidCheck;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class ReviewService  {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
     private final ReviewQueryDslRepository reviewQueryDslRepository;
-    private final ReviewValidCheck reviewValidCheck;
+
 
 
 
@@ -103,7 +103,7 @@ public class ReviewService  {
     @Transactional
     public Review updateReview(ReviewReq updateReq, MemberUserDetails memberUserDetails){
         ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getId()).orElseThrow(UniEatNotFoundException::new);
-        if(!reviewValidCheck.updateValidCheck(reviewJpo,memberUserDetails)) throw new UniEatForbiddenException();
+        if(!updateValidCheck(reviewJpo,memberUserDetails)) throw new UniEatForbiddenException();
         updateReviewJpo(reviewJpo,updateReq);
         return Review.of(reviewJpo); // 업데이트된 리뷰 그대로 리턴
     }
@@ -116,6 +116,14 @@ public class ReviewService  {
 
     }
 
+
+    //리뷰 업데이트 체크
+    private boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
+        Long writerId = reviewJpo.getMember().getId();
+        Long memberId = member.getId();
+        if(writerId != memberId)return false;
+        else return true;
+    }
 
     //TODO: 리뷰 신고 기능
 
