@@ -144,7 +144,6 @@ public class RestaurantService   {
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetchNearest(MemberLocation memberLocation){
         List<RestaurantSimple> restaurantSimples = restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
-
         //hashtag 넣기
         return restaurantSimples.stream().map(r -> {
             r.setHashTags(hashTagRestaurantQuerydslRepositoryRepository.getHashTagContentByRestaurantId(r.getId()));

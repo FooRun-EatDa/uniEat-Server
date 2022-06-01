@@ -15,8 +15,11 @@ public class BookmarkQuerydslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     public List<RestaurantJpo> findBookmarkedRestaurantByMemberId(Long memberId){
-        return jpaQueryFactory.select(bookmarkJpo.restaurant).from(bookmarkJpo).where(
-                bookmarkJpo.member.id.eq(memberId)).fetch();
+        return jpaQueryFactory.select(bookmarkJpo.restaurant)
+                .from(bookmarkJpo)
+                .where(
+                bookmarkJpo.member.id.eq(memberId)
+                ).fetch();
 
     }
 }
