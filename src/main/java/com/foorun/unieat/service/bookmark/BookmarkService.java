@@ -1,19 +1,16 @@
 package com.foorun.unieat.service.bookmark;
 
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
-import com.foorun.unieat.domain.bookmark.respository.BookmarkQuerydslRepository;
-import com.foorun.unieat.domain.bookmark.respository.BookmarkRepository;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
-import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
-import com.foorun.unieat.domain.search.respository.SearchLogRepository;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

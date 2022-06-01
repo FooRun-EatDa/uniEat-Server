@@ -1,10 +1,8 @@
 package com.foorun.unieat.service.bookmark;
 
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
-import com.foorun.unieat.domain.bookmark.respository.BookmarkQuerydslRepository;
-import com.foorun.unieat.domain.bookmark.respository.BookmarkRepository;
-import com.foorun.unieat.domain.member.dto.Member;
-import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
+import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.service.ServiceTest;

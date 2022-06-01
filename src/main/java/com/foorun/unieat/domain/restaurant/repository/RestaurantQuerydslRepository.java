@@ -106,7 +106,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     public List<RestaurantJpo> findBySearch(String keyWord,Pageable pageable){
         return jpaQueryFactory.selectFrom(restaurantJpo)
                 .where(
-                        restaurantJpo.name.contains(keyWord)
+                        restaurantJpo.name.like("%"+keyWord+"%")
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
