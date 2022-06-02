@@ -85,7 +85,7 @@ public class RestaurantController {
 
     @ApiOperation(value = SwaggerApiInfo.POST_STORE_BY_FILTER, notes = "필터를 이용한 식당 검색")
     @PostMapping(value = "/filter/search")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByFilter(@ModelAttribute FilteringRestaurant filteringRestaurant,@RequestParam(name = "lastPage")int page)
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByFilter(@RequestBody FilteringRestaurant filteringRestaurant,@RequestParam(name = "lastPage")int page)
     {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetchByFiltering(filteringRestaurant,new Paging(page,PAGING_SIZE)))

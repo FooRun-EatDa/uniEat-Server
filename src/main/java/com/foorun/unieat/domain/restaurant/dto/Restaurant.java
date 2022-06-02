@@ -39,7 +39,7 @@ public class Restaurant implements JsonSerializable {
     private LocalDateTime updatedAt;
 
     private RegionCode regionCode;
-    private List<Category> categorys;
+    private List<Category> categories;
     private List<Food> foods;
     private List<Review> reviews;
 
@@ -49,7 +49,7 @@ public class Restaurant implements JsonSerializable {
         Restaurant restaurant = createEmpty();
         BeanUtils.copyProperties(restaurantJpo,restaurant);
 
-        restaurant.categorys = map(restaurantJpo.getCategorys(),Category::of);
+        restaurant.categories = map(restaurantJpo.getCategorys(),Category::of);
         restaurant.foods = map(restaurantJpo.getFoods(),Food::of);
         restaurant.reviews = map(restaurantJpo.getReviews(),Review::of);
 
@@ -64,7 +64,7 @@ public class Restaurant implements JsonSerializable {
     public RestaurantJpo asJpo() {
         RestaurantJpo restaurantJpo = new RestaurantJpo();
         BeanUtils.copyProperties(this,restaurantJpo);
-        restaurantJpo.setCategorys(mapToSet(this.categorys,Category::asJpo));
+        restaurantJpo.setCategorys(mapToSet(this.categories,Category::asJpo));
 //        restaurantJpo.setFoods(mapToSet(this.foods,Food::asJpo));
         restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
         return restaurantJpo;
