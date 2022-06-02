@@ -6,6 +6,7 @@ import com.foorun.unieat.domain.QuerydslSelectSingle;
 
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
+import com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import static com.foorun.unieat.domain.category.jpo.QCategoryJpo.categoryJpo;
 import static com.foorun.unieat.domain.hashtag.jpo.QHashTagRestaurantJpo.hashTagRestaurantJpo;
 import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo.restaurantJpo;
+import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo.restaurantTopLookupJpo;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,6 +33,12 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     private final JPAQueryFactory jpaQueryFactory;
 
 
+
+    public List<RestaurantJpo> fetchTopRestaurant(){
+        return jpaQueryFactory.select(restaurantJpo).from(restaurantJpo).leftJoin(
+                restaurantTopLookupJpo
+        ).on(restaurantTopLookupJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
+    }
 
 
     public List<RestaurantJpo> find(){

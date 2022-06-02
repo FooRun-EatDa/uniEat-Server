@@ -154,4 +154,14 @@ public class RestaurantService   {
 
 
 
+    //지도에 표시되는 맛집(top 50)
+    @Transactional(readOnly = true)
+    public List<RestaurantSimple> fetchMap(MemberLocation memberLocation){
+        //TODO: 사용자 위치에 따른 지역별 맛집 탑 50을 보여주도록 해야함
+        return restaurantQuerydslRepository.fetchTopRestaurant()
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
+    }
+
 }
