@@ -7,8 +7,10 @@ import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantQuerydslRepository;
 import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantRepository;
+import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
@@ -25,11 +27,14 @@ import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,7 +99,7 @@ public class RestaurantService   {
     }
 
     //식당 검색
-    @Transactional(readOnly = true)
+    @Transactional
     public List<RestaurantSimple> fetchBySearching(String searchText,PageRequest pageRequest){
         saveSearchText(searchText);
         return restaurantQuerydslRepository.findBySearch(searchText,pageRequest)
@@ -106,17 +111,22 @@ public class RestaurantService   {
 
     //검색 로그 저장
     //시큐리티 컨텍스트로부터 인증된 유저 정보 가져와 검색 로그 추가에 사용
-    @Transactional
+    @Transactional(propagation = Propagation.NESTED)
     public void saveSearchText(String searchText){
         try {
             MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
             SearchLogJpo searchLogJpo  = SearchLog.builder().searchText(searchText).build().asJpo();
-            memberRepository.findByEmail(userDetails.getEmail()).ifPresent(
-                    user->{
-                        searchLogJpo.setMember(user);
-                        searchLogRepository.save(searchLogJpo);
-                    }
-            );
+
+            log.info("검색 로그 저장 , 유저 정보 = {}",userDetails.getEmail());
+            log.info("searchJpo id: {}, context : {}",searchLogJpo.getId(),searchLogJpo.getSearchText());
+           MemberJpo member = memberRepository.findByEmail(userDetails.getEmail()).orElseThrow(UniEatNotFoundException::new);
+           searchLogJpo.setMember(member);
+           searchLogRepository.save(searchLogJpo);
+        }
+        catch (NullPointerException nullPointerException){
+            log.info("멤버 찾을 수 없음 ");
+            throw new UniEatNotFoundException();
         }
         catch (RuntimeException e){
             log.info("인증되지 않은 유저.");
@@ -134,7 +144,7 @@ public class RestaurantService   {
     @Transactional(readOnly = true)
     public List<SearchLog> fetchSearchLog(Long memberId){
         return Optional.ofNullable(memberRepository.findById(memberId))
-                .map(member -> searchLogRepository.findSearchLogJpoByMember(member.get(),new Paging(PAGING_SIZE,0)))
+                .map(member -> searchLogRepository.findSearchLogJpoByMemberId(member.get().getId(),PageRequest.of(0,PAGING_SIZE)))
                 .orElseThrow(UniEatBadRequestException::new)
                 .stream().map(SearchLog::of).collect(Collectors.toList());
 
@@ -152,5 +162,15 @@ public class RestaurantService   {
     }
 
 
+
+    //지도에 표시되는 맛집(top 50)
+    @Transactional(readOnly = true)
+    public List<RestaurantSimple> fetchMap(MemberLocation memberLocation){
+        //TODO: 사용자 위치에 따른 지역별 맛집 탑 50을 보여주도록 해야함
+        return restaurantQuerydslRepository.fetchTopRestaurant()
+                .stream()
+                .map(RestaurantSimple::of)
+                .collect(Collectors.toList());
+    }
 
 }

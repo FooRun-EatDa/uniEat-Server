@@ -111,13 +111,25 @@ public class RestaurantController {
      */
     @ApiOperation(value =  SwaggerApiInfo.GET_NEAREST_STORE, notes = "사용자 현재 위치에 따른 주변 맛집 검색")
     @PostMapping(value = "/near")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@ModelAttribute MemberLocation memberLocation)
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@RequestBody MemberLocation memberLocation)
     {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetchNearest(memberLocation))
         );
     }
 
+
+    /**
+     * 지도에 표시되는 맛집 Top 50
+     */
+    @ApiOperation(value = SwaggerApiInfo.GET_TOP_STORE_TO_MAP, notes = "지도에 표시되는 맛집 탑")
+    @GetMapping(value = "/top/map")
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getTopRestaurant(@RequestBody MemberLocation memberLocation){
+
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(restaurantService.fetchMap(memberLocation))
+        );
+    }
 
 
     /**

@@ -12,10 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
+@Table(name = "hashtag")
 public class HashTagJpo extends BaseTimeJpo {
 
+
     @Id
-    @Column(name="hashTag_id")
+    @Column(name = "hashtag_id")
     private Long id;
 
     /**
