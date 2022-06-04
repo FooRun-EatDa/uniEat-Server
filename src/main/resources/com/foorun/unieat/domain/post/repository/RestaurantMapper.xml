@@ -13,7 +13,7 @@
                     * sin(radians(R.latitude)) )
                 ) AS distance
         FROM        restaurant R
-        HAVING      distance > #{nearBy}
+        HAVING      distance &lt; #{nearBy}
         ORDER BY    distance
     </select>
 </mapper>
