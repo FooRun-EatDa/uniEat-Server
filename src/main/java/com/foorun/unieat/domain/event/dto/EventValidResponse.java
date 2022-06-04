@@ -12,8 +12,8 @@ import lombok.*;
 @Builder
 public class EventValidResponse implements JsonSerializable {
 
-    String desc;
-    int status;
+    private String content;
+    private int status;
 
 
 }

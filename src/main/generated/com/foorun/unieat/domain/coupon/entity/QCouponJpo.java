@@ -22,19 +22,11 @@ public class QCouponJpo extends EntityPathBase<CouponJpo> {
 
     public static final QCouponJpo couponJpo = new QCouponJpo("couponJpo");
 
-    public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
-
     public final com.foorun.unieat.domain.event.jpo.QEventJpo event;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
-
-    //inherited
-    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QCouponJpo(String variable) {
         this(CouponJpo.class, forVariable(variable), INITS);

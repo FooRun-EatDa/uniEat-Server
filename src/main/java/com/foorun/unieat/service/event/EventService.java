@@ -64,7 +64,7 @@ public class EventService {
 
         if(!EventExpiredCheck(event)){
             return EventValidResponse.builder()
-                    .desc(COUPON_EXPIRED)
+                    .content(COUPON_EXPIRED)
                     .status(EventStatus.EXPIRED.ordinal())
                     .build();
         }
@@ -74,13 +74,13 @@ public class EventService {
 
         if(!validCheck(event,member)){
             return EventValidResponse.builder()
-                    .desc(COUPON_NOT_APPLICABLE)
+                    .content(COUPON_NOT_APPLICABLE)
                     .status(EventStatus.NOT_APPLICABLE.ordinal())
                     .build();
         }
 
         else return EventValidResponse.builder()
-                .desc(COUPON_VALID)
+                .content(COUPON_VALID)
                 .status(EventStatus.VALID.ordinal())
                 .build();
 

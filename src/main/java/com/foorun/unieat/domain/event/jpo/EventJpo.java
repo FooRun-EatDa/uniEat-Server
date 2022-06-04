@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -20,34 +21,35 @@ import java.util.HashSet;
 public class EventJpo extends BaseTimeJpo {
 
     @Id
-    @GeneratedValue
+    @Column(name = "event_id")
     private Long id;
 
     //이벤트 이미지 url
     private String imgUrl;
 
     //이벤트 이름
-    private String name;
+    private String title;
 
+    @Column(name = "expired_date")
     private String expiredDate;
 
     @Column(columnDefinition = "TEXT")
-    private String desc;
+    private String content;
 
     private String notice;
 
     //이벤트 유효 여부(종료됨, 진행중)
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private EventStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant")
+    @JoinColumn(name = "restaurant_id")
     private RestaurantJpo restaurant;
 
     @OneToMany(mappedBy = "event")
     @Builder.Default
     @ToString.Exclude
-    private HashSet<CouponJpo> coupons = new HashSet<>();
+    private Set<CouponJpo> coupons = new HashSet<>();
 
 
 }

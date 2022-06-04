@@ -24,7 +24,7 @@ import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 @RestController
 @RequestMapping("/event")
 @RequiredArgsConstructor
-@Api(tags = SwaggerApiInfo.COMMENT)
+@Api(tags = SwaggerApiInfo.EVENT)
 public class EventController {
 
 

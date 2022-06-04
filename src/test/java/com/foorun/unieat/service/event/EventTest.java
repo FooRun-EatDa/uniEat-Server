@@ -47,8 +47,8 @@ public class EventTest extends ServiceTest {
     private EventJpo event = EventJpo.builder()
             .id(eventId)
             .expiredDate("2099/12/31 12:30")
-            .name("name")
-            .desc("desc")
+            .content("name")
+            .content("desc")
             .build();
 
     private MemberUserDetails memberUserDetails =
@@ -99,8 +99,8 @@ public class EventTest extends ServiceTest {
         EventJpo event = EventJpo.builder()
                 .id(eventId)
                 .expiredDate("1999/12/31 12:30")
-                .name("name")
-                .desc("desc")
+                .content("name")
+                .content("desc")
                 .build();
 
         Assertions.assertEquals(false,eventService.EventExpiredCheck(event));
@@ -129,6 +129,9 @@ public class EventTest extends ServiceTest {
             eventService.useCoupon(memberUserDetails,eventId);
         });
     }
+
+
+
 
 
 

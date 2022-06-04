@@ -15,18 +15,18 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "coupon")
-public class CouponJpo extends BaseTimeJpo {
+public class CouponJpo  {
 
     @Id
-    @GeneratedValue
+    @Column(name = "coupon_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member")
+    @JoinColumn(name = "member_id")
     private MemberJpo member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "event")
+    @JoinColumn(name= "event_id")
     private EventJpo event;
 
 }
