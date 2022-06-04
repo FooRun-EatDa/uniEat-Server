@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class HashTagRestaurantJpo {
 
     @Id
+    @Column(name = "hastag_restaurant_id")
     private Long id;
 
 
@@ -23,7 +24,7 @@ public class HashTagRestaurantJpo {
     private HashTagJpo hashTag;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hastag_restaurant_id")
+    @JoinColumn(name = "restaurant_id")
     private RestaurantJpo restaurant;
 
 
