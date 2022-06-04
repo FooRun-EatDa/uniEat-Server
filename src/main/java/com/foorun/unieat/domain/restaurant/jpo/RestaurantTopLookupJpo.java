@@ -22,10 +22,12 @@ public class RestaurantTopLookupJpo extends BaseTimeJpo {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
     @ToString.Exclude
     private RestaurantJpo restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
     @ToString.Exclude
     private RegionCodeJpo regionCode;
 

@@ -38,7 +38,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     public List<RestaurantJpo> fetchTopRestaurant(){
         return jpaQueryFactory.select(restaurantJpo).from(restaurantJpo).leftJoin(
                 restaurantJpo.bestRestaurants,restaurantTopLookupJpo
-        ).on(restaurantTopLookupJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
+        ).where(restaurantTopLookupJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
     }
 
 

@@ -133,31 +133,40 @@ public class RestaurantController {
 
 
     /**
-     *  식당 북마크 (좋아요)
+     * 식당 좋아요하기(북마크)
      */
-
-    @ApiOperation(value = SwaggerApiInfo.GET_BOOKMARKING, notes = "식당에 좋아요를 클릭하면 즐겨찾기에 등록됨, 유저가 좋아요한 식당 리스트에서 보여짐")
-    @GetMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails userDetails, @PathVariable(name="restaurantId") Long storeIdx){
-        bookmarkService.bookmarking(storeIdx,userDetails);
+    @ApiOperation(value = SwaggerApiInfo.POST_BOOKMARKING,notes = "유저가 식당을 좋아요(즐겨찾기)하기")
+    @PostMapping(value = "/bookmark/{restaurantId}")
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @PathVariable(name="restaurantId") Long storeIdx){
+        bookmarkService.bookmarking(storeIdx,memberUserDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
         );
     }
 
-
+    /**
+     * 식당 좋아요 취소
+     */
+    @ApiOperation(value = SwaggerApiInfo.DELETE_BOOKMARKING, notes = "유저가 식당 좋아요 취소하기")
+    @DeleteMapping(value = "/bookmark/{restaurantId}")
+    public ResponseEntity<ApiResponse<Void>> bookmarkingCancel(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @PathVariable(name = "restaurantId") Long storeIdx){
+        bookmarkService.bookmarkCancel(storeIdx,memberUserDetails);
+        return ResponseEntity.ok(ApiResponse.success());
+    }
 
 
 
     /**
      * 좋아요한 식당 리스트
      */
-//    @ApiOperation(value = SwaggerApiInfo.GET_BOOMARKEDLIST,notes = "유저가 좋아요(즐겨찾기)한 식당 리스트 가져옴")
-//    @GetMapping(value = "/bookmark")
-//    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getBookmarkedRestaurantList(@AuthenticationPrincipal MemberUserDetails userDetails){
-//        return ResponseEntity.ok(ApiResponse.valueOf((userDetails)));
-//
-//    }
+    @ApiOperation(value = SwaggerApiInfo.GET_BOOMARKEDLIST,notes = "유저가 좋아요(즐겨찾기)한 식당 리스트 가져옴")
+    @GetMapping(value = "/bookmark")
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getBookmarkedRestaurantList(@AuthenticationPrincipal MemberUserDetails memberUserDetails){
+        return ResponseEntity.ok(ApiResponse.valueOf((bookmarkService.getBookmarkedRestaurantList(memberUserDetails))));
+
+    }
+
+
 
 
 }

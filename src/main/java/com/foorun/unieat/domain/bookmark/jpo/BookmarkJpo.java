@@ -17,6 +17,7 @@ import javax.persistence.*;
 public class BookmarkJpo {
 
     @Id
+    @Column(name="bookmark_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

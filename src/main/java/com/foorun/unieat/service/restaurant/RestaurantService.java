@@ -63,7 +63,6 @@ public class RestaurantService   {
 
 
 
-
     @Transactional(readOnly = true)
     public List<RestaurantSimple> fetch(){
         //List 형식으로 불러온다
@@ -95,7 +94,11 @@ public class RestaurantService   {
 
     }
 
-    // 식당 상세정보
+
+    /**
+     * 식당 상제 정보
+     * 회원일 경우, 해당 식당 좋아요 여부도 반환해야함
+     */
     @Transactional(readOnly = true)
     public Restaurant fetch(Long id){
         MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -200,7 +203,7 @@ public class RestaurantService   {
             return restaurantSimples.stream().map(r -> {
                         r.setHashTags(hashTagRestaurantQuerydslRepositoryRepository.getHashTagContentByRestaurantId(r.getId()));
                         return r;
-                    })//.map(r -> addIsLikedValue(r, memberUserDetails)).collect(Collectors.toList());
+                    }).map(r -> addIsLikedValue(r, memberUserDetails))
                     .collect(Collectors.toList());
 
         }

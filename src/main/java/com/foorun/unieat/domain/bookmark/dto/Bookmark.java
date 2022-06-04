@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Bookmark {
 
+    @Builder.Default
     private Long id = IdentifyGenerator.number();
     private Restaurant restaurant;
     private Member member;

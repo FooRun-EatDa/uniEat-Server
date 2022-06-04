@@ -54,6 +54,7 @@ public interface SwaggerApiInfo {
 
 
     String Review = "식당 리뷰 게시판 관련 operation";
-    String GET_BOOKMARKING = "식당 id를 통한 좋아요 누르기";
+    String POST_BOOKMARKING = "식당 id를 통한 좋아요 누르기";
     String GET_BOOMARKEDLIST = "좋아요 누른 식당 리스트 가져오기";
+    String DELETE_BOOKMARKING = "식당 id를 통한 좋아요 취소";
 }

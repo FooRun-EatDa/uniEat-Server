@@ -5,6 +5,7 @@ import com.foorun.unieat.domain.category.dto.Category;
 import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.dto.RegionCode;
 import com.foorun.unieat.domain.food.dto.Food;
+import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.util.IdentifyGenerator;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.foorun.unieat.util.StreamUtil.map;
 import static com.foorun.unieat.util.StreamUtil.mapToSet;
@@ -69,7 +71,8 @@ public class Restaurant implements JsonSerializable {
         RestaurantJpo restaurantJpo = new RestaurantJpo();
         BeanUtils.copyProperties(this,restaurantJpo);
         restaurantJpo.setCategorys(mapToSet(this.categories,Category::asJpo));
-//        restaurantJpo.setFoods(mapToSet(this.foods,Food::asJpo));
+        Set<FoodJpo> foodJpoSet = this.foods.stream().map(r->r.asJpo(restaurantJpo)).collect(Collectors.toSet());
+        restaurantJpo.setFoods(foodJpoSet);
         restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
         return restaurantJpo;
     }

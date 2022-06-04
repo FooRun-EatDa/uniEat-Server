@@ -1,5 +1,6 @@
 package com.foorun.unieat.service.bookmark;
 
+import com.foorun.unieat.domain.bookmark.dto.Bookmark;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
@@ -11,10 +12,12 @@ import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.exception.UniEatNotFoundException;
+import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.print.Book;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,11 +44,21 @@ public class BookmarkService {
         MemberJpo memberJpo = memberRepository.findById(memberId).orElseThrow(UniEatNotFoundException::new);
         RestaurantJpo restaurantJpo = restaurantRepository.findById(storeId).orElseThrow(UniEatNotFoundException::new);
         BookmarkJpo bookmarkJpo = BookmarkJpo.builder()
+                .id(IdentifyGenerator.number())
                 .restaurant(restaurantJpo)
                 .member(memberJpo)
                 .build();
 
         bookmarkRepository.save(bookmarkJpo);
+
+    }
+
+    //맛집 북마크 취소
+    @Transactional
+    public void bookmarkCancel(Long storeId, MemberUserDetails memberUserDetails){
+        Long memberId = memberUserDetails.getId();
+        BookmarkJpo bookmarkJpo = bookmarkQuerydslRepository.findBookmarkByMemberIdAndRestaurantId(memberId,storeId);
+        bookmarkRepository.delete(bookmarkJpo);
 
     }
 
