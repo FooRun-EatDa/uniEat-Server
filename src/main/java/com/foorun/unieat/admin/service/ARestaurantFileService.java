@@ -55,6 +55,13 @@ public class ARestaurantFileService {
                     .findById(RestaurantFileIdJpo.of(restaurantJpo.getId(), fileDetail.getId()))
                     .orElseThrow(UniEatLogicalException::new);
             restaurantFileRepository.delete(restaurantFileJpo);
+        } else {
+            RestaurantFileJpo restaurantFileJpo = restaurantFileRepository
+                    .findById(RestaurantFileIdJpo.of(restaurantJpo.getId(), fileDetail.getId()))
+                    .orElseThrow(UniEatLogicalException::new);
+            restaurantFileJpo.setSequence(fileDetail.getSequence());
+            restaurantFileJpo.setThumbnail(fileDetail.isThumbnail());
+            restaurantFileRepository.save(restaurantFileJpo);
         }
     }
 }
