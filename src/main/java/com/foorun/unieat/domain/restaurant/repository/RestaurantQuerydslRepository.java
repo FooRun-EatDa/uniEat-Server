@@ -3,16 +3,12 @@ package com.foorun.unieat.domain.restaurant.repository;
 
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
-
-import com.foorun.unieat.domain.hashtag.jpo.QHashTagRestaurantJpo;
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
-import com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +19,8 @@ import java.util.Optional;
 
 import static com.foorun.unieat.domain.category.jpo.QCategoryJpo.categoryJpo;
 import static com.foorun.unieat.domain.hashtag.jpo.QHashTagRestaurantJpo.hashTagRestaurantJpo;
+import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantBestJpo.restaurantBestJpo;
 import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo.restaurantJpo;
-import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo.restaurantTopLookupJpo;
 
 @Repository
 @RequiredArgsConstructor
@@ -37,8 +33,8 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
 
     public List<RestaurantJpo> fetchTopRestaurant(){
         return jpaQueryFactory.select(restaurantJpo).from(restaurantJpo).leftJoin(
-                restaurantJpo.bestRestaurants,restaurantTopLookupJpo
-        ).where(restaurantTopLookupJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
+                restaurantJpo.bestRestaurants,restaurantBestJpo
+        ).where(restaurantBestJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
     }
 
 
