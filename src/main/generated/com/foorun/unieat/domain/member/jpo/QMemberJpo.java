@@ -26,11 +26,15 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final BooleanPath agreeEventLetter = createBoolean("agreeEventLetter");
 
+    public final BooleanPath agreeNotification = createBoolean("agreeNotification");
+
     public final BooleanPath agreeTerms = createBoolean("agreeTerms");
 
     public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmarks = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmarks", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo> commentFeelings = this.<com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo>createSet("commentFeelings", com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo.class, com.foorun.unieat.domain.feeling.comment.jpo.QCommentFeelingJpo.class, PathInits.DIRECT2);
+
+    public final SetPath<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo> coupons = this.<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo>createSet("coupons", com.foorun.unieat.domain.coupon.entity.CouponJpo.class, com.foorun.unieat.domain.coupon.entity.QCouponJpo.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
@@ -67,7 +71,7 @@ public class QMemberJpo extends EntityPathBase<MemberJpo> {
 
     public final SetPath<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo> searchLogs = this.<com.foorun.unieat.domain.search.jpo.SearchLogJpo, com.foorun.unieat.domain.search.jpo.QSearchLogJpo>createSet("searchLogs", com.foorun.unieat.domain.search.jpo.SearchLogJpo.class, com.foorun.unieat.domain.search.jpo.QSearchLogJpo.class, PathInits.DIRECT2);
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

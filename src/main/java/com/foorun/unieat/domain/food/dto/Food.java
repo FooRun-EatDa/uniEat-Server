@@ -47,8 +47,8 @@ public class Food {
 
     public FoodJpo asJpo(RestaurantJpo restaurantJpo) {
         FoodJpo foodJpo = new FoodJpo();
-        BeanUtils.copyProperties(this, foodJpo);
         foodJpo.setRestaurant(restaurantJpo);
+        BeanUtils.copyProperties(this, foodJpo);
         return foodJpo;
     }
 }

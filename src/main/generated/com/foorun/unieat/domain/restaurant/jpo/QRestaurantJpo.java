@@ -22,17 +22,28 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public static final QRestaurantJpo restaurantJpo = new QRestaurantJpo("restaurantJpo");
 
+    public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
+
     public final StringPath address = createString("address");
 
-    public final com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo bookmark;
+    public final SetPath<RestaurantTopLookupJpo, QRestaurantTopLookupJpo> bestRestaurants = this.<RestaurantTopLookupJpo, QRestaurantTopLookupJpo>createSet("bestRestaurants", RestaurantTopLookupJpo.class, QRestaurantTopLookupJpo.class, PathInits.DIRECT2);
+
+    public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmark = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmark", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo> categorys = this.<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo>createSet("categorys", com.foorun.unieat.domain.category.jpo.CategoryJpo.class, com.foorun.unieat.domain.category.jpo.QCategoryJpo.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");
 
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final StringPath district = createString("district");
 
+    public final SetPath<com.foorun.unieat.domain.event.jpo.EventJpo, com.foorun.unieat.domain.event.jpo.QEventJpo> events = this.<com.foorun.unieat.domain.event.jpo.EventJpo, com.foorun.unieat.domain.event.jpo.QEventJpo>createSet("events", com.foorun.unieat.domain.event.jpo.EventJpo.class, com.foorun.unieat.domain.event.jpo.QEventJpo.class, PathInits.DIRECT2);
+
     public final StringPath explanation = createString("explanation");
+
+    public final SetPath<RestaurantFileJpo, QRestaurantFileJpo> files = this.<RestaurantFileJpo, QRestaurantFileJpo>createSet("files", RestaurantFileJpo.class, QRestaurantFileJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.food.jpo.FoodJpo, com.foorun.unieat.domain.food.jpo.QFoodJpo> foods = this.<com.foorun.unieat.domain.food.jpo.FoodJpo, com.foorun.unieat.domain.food.jpo.QFoodJpo>createSet("foods", com.foorun.unieat.domain.food.jpo.FoodJpo.class, com.foorun.unieat.domain.food.jpo.QFoodJpo.class, PathInits.DIRECT2);
 
@@ -40,7 +51,7 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath imguUrl = createString("imguUrl");
+    public final StringPath imgUrl = createString("imgUrl");
 
     public final StringPath latitude = createString("latitude");
 
@@ -58,7 +69,10 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final SetPath<com.foorun.unieat.domain.review.jpo.ReviewJpo, com.foorun.unieat.domain.review.jpo.QReviewJpo> reviews = this.<com.foorun.unieat.domain.review.jpo.ReviewJpo, com.foorun.unieat.domain.review.jpo.QReviewJpo>createSet("reviews", com.foorun.unieat.domain.review.jpo.ReviewJpo.class, com.foorun.unieat.domain.review.jpo.QReviewJpo.class, PathInits.DIRECT2);
 
-    public final StringPath status = createString("status");
+    public final EnumPath<com.foorun.unieat.domain.common.StatusType> status = createEnum("status", com.foorun.unieat.domain.common.StatusType.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QRestaurantJpo(String variable) {
         this(RestaurantJpo.class, forVariable(variable), INITS);
@@ -78,7 +92,6 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public QRestaurantJpo(Class<? extends RestaurantJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.bookmark = inits.isInitialized("bookmark") ? new com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo(forProperty("bookmark"), inits.get("bookmark")) : null;
         this.regionCode = inits.isInitialized("regionCode") ? new com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo(forProperty("regionCode"), inits.get("regionCode")) : null;
     }
 

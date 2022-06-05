@@ -22,13 +22,18 @@ public class QPostFileJpo extends EntityPathBase<PostFileJpo> {
 
     public static final QPostFileJpo postFileJpo = new QPostFileJpo("postFileJpo");
 
+    public final com.foorun.unieat.domain.file.jpo.QBaseFileJpo _super;
+
+    // inherited
     public final com.foorun.unieat.domain.file.jpo.QFileJpo file;
 
     public final QPostJpo post;
 
-    public final NumberPath<Integer> sequence = createNumber("sequence", Integer.class);
+    //inherited
+    public final NumberPath<Integer> sequence;
 
-    public final BooleanPath thumbnail = createBoolean("thumbnail");
+    //inherited
+    public final BooleanPath thumbnail;
 
     public QPostFileJpo(String variable) {
         this(PostFileJpo.class, forVariable(variable), INITS);
@@ -48,8 +53,11 @@ public class QPostFileJpo extends EntityPathBase<PostFileJpo> {
 
     public QPostFileJpo(Class<? extends PostFileJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.file = inits.isInitialized("file") ? new com.foorun.unieat.domain.file.jpo.QFileJpo(forProperty("file")) : null;
+        this._super = new com.foorun.unieat.domain.file.jpo.QBaseFileJpo(type, metadata, inits);
+        this.file = _super.file;
         this.post = inits.isInitialized("post") ? new QPostJpo(forProperty("post"), inits.get("post")) : null;
+        this.sequence = _super.sequence;
+        this.thumbnail = _super.thumbnail;
     }
 
 }

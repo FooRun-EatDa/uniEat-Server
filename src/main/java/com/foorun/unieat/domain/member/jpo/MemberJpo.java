@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.member.jpo;
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.common.StatusType;
+import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.feeling.comment.jpo.CommentFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.RestaurantFeelingJpo;
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
@@ -82,6 +83,12 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
     @ToString.Exclude
     @Builder.Default
     private Set<SearchLogJpo> searchLogs = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    @Builder.Default
+    private Set<CouponJpo> coupons = new HashSet<>();
 
 
     /**

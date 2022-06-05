@@ -31,6 +31,8 @@ public class QReviewJpo extends EntityPathBase<ReviewJpo> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final StringPath imgUrl = createString("imgUrl");
+
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
 
     public final com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo restaurant;

@@ -48,5 +48,20 @@ public interface SwaggerApiInfo {
 
     String GET_STORE_BY_SEARCH = "검색을 이용한 식당 정보 조회";
     String GET_NEAREST_STORE = "주변 맛집 조회";
+    String GET_SEARCH_LOG = "검색 기록 저장";
+    String POST_STORE_BY_FILTER = "필터를 이용한 식당 검색";
+    String GET_TOP_STORE_TO_MAP = "top 맛집 지도에서 조회";
 
+
+    String Review = "식당 리뷰 게시판 관련 operation";
+    String POST_BOOKMARKING = "식당 id를 통한 좋아요 누르기";
+    String GET_BOOMARKEDLIST = "좋아요 누른 식당 리스트 가져오기";
+    String DELETE_BOOKMARKING = "식당 id를 통한 좋아요 취소";
+
+
+
+    String EVENT = "이벤트 게시판 관련 operation";
+    String GET_EVENT_LIST = "현재 등록된 이벤트 목록 가져오기";
+    String DELETE_USE_COUPON = "쿠폰 사용하기";
+    String GET_EVENT_VALID_CHECK = "이벤트 유효성 체크 요청";
 }

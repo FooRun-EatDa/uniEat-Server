@@ -27,6 +27,16 @@ public final class StreamUtil {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * dto 에서 jpo로 바꾸기 위해
+     */
+    public static <R,T> Set<R> mapToSet(List<T> list,Function<T,R> function){
+        return list.stream()
+                .map(function)
+                .collect(Collectors.toSet());
+    }
+
     public static <R, T> List<R> map(Set<T> list, Function<T, R> function, Comparator<? super R> comparator) {
         return list.stream()
                 .map(function)
