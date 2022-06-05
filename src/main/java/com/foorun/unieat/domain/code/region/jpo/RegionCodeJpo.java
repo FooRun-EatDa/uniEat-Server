@@ -1,7 +1,7 @@
 package com.foorun.unieat.domain.code.region.jpo;
 
 import com.foorun.unieat.domain.code.region.jpo.embed.CoordinateJpo;
-import com.foorun.unieat.domain.restaurant.jpo.RestaurantTopLookupJpo;
+import com.foorun.unieat.domain.restaurant.jpo.RestaurantBestJpo;
 import lombok.*;
 
 import javax.persistence.*;
@@ -57,7 +57,7 @@ public class RegionCodeJpo {
     @OneToMany(mappedBy = "regionCode")
     @ToString.Exclude
     @Builder.Default
-    private Set<RestaurantTopLookupJpo> bestRestaurants = new HashSet<>();
+    private Set<RestaurantBestJpo> bestRestaurants = new HashSet<>();
 
 
 }

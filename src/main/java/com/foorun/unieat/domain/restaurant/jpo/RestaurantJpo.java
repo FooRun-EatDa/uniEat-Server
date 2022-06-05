@@ -6,7 +6,6 @@ import com.foorun.unieat.domain.category.jpo.CategoryJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.common.StatusType;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
-import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
@@ -14,7 +13,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -139,7 +137,7 @@ public class RestaurantJpo extends BaseTimeJpo {
     @OneToMany(mappedBy = "restaurant")
     @ToString.Exclude
     @Builder.Default
-    private Set<RestaurantTopLookupJpo> bestRestaurants = new HashSet<>();
+    private Set<RestaurantBestJpo> bestRestaurants = new HashSet<>();
 
 
 

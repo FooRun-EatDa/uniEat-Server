@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Builder
 @ToString(callSuper = true)
 @Table(name ="restaurant_best")
-public class RestaurantTopLookupJpo extends BaseTimeJpo {
+public class RestaurantBestJpo extends BaseTimeJpo {
 
     @Id
     private Long id;
