@@ -95,7 +95,7 @@ public class RestaurantService   {
 
 
     /**
-     * 식당 상제 정보
+     * 식당 상세 정보
      * 회원일 경우, 해당 식당 좋아요 여부도 반환해야함
      */
     @Transactional(readOnly = true)
@@ -166,8 +166,6 @@ public class RestaurantService   {
 
             SearchLogJpo searchLogJpo = SearchLog.builder().searchText(searchText).build().asJpo();
 
-            log.info("검색 로그 저장 , 유저 정보 = {}", userDetails.getEmail());
-            log.info("searchJpo id: {}, context : {}", searchLogJpo.getId(), searchLogJpo.getSearchText());
             MemberJpo member = memberRepository.findByEmail(userDetails.getEmail()).orElseThrow(UniEatNotFoundException::new);
             searchLogJpo.setMember(member);
             searchLogRepository.save(searchLogJpo);
