@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QRestaurantTopLookupJpo is a Querydsl query type for RestaurantTopLookupJpo
+ * QRestaurantBestJpo is a Querydsl query type for RestaurantBestJpo
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QRestaurantTopLookupJpo extends EntityPathBase<RestaurantTopLookupJpo> {
+public class QRestaurantBestJpo extends EntityPathBase<RestaurantBestJpo> {
 
-    private static final long serialVersionUID = -1994271123L;
+    private static final long serialVersionUID = -377649326L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QRestaurantTopLookupJpo restaurantTopLookupJpo = new QRestaurantTopLookupJpo("restaurantTopLookupJpo");
+    public static final QRestaurantBestJpo restaurantBestJpo = new QRestaurantBestJpo("restaurantBestJpo");
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
@@ -36,23 +36,23 @@ public class QRestaurantTopLookupJpo extends EntityPathBase<RestaurantTopLookupJ
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
-    public QRestaurantTopLookupJpo(String variable) {
-        this(RestaurantTopLookupJpo.class, forVariable(variable), INITS);
+    public QRestaurantBestJpo(String variable) {
+        this(RestaurantBestJpo.class, forVariable(variable), INITS);
     }
 
-    public QRestaurantTopLookupJpo(Path<? extends RestaurantTopLookupJpo> path) {
+    public QRestaurantBestJpo(Path<? extends RestaurantBestJpo> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QRestaurantTopLookupJpo(PathMetadata metadata) {
+    public QRestaurantBestJpo(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QRestaurantTopLookupJpo(PathMetadata metadata, PathInits inits) {
-        this(RestaurantTopLookupJpo.class, metadata, inits);
+    public QRestaurantBestJpo(PathMetadata metadata, PathInits inits) {
+        this(RestaurantBestJpo.class, metadata, inits);
     }
 
-    public QRestaurantTopLookupJpo(Class<? extends RestaurantTopLookupJpo> type, PathMetadata metadata, PathInits inits) {
+    public QRestaurantBestJpo(Class<? extends RestaurantBestJpo> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.regionCode = inits.isInitialized("regionCode") ? new com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo(forProperty("regionCode"), inits.get("regionCode")) : null;
         this.restaurant = inits.isInitialized("restaurant") ? new QRestaurantJpo(forProperty("restaurant"), inits.get("restaurant")) : null;

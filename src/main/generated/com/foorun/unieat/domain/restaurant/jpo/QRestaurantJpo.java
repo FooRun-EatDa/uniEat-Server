@@ -26,7 +26,7 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final StringPath address = createString("address");
 
-    public final SetPath<RestaurantTopLookupJpo, QRestaurantTopLookupJpo> bestRestaurants = this.<RestaurantTopLookupJpo, QRestaurantTopLookupJpo>createSet("bestRestaurants", RestaurantTopLookupJpo.class, QRestaurantTopLookupJpo.class, PathInits.DIRECT2);
+    public final SetPath<RestaurantBestJpo, QRestaurantBestJpo> bestRestaurants = this.<RestaurantBestJpo, QRestaurantBestJpo>createSet("bestRestaurants", RestaurantBestJpo.class, QRestaurantBestJpo.class, PathInits.DIRECT2);
 
     public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmark = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmark", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
 

@@ -22,7 +22,7 @@ public class QRegionCodeJpo extends EntityPathBase<RegionCodeJpo> {
 
     public static final QRegionCodeJpo regionCodeJpo = new QRegionCodeJpo("regionCodeJpo");
 
-    public final SetPath<com.foorun.unieat.domain.restaurant.jpo.RestaurantTopLookupJpo, com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo> bestRestaurants = this.<com.foorun.unieat.domain.restaurant.jpo.RestaurantTopLookupJpo, com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo>createSet("bestRestaurants", com.foorun.unieat.domain.restaurant.jpo.RestaurantTopLookupJpo.class, com.foorun.unieat.domain.restaurant.jpo.QRestaurantTopLookupJpo.class, PathInits.DIRECT2);
+    public final SetPath<com.foorun.unieat.domain.restaurant.jpo.RestaurantBestJpo, com.foorun.unieat.domain.restaurant.jpo.QRestaurantBestJpo> bestRestaurants = this.<com.foorun.unieat.domain.restaurant.jpo.RestaurantBestJpo, com.foorun.unieat.domain.restaurant.jpo.QRestaurantBestJpo>createSet("bestRestaurants", com.foorun.unieat.domain.restaurant.jpo.RestaurantBestJpo.class, com.foorun.unieat.domain.restaurant.jpo.QRestaurantBestJpo.class, PathInits.DIRECT2);
 
     public final com.foorun.unieat.domain.code.region.jpo.embed.QCoordinateJpo coordinate;
 

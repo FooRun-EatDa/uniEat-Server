@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.restaurant.repository;
 
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
+import com.foorun.unieat.domain.food.jpo.QFoodJpo;
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.foorun.unieat.domain.category.jpo.QCategoryJpo.categoryJpo;
+import static com.foorun.unieat.domain.food.jpo.QFoodJpo.foodJpo;
 import static com.foorun.unieat.domain.hashtag.jpo.QHashTagRestaurantJpo.hashTagRestaurantJpo;
 import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantBestJpo.restaurantBestJpo;
 import static com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo.restaurantJpo;
@@ -119,9 +121,13 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
      */
 
     public List<RestaurantJpo> findBySearch(String keyWord,Pageable pageable){
-        return jpaQueryFactory.selectFrom(restaurantJpo)
+        return jpaQueryFactory.select(restaurantJpo)
+                .from(restaurantJpo)
+                .innerJoin(restaurantJpo.foods, foodJpo)
+//                .innerJoin(restaurantJpo.regionCode, QR) //지역 추가 필요
                 .where(
                         restaurantJpo.name.contains(keyWord)
+                                .or(foodJpo.name.contains(keyWord))
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
