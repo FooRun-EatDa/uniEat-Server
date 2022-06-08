@@ -26,8 +26,9 @@ public class Review {
     private String imgUrl;
     private Restaurant restaurant;
     private Member member;
-    private List<ReviewFeeling> reviewFeelings;
+    private Boolean isLiked;
 
+    private List<ReviewFeeling> reviewFeelings;
 
     public ReviewJpo asJpo(){
         ReviewJpo reviewJpo = new ReviewJpo();

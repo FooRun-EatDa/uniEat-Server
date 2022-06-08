@@ -1,6 +1,8 @@
 package com.foorun.unieat.service.review;
 
 
+import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.feeling.repository.ReviewFeelingRepository;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
@@ -18,6 +20,8 @@ import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 
+import com.foorun.unieat.util.IdentifyGenerator;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,7 +40,7 @@ public class ReviewService  {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
     private final ReviewQueryDslRepository reviewQueryDslRepository;
-
+    private final ReviewFeelingRepository reviewFeelingRepository;
 
 
 
@@ -124,6 +128,30 @@ public class ReviewService  {
         if(writerId != memberId)return false;
         else return true;
     }
+
+
+    //리뷰 좋아요
+    public void reviewLiking(Long reviewId, MemberUserDetails memberUserDetails){
+        Long memberId = memberUserDetails.getId();
+        ReviewFeelingJpo reviewFeelingJpo = ReviewFeelingJpo.builder()
+                .id(IdentifyGenerator.number())
+                .review(reviewRepository.findById(reviewId).orElseThrow(UniEatNotFoundException::new))
+                .member(memberRepository.findById(memberId).orElseThrow(UniEatNotFoundException::new))
+                .build();
+
+        reviewFeelingRepository.save(reviewFeelingJpo);
+    }
+
+
+
+    //리뷰 좋아요 취소
+    public void reivewLikingCancel(Long reviewId, MemberUserDetails memberUserDetails){
+        Long memberId = memberUserDetails.getId();
+        ReviewFeelingJpo reviewFeelingJpo = reviewFeelingRepository.findReviewFeelingJpoByReviewIdAndMemberId(reviewId,memberId).orElseThrow(UniEatBadRequestException::new);
+        reviewFeelingRepository.delete(reviewFeelingJpo);
+    }
+
+
 
     //TODO: 리뷰 신고 기능
 

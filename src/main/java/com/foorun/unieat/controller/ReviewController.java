@@ -84,12 +84,28 @@ public class ReviewController {
     /**
      * 리뷰 좋아요
      */
+    @ApiOperation(value = SwaggerApiInfo.POST_REVIEW_LIKING, notes = "특정 리뷰 좋아요 누르기")
+    @PostMapping("/liking/{review_id}")
+    public ResponseEntity<ApiResponse<Void>> likingReview(@PathVariable(name = "review_id") Long reviewId, @AuthenticationPrincipal MemberUserDetails memberUserDetails){
+        reviewService.reviewLiking(reviewId,memberUserDetails);
+        return ResponseEntity.ok(
+                ApiResponse.success()
+        );
+
+    }
 
 
     /**
      * 리뷰 좋아요 취소
      */
-
+    @ApiOperation(value = SwaggerApiInfo.DELETE_REVIEW_LIKING, notes = "특정 리뷰 좋아요 취소")
+    @DeleteMapping("/liking/{review_id}")
+    public ResponseEntity<ApiResponse<Void>> likingCancelReview(@PathVariable(name="review_id") Long reviewId, @AuthenticationPrincipal MemberUserDetails memberUserDetails){
+        reviewService.reivewLikingCancel(reviewId,memberUserDetails);
+        return ResponseEntity.ok(
+                ApiResponse.success()
+        );
+    }
 
 
 }
