@@ -9,6 +9,7 @@ import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
+import com.foorun.unieat.domain.review.dto.ReviewUpdateReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
@@ -44,7 +45,6 @@ public class ReviewService  {
     public Long addReview(MemberUserDetails memberUserDetails, ReviewReq reviewDto) {
 
         if(!starScoreInvalidCheck(reviewDto))throw new UniEatBadRequestException();
-
 
         MemberJpo member = memberRepository.findById(memberUserDetails.getId())
                 .orElseThrow(UniEatForbiddenException::new);
@@ -101,14 +101,14 @@ public class ReviewService  {
 
     //리뷰 수정
     @Transactional
-    public Review updateReview(ReviewReq updateReq, MemberUserDetails memberUserDetails){
+    public Review updateReview(ReviewUpdateReq updateReq, MemberUserDetails memberUserDetails){
         ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getId()).orElseThrow(UniEatNotFoundException::new);
         if(!updateValidCheck(reviewJpo,memberUserDetails)) throw new UniEatForbiddenException();
         updateReviewJpo(reviewJpo,updateReq);
         return Review.of(reviewJpo); // 업데이트된 리뷰 그대로 리턴
     }
 
-    private void updateReviewJpo(ReviewJpo reviewJpo, ReviewReq updateReq){
+    private void updateReviewJpo(ReviewJpo reviewJpo, ReviewUpdateReq updateReq){
 
         reviewJpo.setContent(Optional.of(updateReq.getContent()).orElse(reviewJpo.getContent()));
         reviewJpo.setImgUrl(Optional.of(updateReq.getImgUrl()).orElse(reviewJpo.getImgUrl()));
@@ -118,7 +118,7 @@ public class ReviewService  {
 
 
     //리뷰 업데이트 체크
-    private boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
+    public boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
         Long writerId = reviewJpo.getMember().getId();
         Long memberId = member.getId();
         if(writerId != memberId)return false;
@@ -130,15 +130,6 @@ public class ReviewService  {
 
 
 
-//    //리뷰를 수정할 수 있는 권한이 있는지 확인
-//    public Boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
-//        Long writerId = reviewJpo.getMember().getId();
-//        Long memberId = member.getId();
-//        if(writerId != memberId)return false;
-//        else return true;
-//
-//    }
-//
 
 
 }
