@@ -23,7 +23,7 @@ public class MemberTokenService {
     public JwtToken reIssueToken(String refreshToken) {
         RefreshTokenJpo refreshTokenJpo = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new UniEatLogicalException("변조된 토큰이거나 알 수 없는 토큰입니다."));
-        refreshTokenRepository.delete(refreshTokenJpo);
+        refreshTokenRepository.deleteById(refreshTokenJpo.getToken());
         if (jwtProvider.isExpiredToken(refreshToken)) {
             throw new UniEatLogicalException("유효기간이 만료된 토큰입니다.");
         }
