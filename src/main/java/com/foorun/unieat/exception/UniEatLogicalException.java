@@ -6,4 +6,9 @@ public class UniEatLogicalException extends UniEatRuntimeException {
     public UniEatLogicalException() {
         super(ResponseCode.CODE_500);
     }
+
+    public UniEatLogicalException(String message) {
+        super(ResponseCode.CODE_500);
+        this.setMessage(message);
+    }
 }

@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/member/verify-email",
                         "/member/reset-password",
+                        "/member/token/re-issue",
                         "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -90,6 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/school/**",
                 "/member/verify-email",
                 "/member/reset-password",
+                "/member/token/re-issue",
                 "/swagger-ui.html");
     }
 }
