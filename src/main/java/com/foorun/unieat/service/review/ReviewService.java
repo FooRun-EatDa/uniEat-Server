@@ -2,6 +2,7 @@ package com.foorun.unieat.service.review;
 
 
 import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.feeling.repository.ReviewFeelingQuerydslRepository;
 import com.foorun.unieat.domain.feeling.repository.ReviewFeelingRepository;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
@@ -21,9 +22,10 @@ import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 
 import com.foorun.unieat.util.IdentifyGenerator;
-import lombok.Builder;
+import com.foorun.unieat.component.LikedCheckComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +43,7 @@ public class ReviewService  {
     private final MemberRepository memberRepository;
     private final ReviewQueryDslRepository reviewQueryDslRepository;
     private final ReviewFeelingRepository reviewFeelingRepository;
-
-
+    private final ReviewFeelingQuerydslRepository reviewFeelingQuerydslRepository;
 
     //리뷰 작성, 비회원 불가
     @Transactional
@@ -89,9 +90,12 @@ public class ReviewService  {
     //리뷰 리스트 조회, 비회원도 가능
     @Transactional(readOnly = true)
     public List<Review> getReviewList(Pageable pageable){
+        MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return reviewQueryDslRepository.find(pageable)
                 .stream()
                 .map(Review::of)
+                .map(r-> addIsLikedValue(r,userDetails))
                 .collect(Collectors.toList());
     }
 
@@ -151,7 +155,17 @@ public class ReviewService  {
         reviewFeelingRepository.delete(reviewFeelingJpo);
     }
 
+    private Review addIsLikedValue (Review review, MemberUserDetails
+            memberUserDetails){
+        //좋아요한 식당이라면
+        if(reviewFeelingQuerydslRepository.isLikedByMember(review.getId(),memberUserDetails.getId())){
+            review.setLiked(true);
+        }
+        else review.setLiked(false);
 
+        return review;
+
+    }
 
     //TODO: 리뷰 신고 기능
 
