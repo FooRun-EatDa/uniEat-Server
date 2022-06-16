@@ -26,6 +26,10 @@ public class Coordinate implements JsonSerializable {
         return coordinate;
     }
 
+    public static Coordinate of(double latitude, double longitude) {
+        return new Coordinate(latitude, longitude);
+    }
+
     public CoordinateJpo asJpo() {
         return CoordinateJpo.of(latitude, longitude);
     }
