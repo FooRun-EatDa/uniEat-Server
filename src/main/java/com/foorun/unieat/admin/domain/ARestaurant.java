@@ -1,4 +1,4 @@
-package com.foorun.unieat.domain.restaurant.dto;
+package com.foorun.unieat.admin.domain;
 
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.category.dto.Category;
@@ -20,12 +20,13 @@ import static com.foorun.unieat.util.StreamUtil.map;
 import static com.foorun.unieat.util.StreamUtil.mapToSet;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Restaurant implements JsonSerializable {
+public class ARestaurant implements JsonSerializable {
     private Long id;
     private String name;
     private String explanation;
@@ -41,24 +42,27 @@ public class Restaurant implements JsonSerializable {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    private boolean isLiked; // 유저가 좋아요 한 식당인지
-
     private RegionCode regionCode;
     private List<Category> categories;
     private List<Food> foods;
     private List<Review> reviews;
 
-    public static Restaurant createEmpty(){return new Restaurant();}
+    public static ARestaurant createEmpty() {
+        return new ARestaurant();
+    }
 
-    public static Restaurant of(RestaurantJpo restaurantJpo){
-        Restaurant restaurant = createEmpty();
+    public static ARestaurant simpleOf(RestaurantJpo restaurantJpo) {
+        ARestaurant restaurant = createEmpty();
         BeanUtils.copyProperties(restaurantJpo,restaurant);
+        return restaurant;
+    }
 
+    public static ARestaurant of(RestaurantJpo restaurantJpo) {
+        ARestaurant restaurant = createEmpty();
+        BeanUtils.copyProperties(restaurantJpo,restaurant);
         restaurant.categories = map(restaurantJpo.getCategorys(),Category::of);
         restaurant.foods = map(restaurantJpo.getFoods(),Food::of);
         restaurant.reviews = map(restaurantJpo.getReviews(),Review::of);
-
         return restaurant;
     }
 
@@ -76,11 +80,10 @@ public class Restaurant implements JsonSerializable {
         if (!isEmpty(foods)) {
             Set<FoodJpo> foodJpoSet = this.foods.stream().map(r -> r.asJpo(restaurantJpo)).collect(Collectors.toSet());
             restaurantJpo.setFoods(foodJpoSet);
-            restaurantJpo.setReviews(mapToSet(this.reviews,Review::asJpo));
+            restaurantJpo.setReviews(mapToSet(this.reviews, Review::asJpo));
         }
         return restaurantJpo;
     }
-
 
     public long generateId() {
         this.id = IdentifyGenerator.number();

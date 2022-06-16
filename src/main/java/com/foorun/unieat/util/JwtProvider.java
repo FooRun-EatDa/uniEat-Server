@@ -4,8 +4,8 @@ import com.foorun.unieat.constant.JwtConstant;
 import com.foorun.unieat.domain.common.jwt.JwtToken;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
-import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
+import com.foorun.unieat.exception.UniEatTokenExpiryException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -173,7 +173,7 @@ public class JwtProvider {
             token = token.replaceFirst(JwtConstant.TOKEN_PREFIX + " ","");
             return token;
         }
-        throw new UniEatForbiddenException();
+        throw new UniEatTokenExpiryException();
     }
 
     public String resolveRefreshToken(HttpServletRequest request) {

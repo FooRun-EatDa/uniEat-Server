@@ -1,9 +1,11 @@
 package com.foorun.unieat.admin.controller;
 
+import com.foorun.unieat.admin.domain.ARestaurant;
 import com.foorun.unieat.admin.service.ARestaurantFileService;
 import com.foorun.unieat.admin.service.ARestaurantFoodService;
 import com.foorun.unieat.admin.service.ARestaurantListService;
 import com.foorun.unieat.admin.service.ARestaurantService;
+import com.foorun.unieat.constant.JwtConstant;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.file.dto.FileDetail;
@@ -12,16 +14,19 @@ import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 
+import static com.foorun.unieat.constant.JwtConstant.HEADER_NAME_REFRESH_TOKEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = ARestaurantController.MAPPING_URI, produces = APPLICATION_JSON_VALUE)
+@CrossOrigin(allowCredentials = "true", originPatterns = "*", exposedHeaders = {JwtConstant.HEADER_NAME, HEADER_NAME_REFRESH_TOKEN, HttpHeaders.LOCATION})
 @RequiredArgsConstructor
 @Api(hidden = true)
 public class ARestaurantController {
@@ -32,14 +37,14 @@ public class ARestaurantController {
     private final ARestaurantFileService restaurantImageService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<Page<Restaurant>>> get(
+    public ResponseEntity<ApiResponse<Page<ARestaurant>>> get(
             @ModelAttribute Paging paging) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantListService.fetch(paging)));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<Page<Restaurant>>> search(
+    public ResponseEntity<ApiResponse<Page<ARestaurant>>> search(
             @RequestParam(value = "keyword", required = false) String keyword,
             @ModelAttribute Paging paging) {
         return ResponseEntity.ok(
@@ -47,7 +52,7 @@ public class ARestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Restaurant>> get(
+    public ResponseEntity<ApiResponse<ARestaurant>> get(
             @PathVariable("id") long id) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(id)));
@@ -55,7 +60,7 @@ public class ARestaurantController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Void>> post(
-            @RequestBody Restaurant restaurant) {
+            @RequestBody ARestaurant restaurant) {
         long id = restaurantService.save(restaurant);
         return ResponseEntity
                 .created(URI.create(String.format("%s/%d", MAPPING_URI, id)))
@@ -64,7 +69,7 @@ public class ARestaurantController {
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Void>> put(
-            @RequestBody Restaurant restaurant) {
+            @RequestBody ARestaurant restaurant) {
         long id = restaurantService.update(restaurant);
         return ResponseEntity
                 .created(URI.create(String.format("%s/%d", MAPPING_URI, id)))

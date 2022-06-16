@@ -1,14 +1,13 @@
 package com.foorun.unieat.admin.controller;
 
+import com.foorun.unieat.admin.domain.ARestaurant;
+import com.foorun.unieat.admin.domain.restaurant.dto.ARestaurantBestDeletePayload;
 import com.foorun.unieat.admin.service.ARestaurantBestListService;
 import com.foorun.unieat.domain.common.api.ApiResponse;
-import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +22,27 @@ public class ARestaurantBestController {
     private final ARestaurantBestListService restaurantBestListService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Restaurant>>> get() {
+    public ResponseEntity<ApiResponse<List<ARestaurant>>> get() {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantBestListService.fetch()));
+    }
+
+    /**
+     * @param restaurantIdsJoinedStr restaurantId=1902151,123,500
+     */
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Void>> delete(
+            @RequestParam("restaurantIds") String restaurantIdsJoinedStr) {
+        restaurantBestListService.remove(restaurantIdsJoinedStr);
+        return ResponseEntity.ok(
+                ApiResponse.success());
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Void>> post(
+            @RequestBody ARestaurantBestDeletePayload payload) {
+        restaurantBestListService.saveAll(payload);
+        return ResponseEntity.ok(
+                ApiResponse.success());
     }
 }
