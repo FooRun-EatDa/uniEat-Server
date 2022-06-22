@@ -124,10 +124,10 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.GET_TOP_STORE_TO_MAP, notes = "지도에 표시되는 맛집 탑")
     @PostMapping(value = "/top/map")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getTopRestaurant(@RequestBody MemberLocation memberLocation){
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getTopRestaurant(@RequestBody MemberLocation memberLocation,@AuthenticationPrincipal MemberUserDetails memberUserDetails){
 
         return ResponseEntity.ok(
-                ApiResponse.valueOf(restaurantService.fetchMap(memberLocation))
+                ApiResponse.valueOf(restaurantService.fetchMap(memberLocation,memberUserDetails))
         );
     }
 
