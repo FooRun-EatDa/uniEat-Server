@@ -192,6 +192,14 @@ public class RestaurantService   {
 
         }
 
+
+        //TODO : 검색 기록 삭제 api
+        public void deleteSearchLog(Long memberId){
+            //본인것만 삭제할 수 있도록
+
+        }
+
+
         //주변 맛집
         @Transactional(readOnly = true)
         public List<RestaurantSimple> fetchNearest (MemberLocation memberLocation,MemberUserDetails memberUserDetails){
@@ -226,4 +234,9 @@ public class RestaurantService   {
                     .map(RestaurantSimple::of)
                     .collect(Collectors.toList());
         }
+
+
+
+
+
     }
