@@ -15,6 +15,7 @@ public interface SwaggerApiInfo {
     String SETTING_PASSWORD = "비밀번호 변경";
     String SIGN_OUT = "로그아웃";
     String WITHDRAW = "회원 탈퇴";
+    String RE_ISSUE_TOKEN = "인증 토큰 재발급";
 
     String POST = "게시글 Operations";
     String GET_POST_SUMMARY = "전체 게시판 카테고리별 게시글 목록 조회";
@@ -64,4 +65,7 @@ public interface SwaggerApiInfo {
     String GET_EVENT_LIST = "현재 등록된 이벤트 목록 가져오기";
     String DELETE_USE_COUPON = "쿠폰 사용하기";
     String GET_EVENT_VALID_CHECK = "이벤트 유효성 체크 요청";
+
+    String ADDRESS = "주소 관련 Operations";
+    String GET_COORDINATE = "주소로 좌표 검색";
 }

@@ -7,6 +7,8 @@ import com.foorun.unieat.domain.history.member.repository.HistoryMemberSignInRep
 import com.foorun.unieat.domain.member.dto.MemberSignIn;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
+import com.foorun.unieat.domain.token.jpo.RefreshTokenJpo;
+import com.foorun.unieat.domain.token.repository.RefreshTokenRepository;
 import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.util.JwtProvider;
@@ -25,6 +27,7 @@ public class MemberSignInService implements UserDetailsService {
     private final JwtProvider jwtProvider;
     private final HistoryMemberSignInRepository historyMemberSignInRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * 사용자 Sign-In
@@ -38,7 +41,9 @@ public class MemberSignInService implements UserDetailsService {
         if (bCryptPasswordEncoder.matches(memberSignIn.getPassword(), memberJpo.getPassword())) {
             memberJpo.latestSignInNow();
             historyMemberSignInRepository.save(HistoryMemberSignInJpo.of(memberJpo.getId()));
-            return jwtProvider.createTokens(memberJpo.asUserDetails());
+            JwtToken jwtToken = jwtProvider.createTokens(memberJpo.asUserDetails());
+            refreshTokenRepository.save(RefreshTokenJpo.tokenOf(jwtToken.getRefreshToken()));
+            return jwtToken;
         }
         throw new UniEatNotFoundException();
     }

@@ -20,11 +20,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.foorun.unieat.constant.JwtConstant.HEADER_NAME_REFRESH_TOKEN;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Api(tags = SwaggerApiInfo.MEMBER)
-@CrossOrigin(allowCredentials = "true", originPatterns = "*", exposedHeaders = {JwtConstant.HEADER_NAME, JwtConstant.HEADER_NAME_REFRESH_TOKEN})
+@CrossOrigin(allowCredentials = "true", originPatterns = "*", exposedHeaders = {JwtConstant.HEADER_NAME, HEADER_NAME_REFRESH_TOKEN})
 public class MemberController {
     private final MemberSignUpService memberSignUpService;
     private final MemberSignInService memberSignInService;
@@ -32,6 +34,7 @@ public class MemberController {
     private final MemberVerifyEmailService memberVerifyEmailService;
     private final MemberSettingService memberSettingService;
     private final MemberSignOutService memberSignOutService;
+    private final MemberTokenService memberTokenService;
 
     @ApiOperation(value = SwaggerApiInfo.SIGN_IN)
     @PostMapping("/sign-in")
@@ -141,5 +144,15 @@ public class MemberController {
             @AuthenticationPrincipal MemberUserDetails memberUserDetails) {
         memberSettingService.withdraw(memberUserDetails);
         return ResponseEntity.ok(ApiResponse.success());
+    }
+
+    @ApiOperation(value = SwaggerApiInfo.RE_ISSUE_TOKEN)
+    @PostMapping("/token/re-issue")
+    public ResponseEntity<ApiResponse<Void>> reIssue(
+            @RequestHeader(HEADER_NAME_REFRESH_TOKEN) String refreshToken) {
+        JwtToken jwtToken = memberTokenService.reIssueToken(refreshToken);
+        return ResponseEntity.ok()
+                .headers(HttpHeaders.readOnlyHttpHeaders(jwtToken.asHeaders()))
+                .body(ApiResponse.success());
     }
 }

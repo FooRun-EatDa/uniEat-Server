@@ -16,10 +16,9 @@ import javax.persistence.*;
 @ToString(callSuper = true)
 @Table(name ="restaurant_best")
 public class RestaurantBestJpo extends BaseTimeJpo {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")

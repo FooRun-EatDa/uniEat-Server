@@ -9,6 +9,7 @@ import com.foorun.unieat.util.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -54,6 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/member/verify-email",
                         "/member/reset-password",
+                        "/member/token/re-issue",
+                        "/v1/address/**/*",
                         "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -76,6 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader(JwtConstant.HEADER_NAME);
         configuration.addExposedHeader(JwtConstant.HEADER_NAME_REFRESH_TOKEN);
+        configuration.addExposedHeader(HttpHeaders.LOCATION);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",configuration);
         return source;
@@ -90,6 +94,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/school/**",
                 "/member/verify-email",
                 "/member/reset-password",
+                "/member/token/re-issue",
+                "/v1/address/**/*",
                 "/swagger-ui.html");
     }
 }
