@@ -22,7 +22,9 @@ public class BookmarkQuerydslRepository {
                 .from(bookmarkJpo)
                 .where(
                 bookmarkJpo.member.id.eq(memberId)
-                ).fetch();
+                )
+                .orderBy(bookmarkJpo.createdAt.desc())
+                .fetch();
 
     }
 

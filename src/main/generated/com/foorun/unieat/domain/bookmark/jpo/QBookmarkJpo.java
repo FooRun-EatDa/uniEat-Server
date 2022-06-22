@@ -22,11 +22,19 @@ public class QBookmarkJpo extends EntityPathBase<BookmarkJpo> {
 
     public static final QBookmarkJpo bookmarkJpo = new QBookmarkJpo("bookmarkJpo");
 
+    public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final com.foorun.unieat.domain.member.jpo.QMemberJpo member;
 
     public final com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo restaurant;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QBookmarkJpo(String variable) {
         this(BookmarkJpo.class, forVariable(variable), INITS);

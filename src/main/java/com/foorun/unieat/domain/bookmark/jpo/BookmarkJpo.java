@@ -1,5 +1,6 @@
 package com.foorun.unieat.domain.bookmark.jpo;
 
+import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import lombok.*;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Table(name = "bookmark")
-public class BookmarkJpo {
+public class BookmarkJpo extends BaseTimeJpo {
 
     @Id
     @Column(name="bookmark_id")
