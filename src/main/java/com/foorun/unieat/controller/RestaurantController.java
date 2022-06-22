@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +42,9 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(){
+    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="lastPage") int page){
         return ResponseEntity.ok(
-                ApiResponse.valueOf(restaurantService.fetch())
+                ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
         );
     }
 
