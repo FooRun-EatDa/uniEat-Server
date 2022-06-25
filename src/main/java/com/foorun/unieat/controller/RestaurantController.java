@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,6 +80,21 @@ public class RestaurantController {
                 ApiResponse.valueOf(
                         restaurantService.fetchBySearching(keyword,new Paging(page, PAGING_SIZE)))
         );
+    }
+
+
+    @ApiImplicitParam(name = "text", value = "삭제할 검색어",type = "String")
+    @ApiOperation(value = SwaggerApiInfo.DELETE_SEARCH_LOG,notes = "특정 검색 키워드 삭제")
+    @DeleteMapping(value = "/search")
+    public ResponseEntity<ApiResponse<Void>> deleteSearchLog(
+            @AuthenticationPrincipal MemberUserDetails memberUserDetails,
+            @RequestParam(name = "text") String text){
+        restaurantService.deleteSearchLog(memberUserDetails.getId(),text);
+        return ResponseEntity.ok(
+                ApiResponse.success()
+        );
+
+
     }
 
 

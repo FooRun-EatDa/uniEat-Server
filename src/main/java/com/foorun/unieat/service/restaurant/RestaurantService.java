@@ -24,6 +24,7 @@ import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import com.foorun.unieat.domain.search.respository.SearchLogQueryRepository;
 import com.foorun.unieat.domain.search.respository.SearchLogRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
+import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
@@ -194,8 +195,15 @@ public class RestaurantService   {
 
 
         //TODO : 검색 기록 삭제 api
-        public void deleteSearchLog(Long memberId){
-            //본인것만 삭제할 수 있도록
+        @Transactional
+        public void deleteSearchLog(Long memberId,String delText){
+            try {
+                Optional.of(searchLogRepository.deleteSearchLogJpoByMemberId(memberId, delText))
+                        .orElseThrow(UniEatLogicalException::new);
+            }catch (UniEatLogicalException e){
+                log.info("삭제하려는 텍스트 찾을 수 없음");
+                throw new UniEatNotFoundException();
+            }
 
         }
 

@@ -49,6 +49,8 @@ public interface SwaggerApiInfo {
     String GET_STORE_BY_SEARCH = "검색을 이용한 식당 정보 조회";
     String GET_NEAREST_STORE = "주변 맛집 조회";
     String GET_SEARCH_LOG = "검색 기록 저장";
+    String DELETE_SEARCH_LOG = "검색 기록 삭제";
+
     String POST_STORE_BY_FILTER = "필터를 이용한 식당 검색";
     String GET_TOP_STORE_TO_MAP = "top 맛집 지도에서 조회";
 
