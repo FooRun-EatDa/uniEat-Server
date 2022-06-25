@@ -23,10 +23,7 @@ import com.foorun.unieat.domain.search.dto.SearchLog;
 import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import com.foorun.unieat.domain.search.respository.SearchLogQueryRepository;
 import com.foorun.unieat.domain.search.respository.SearchLogRepository;
-import com.foorun.unieat.exception.UniEatBadRequestException;
-import com.foorun.unieat.exception.UniEatLogicalException;
-import com.foorun.unieat.exception.UniEatNotFoundException;
-import com.foorun.unieat.exception.UniEatUnAuthorizationException;
+import com.foorun.unieat.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -159,16 +156,21 @@ public class RestaurantService   {
     }
 
     //검색 로그 저장
-    //시큐리티 컨텍스트로부터 인증된 유저 정보 가져와 검색 로그 추가에 사용
+    //시큐리티 컨텍스트로부터 인증된 유저 정보 가져와 검색 로그 추가에 사용, 중복 저장 안됨
     @Transactional(propagation = Propagation.NESTED)
     public void saveSearchText(String searchText) {
         try {
             MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            SearchLogJpo searchLogJpo = SearchLog.builder().searchText(searchText).build().asJpo();
-
             MemberJpo member = memberRepository.findByEmail(userDetails.getEmail()).orElseThrow(UniEatNotFoundException::new);
+
+            //검색어 중복 저장 안되도록 함
+            if(searchLogRepository.findSearchLogJpoByMemberIdAndSearchText(member.getId(), searchText) != null){
+                return;
+            }
+            SearchLogJpo searchLogJpo = SearchLog.builder().searchText(searchText).build().asJpo();
             searchLogJpo.setMember(member);
+
+
             searchLogRepository.save(searchLogJpo);
         } catch (NullPointerException nullPointerException) {
             log.info("멤버 찾을 수 없음 ");
@@ -194,17 +196,10 @@ public class RestaurantService   {
         }
 
 
-        //TODO : 검색 기록 삭제 api
         @Transactional
         public void deleteSearchLog(Long memberId,String delText){
-            try {
                 Optional.of(searchLogRepository.deleteSearchLogJpoByMemberId(memberId, delText))
                         .orElseThrow(UniEatLogicalException::new);
-            }catch (UniEatLogicalException e){
-                log.info("삭제하려는 텍스트 찾을 수 없음");
-                throw new UniEatNotFoundException();
-            }
-
         }
 
 

@@ -21,6 +21,10 @@ public interface SearchLogRepository extends JpaRepository<SearchLogJpo,Long> {
     @Query("SELECT s from SearchLogJpo s inner join s.member m where m.id = :memberId ")
     Page<SearchLogJpo> findSearchLogJpoByMemberId(@Param("memberId") Long memberId, Pageable pageable);
 
+    @Query("SELECT s from SearchLogJpo s inner join s.member m where m.id = :memberId and s.searchText = :text")
+    SearchLogJpo findSearchLogJpoByMemberIdAndSearchText(@Param("memberId") Long memberId, @Param("text") String text);
+
+
     @Modifying
     @Query("DELETE FROM SearchLogJpo s where s.member.id = :memberId and s.searchText = :text")
     Integer deleteSearchLogJpoByMemberId(@Param("memberId") Long memberId, @Param("text") String text);
