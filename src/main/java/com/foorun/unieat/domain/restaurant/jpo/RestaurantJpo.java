@@ -51,6 +51,12 @@ public class RestaurantJpo extends BaseTimeJpo {
     private String content;
 
     /**
+     * 카테고리
+     */
+    @Column(name = "category_code")
+    private Integer category;
+
+    /**
      * 식당 주소
      */
     private String address;
