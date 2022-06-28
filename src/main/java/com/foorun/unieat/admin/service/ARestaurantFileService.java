@@ -61,6 +61,7 @@ public class ARestaurantFileService {
                     .orElseThrow(UniEatLogicalException::new);
             restaurantFileJpo.setSequence(fileDetail.getSequence());
             restaurantFileJpo.setThumbnail(fileDetail.isThumbnail());
+            restaurantFileJpo.getFile().setCopyright(fileDetail.getCopyright());
             restaurantFileRepository.save(restaurantFileJpo);
         }
     }

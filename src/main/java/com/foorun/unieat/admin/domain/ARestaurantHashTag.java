@@ -11,12 +11,14 @@ import lombok.*;
 @Builder
 public class ARestaurantHashTag {
     private long restaurantId;
-    private String tag;
+    private long hashTagId;
+    private String content;
 
     public static ARestaurantHashTag of(HashTagRestaurantJpo hashTagRestaurantJpo) {
         return ARestaurantHashTag.builder()
+                .hashTagId(hashTagRestaurantJpo.getHashTag().getId())
                 .restaurantId(hashTagRestaurantJpo.getRestaurant().getId())
-                .tag(hashTagRestaurantJpo.getHashTag().getContent())
+                .content(hashTagRestaurantJpo.getHashTag().getContent())
                 .build();
     }
 }

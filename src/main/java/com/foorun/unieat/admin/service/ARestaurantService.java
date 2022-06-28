@@ -37,4 +37,9 @@ public class ARestaurantService {
         restaurantRepository.save(restaurantJpo);
         return restaurant.generateId();
     }
+
+    @Transactional
+    public void removeHard(long id) {
+        restaurantRepository.deleteById(id);
+    }
 }

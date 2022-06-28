@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "restaurant_business_hour")
+@Builder
 public class RestaurantBusinessHourJpo {
     @EmbeddedId
     private Identify id;
@@ -23,6 +24,7 @@ public class RestaurantBusinessHourJpo {
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Embeddable
+    @Builder
     public static class Identify implements Serializable {
         @ToString.Exclude
         @ManyToOne(fetch = FetchType.LAZY)

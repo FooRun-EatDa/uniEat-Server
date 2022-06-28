@@ -94,6 +94,7 @@ public class FileDetail {
                 .path(baseFileJpo.getFile().getPath())
                 .sequence(baseFileJpo.getSequence())
                 .thumbnail(baseFileJpo.isThumbnail())
+                .copyright(baseFileJpo.getFile().getCopyright())
                 .build();
     }
 

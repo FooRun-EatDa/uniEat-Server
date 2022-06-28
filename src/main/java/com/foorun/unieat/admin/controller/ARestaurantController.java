@@ -58,6 +58,14 @@ public class ARestaurantController {
                 ApiResponse.valueOf(restaurantService.fetch(id)));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<ARestaurant>> delete(
+            @PathVariable("id") long id) {
+        restaurantService.removeHard(id);
+        return ResponseEntity.ok(
+                ApiResponse.success());
+    }
+
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Void>> post(
             @RequestBody ARestaurant restaurant) {
@@ -120,8 +128,8 @@ public class ARestaurantController {
     @PutMapping(value = "/{restaurantId}/business-hours", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Void>> putBusinessHours(
             @PathVariable("restaurantId") long restaurantId,
-            @RequestBody List<Food> foods) {
-        restaurantFoodService.save(restaurantId, foods);
+            @RequestBody List<String> businessHours) {
+        restaurantBusinessHourService.save(restaurantId, businessHours);
         return ResponseEntity
                 .created(URI.create(String.format("%s/%d", MAPPING_URI, restaurantId)))
                 .body(ApiResponse.success());
@@ -137,10 +145,19 @@ public class ARestaurantController {
     @PutMapping(value = "/{restaurantId}/hash-tag", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<Void>> putHashTag(
             @PathVariable("restaurantId") long restaurantId,
-            @RequestBody List<Food> foods) {
-        restaurantFoodService.save(restaurantId, foods);
+            @RequestBody List<Long> hashTagIds) {
+        restaurantHashTagService.save(restaurantId, hashTagIds);
         return ResponseEntity
                 .created(URI.create(String.format("%s/%d", MAPPING_URI, restaurantId)))
                 .body(ApiResponse.success());
+    }
+
+    @DeleteMapping(value = "/{restaurantId}/hash-tag/{hashTagId}")
+    public ResponseEntity<ApiResponse<Void>> deleteHashTag(
+            @PathVariable("restaurantId") long restaurantId,
+            @PathVariable("hashTagId") long hashTagId) {
+        restaurantHashTagService.removeHard(restaurantId, hashTagId);
+        return ResponseEntity
+                .ok(ApiResponse.success());
     }
 }
