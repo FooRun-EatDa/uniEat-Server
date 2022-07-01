@@ -13,4 +13,15 @@ public class ServiceConstant {
     public static final String COUPON_NOT_APPLICABLE = "사용가능한 쿠폰 없음";
 
     public static final String COUPON_VALID = "쿠폰 사용 가능";
+
+
+    /**
+     * 신고 사유 타입 번호 구분
+     */
+    public static final Long REPORT_REVIEW = 0L;
+    public static final Long REPORT_POST = 1L;
+    public static final Long REPORT_MESSAGE = 2L;
+    public static final Long REPORT_COMMENT = 3L;
+
+
 }
