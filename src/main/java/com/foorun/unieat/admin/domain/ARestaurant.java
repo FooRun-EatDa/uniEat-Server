@@ -32,6 +32,7 @@ public class ARestaurant implements JsonSerializable {
     private String explanation;
     private String imgUrl;
     private String content;
+    private Integer category;
     private String address;
     private String longitude;
     private String latitude;

@@ -60,6 +60,9 @@ public class FileDetail {
     @ApiModelProperty(notes = "새로 생성된 파일인지 여부", example = "false", position = 9)
     private boolean newly = false;
 
+    @ApiModelProperty(notes = "파일의 출처(저작권자)", example = "XXX 블로그", position = 10)
+    private String copyright;
+
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -91,6 +94,7 @@ public class FileDetail {
                 .path(baseFileJpo.getFile().getPath())
                 .sequence(baseFileJpo.getSequence())
                 .thumbnail(baseFileJpo.isThumbnail())
+                .copyright(baseFileJpo.getFile().getCopyright())
                 .build();
     }
 
@@ -103,6 +107,7 @@ public class FileDetail {
                 .width(width)
                 .height(height)
                 .bytes(bytes)
+                .copyright(copyright)
                 .build();
     }
 }

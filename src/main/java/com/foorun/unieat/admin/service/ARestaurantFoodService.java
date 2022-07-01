@@ -9,7 +9,6 @@ import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.food.jpo.FoodFileIdJpo;
 import com.foorun.unieat.domain.food.jpo.FoodFileJpo;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
-import com.foorun.unieat.domain.restaurant.jpo.RestaurantFileIdJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
@@ -88,6 +87,7 @@ public class ARestaurantFoodService {
                     .orElseThrow(UniEatLogicalException::new);
             foodFileJpo.setSequence(fileDetail.getSequence());
             foodFileJpo.setThumbnail(fileDetail.isThumbnail());
+            foodFileJpo.getFile().setCopyright(fileDetail.getCopyright());
             foodFileRepository.save(foodFileJpo);
         }
     }

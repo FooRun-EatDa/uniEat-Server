@@ -1,16 +1,14 @@
 package com.foorun.unieat.admin.controller;
 
 import com.foorun.unieat.admin.domain.ARestaurant;
-import com.foorun.unieat.admin.service.ARestaurantFileService;
-import com.foorun.unieat.admin.service.ARestaurantFoodService;
-import com.foorun.unieat.admin.service.ARestaurantListService;
-import com.foorun.unieat.admin.service.ARestaurantService;
+import com.foorun.unieat.admin.domain.ARestaurantBusinessHour;
+import com.foorun.unieat.admin.domain.ARestaurantHashTag;
+import com.foorun.unieat.admin.service.*;
 import com.foorun.unieat.constant.JwtConstant;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.file.dto.FileDetail;
 import com.foorun.unieat.domain.food.dto.Food;
-import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,6 +33,8 @@ public class ARestaurantController {
     private final ARestaurantListService restaurantListService;
     private final ARestaurantFoodService restaurantFoodService;
     private final ARestaurantFileService restaurantImageService;
+    private final ARestaurantBusinessHourService restaurantBusinessHourService;
+    private final ARestaurantHashTagService restaurantHashTagService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<ARestaurant>>> get(
@@ -56,6 +56,14 @@ public class ARestaurantController {
             @PathVariable("id") long id) {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(id)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<ARestaurant>> delete(
+            @PathVariable("id") long id) {
+        restaurantService.removeHard(id);
+        return ResponseEntity.ok(
+                ApiResponse.success());
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
@@ -108,5 +116,48 @@ public class ARestaurantController {
         return ResponseEntity
                 .created(URI.create(String.format("%s/%d", MAPPING_URI, restaurantId)))
                 .body(ApiResponse.success());
+    }
+
+    @GetMapping(value = "/{restaurantId}/business-hours")
+    public ResponseEntity<ApiResponse<List<ARestaurantBusinessHour>>> getBusinessHours(
+            @PathVariable("restaurantId") long restaurantId) {
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(restaurantBusinessHourService.fetch(restaurantId)));
+    }
+
+    @PutMapping(value = "/{restaurantId}/business-hours", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Void>> putBusinessHours(
+            @PathVariable("restaurantId") long restaurantId,
+            @RequestBody List<String> businessHours) {
+        restaurantBusinessHourService.save(restaurantId, businessHours);
+        return ResponseEntity
+                .created(URI.create(String.format("%s/%d", MAPPING_URI, restaurantId)))
+                .body(ApiResponse.success());
+    }
+
+    @GetMapping(value = "/{restaurantId}/hash-tag")
+    public ResponseEntity<ApiResponse<List<ARestaurantHashTag>>> getHashTag(
+            @PathVariable("restaurantId") long restaurantId) {
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(restaurantHashTagService.fetch(restaurantId)));
+    }
+
+    @PutMapping(value = "/{restaurantId}/hash-tag", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Void>> putHashTag(
+            @PathVariable("restaurantId") long restaurantId,
+            @RequestBody List<Long> hashTagIds) {
+        restaurantHashTagService.save(restaurantId, hashTagIds);
+        return ResponseEntity
+                .created(URI.create(String.format("%s/%d", MAPPING_URI, restaurantId)))
+                .body(ApiResponse.success());
+    }
+
+    @DeleteMapping(value = "/{restaurantId}/hash-tag/{hashTagId}")
+    public ResponseEntity<ApiResponse<Void>> deleteHashTag(
+            @PathVariable("restaurantId") long restaurantId,
+            @PathVariable("hashTagId") long hashTagId) {
+        restaurantHashTagService.removeHard(restaurantId, hashTagId);
+        return ResponseEntity
+                .ok(ApiResponse.success());
     }
 }

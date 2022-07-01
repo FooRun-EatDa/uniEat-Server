@@ -2,6 +2,7 @@ package com.foorun.unieat.domain.hashtag.jpo;
 
 import com.foorun.unieat.domain.BaseTimeJpo;
 import lombok.*;
+import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
