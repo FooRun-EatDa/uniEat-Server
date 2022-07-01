@@ -87,6 +87,10 @@ public interface SwaggerApiInfo {
 
 
     String REPORT = "신고 관련 operation";
+<<<<<<< HEAD
     String REPORTING = "특정 유저 신고하기";
     String UNREPORTING = "임의로 정지 유저 해제";
+=======
+
+>>>>>>> fetch_head
 }

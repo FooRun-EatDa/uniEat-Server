@@ -15,4 +15,5 @@ public interface ReportRepository extends JpaRepository<ReportJpo,Long> {
 
     List<ReportJpo> findAllByToMember(MemberJpo toMember);
 
+
 }

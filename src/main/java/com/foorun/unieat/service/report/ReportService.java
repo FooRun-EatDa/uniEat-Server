@@ -20,16 +20,21 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import org.hibernate.mapping.IdGenerator;
+import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 public class ReportService {
 
     private final ReportRepository reportRepository;
     private final MemberRepository memberRepository;
+
 
 
     @Transactional
@@ -91,9 +96,6 @@ public class ReportService {
         }
 
     }
-
-
-
 
 
 }
