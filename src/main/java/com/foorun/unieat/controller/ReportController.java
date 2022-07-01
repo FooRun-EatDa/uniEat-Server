@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +34,7 @@ public class ReportController {
                     "게시물 신고 : 1\n" +
                     "메시지 신고 : 2\n" +
                     "댓글 신고 : 3\n")
-    @ApiOperation(value = SwaggerApiInfo.REPORT,notes = "Body에 담기는 type 은 신고 사유를 말함, 욕설/비방 등..")
+    @ApiOperation(value = SwaggerApiInfo.REPORTING,notes = "Body에 담기는 type 은 신고 사유를 말함, 욕설/비방 등..")
     @PostMapping("")
     public ResponseEntity<ApiResponse<Void>> reporting(
             @AuthenticationPrincipal MemberUserDetails memberUserDetails,
@@ -44,4 +45,14 @@ public class ReportController {
         return ResponseEntity.ok(ApiResponse.success());
 
     }
+
+
+    @ApiOperation(value = SwaggerApiInfo.UNREPORTING,notes = "임의로 신고 누적 유저 정지 해제")
+    @PatchMapping("")
+    public ResponseEntity<ApiResponse<Void>> unreporting(@RequestParam(name = "memberId") Long memberId){
+        reportService.exitBlocked(memberId);
+        return ResponseEntity.ok(ApiResponse.success());
+
+    }
+
 }
