@@ -56,7 +56,7 @@ public class ReviewController {
 
     @ApiOperation(value = SwaggerApiInfo.GET_REVIEW_LIST, notes = "리뷰 피드 조회(페이징 리뷰 조회")
     @GetMapping("")
-    public ResponseEntity<ApiResponse<List<Review>>> getReviewList(@RequestParam(name="lastPage") int page){
+    public ResponseEntity<ApiResponse<List<Review>>> getRevi:qewList(@RequestParam(name="lastPage") int page){
 
         return ResponseEntity.ok(
                 ApiResponse.valueOf(reviewService.getReviewList(new Paging(page,PAGING_SIZE)))
