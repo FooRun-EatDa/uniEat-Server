@@ -17,6 +17,8 @@ public interface SwaggerApiInfo {
     String WITHDRAW = "회원 탈퇴";
     String RE_ISSUE_TOKEN = "인증 토큰 재발급";
 
+
+
     String POST = "게시글 Operations";
     String GET_POST_SUMMARY = "전체 게시판 카테고리별 게시글 목록 조회";
     String GET_POST_LIST = "게시글 목록 조회";
@@ -82,4 +84,8 @@ public interface SwaggerApiInfo {
 
     String ADDRESS = "주소 관련 Operations";
     String GET_COORDINATE = "주소로 좌표 검색";
+
+
+    String REPORT = "신고 관련 operation";
+
 }
