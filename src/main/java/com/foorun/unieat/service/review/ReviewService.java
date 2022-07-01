@@ -1,6 +1,9 @@
 package com.foorun.unieat.service.review;
 
 
+import com.foorun.unieat.domain.feeling.jpo.ReviewFeelingJpo;
+import com.foorun.unieat.domain.feeling.repository.ReviewFeelingQuerydslRepository;
+import com.foorun.unieat.domain.feeling.repository.ReviewFeelingRepository;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
@@ -9,6 +12,7 @@ import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
+import com.foorun.unieat.domain.review.dto.ReviewUpdateReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
@@ -17,8 +21,11 @@ import com.foorun.unieat.exception.UniEatForbiddenException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.exception.UniEatUnAuthorizationException;
 
+import com.foorun.unieat.util.IdentifyGenerator;
+import com.foorun.unieat.component.LikedCheckComponent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,16 +42,14 @@ public class ReviewService  {
     private final RestaurantRepository restaurantRepository;
     private final MemberRepository memberRepository;
     private final ReviewQueryDslRepository reviewQueryDslRepository;
-
-
-
+    private final ReviewFeelingRepository reviewFeelingRepository;
+    private final ReviewFeelingQuerydslRepository reviewFeelingQuerydslRepository;
 
     //리뷰 작성, 비회원 불가
     @Transactional
     public Long addReview(MemberUserDetails memberUserDetails, ReviewReq reviewDto) {
 
         if(!starScoreInvalidCheck(reviewDto))throw new UniEatBadRequestException();
-
 
         MemberJpo member = memberRepository.findById(memberUserDetails.getId())
                 .orElseThrow(UniEatForbiddenException::new);
@@ -85,9 +90,12 @@ public class ReviewService  {
     //리뷰 리스트 조회, 비회원도 가능
     @Transactional(readOnly = true)
     public List<Review> getReviewList(Pageable pageable){
+        MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return reviewQueryDslRepository.find(pageable)
                 .stream()
                 .map(Review::of)
+                .map(r-> addIsLikedValue(r,userDetails))
                 .collect(Collectors.toList());
     }
 
@@ -101,14 +109,14 @@ public class ReviewService  {
 
     //리뷰 수정
     @Transactional
-    public Review updateReview(ReviewReq updateReq, MemberUserDetails memberUserDetails){
+    public Review updateReview(ReviewUpdateReq updateReq, MemberUserDetails memberUserDetails){
         ReviewJpo reviewJpo = reviewQueryDslRepository.find(updateReq.getId()).orElseThrow(UniEatNotFoundException::new);
         if(!updateValidCheck(reviewJpo,memberUserDetails)) throw new UniEatForbiddenException();
         updateReviewJpo(reviewJpo,updateReq);
         return Review.of(reviewJpo); // 업데이트된 리뷰 그대로 리턴
     }
 
-    private void updateReviewJpo(ReviewJpo reviewJpo, ReviewReq updateReq){
+    private void updateReviewJpo(ReviewJpo reviewJpo, ReviewUpdateReq updateReq){
 
         reviewJpo.setContent(Optional.of(updateReq.getContent()).orElse(reviewJpo.getContent()));
         reviewJpo.setImgUrl(Optional.of(updateReq.getImgUrl()).orElse(reviewJpo.getImgUrl()));
@@ -118,11 +126,45 @@ public class ReviewService  {
 
 
     //리뷰 업데이트 체크
-    private boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
+    public boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
         Long writerId = reviewJpo.getMember().getId();
         Long memberId = member.getId();
         if(writerId != memberId)return false;
         else return true;
+    }
+
+
+    //리뷰 좋아요
+    public void reviewLiking(Long reviewId, MemberUserDetails memberUserDetails){
+        Long memberId = memberUserDetails.getId();
+        ReviewFeelingJpo reviewFeelingJpo = ReviewFeelingJpo.builder()
+                .id(IdentifyGenerator.number())
+                .review(reviewRepository.findById(reviewId).orElseThrow(UniEatNotFoundException::new))
+                .member(memberRepository.findById(memberId).orElseThrow(UniEatNotFoundException::new))
+                .build();
+
+        reviewFeelingRepository.save(reviewFeelingJpo);
+    }
+
+
+
+    //리뷰 좋아요 취소
+    public void reivewLikingCancel(Long reviewId, MemberUserDetails memberUserDetails){
+        Long memberId = memberUserDetails.getId();
+        ReviewFeelingJpo reviewFeelingJpo = reviewFeelingRepository.findReviewFeelingJpoByReviewIdAndMemberId(reviewId,memberId).orElseThrow(UniEatBadRequestException::new);
+        reviewFeelingRepository.delete(reviewFeelingJpo);
+    }
+
+    private Review addIsLikedValue (Review review, MemberUserDetails
+            memberUserDetails){
+        //좋아요한 식당이라면
+        if(reviewFeelingQuerydslRepository.isLikedByMember(review.getId(),memberUserDetails.getId())){
+            review.setLiked(true);
+        }
+        else review.setLiked(false);
+
+        return review;
+
     }
 
     //TODO: 리뷰 신고 기능
@@ -130,15 +172,6 @@ public class ReviewService  {
 
 
 
-//    //리뷰를 수정할 수 있는 권한이 있는지 확인
-//    public Boolean updateValidCheck(ReviewJpo reviewJpo, MemberUserDetails member){
-//        Long writerId = reviewJpo.getMember().getId();
-//        Long memberId = member.getId();
-//        if(writerId != memberId)return false;
-//        else return true;
-//
-//    }
-//
 
 
 }

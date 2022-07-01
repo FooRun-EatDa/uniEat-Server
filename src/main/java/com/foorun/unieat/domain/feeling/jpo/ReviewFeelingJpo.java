@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "review_feeling")
 public class ReviewFeelingJpo {
     @Id
-    @Column(name="member_review_feeling_id")
+    @Column(name="review_feeling_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

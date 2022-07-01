@@ -57,6 +57,18 @@ public interface SwaggerApiInfo {
 
 
     String Review = "식당 리뷰 게시판 관련 operation";
+    String POST_REVIEW_ADD = "식당 리뷰 작성";
+    String DELETE_REVIEW = "식당 리뷰 삭제";
+    String GET_REVIEW_LIST = "식당 리뷰 리스트 조회";
+    String GET_REVIEW = "리뷰 상세 조회";
+    String PATCH_REVIEW = "리뷰 수정";
+    String POST_REVIEW_LIKING = "리뷰 좋아요 하기";
+    String DELETE_REVIEW_LIKING = "리뷰 좋아요 취소";
+
+
+
+
+
     String POST_BOOKMARKING = "식당 id를 통한 좋아요 누르기";
     String GET_BOOMARKEDLIST = "좋아요 누른 식당 리스트 가져오기";
     String DELETE_BOOKMARKING = "식당 id를 통한 좋아요 취소";

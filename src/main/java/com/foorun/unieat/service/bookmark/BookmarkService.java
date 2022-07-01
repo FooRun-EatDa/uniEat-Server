@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+/**
+ * 식당 좋아요 서비스
+ */
 @Service
 @RequiredArgsConstructor
 public class BookmarkService {
