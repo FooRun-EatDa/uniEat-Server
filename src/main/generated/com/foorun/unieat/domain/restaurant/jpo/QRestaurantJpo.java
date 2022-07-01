@@ -30,6 +30,8 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final SetPath<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo> bookmark = this.<com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo>createSet("bookmark", com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo.class, com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.class, PathInits.DIRECT2);
 
+    public final NumberPath<Integer> category = createNumber("category", Integer.class);
+
     public final SetPath<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo> categorys = this.<com.foorun.unieat.domain.category.jpo.CategoryJpo, com.foorun.unieat.domain.category.jpo.QCategoryJpo>createSet("categorys", com.foorun.unieat.domain.category.jpo.CategoryJpo.class, com.foorun.unieat.domain.category.jpo.QCategoryJpo.class, PathInits.DIRECT2);
 
     public final StringPath content = createString("content");

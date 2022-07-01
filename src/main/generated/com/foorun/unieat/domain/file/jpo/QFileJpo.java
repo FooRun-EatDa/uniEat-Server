@@ -21,6 +21,8 @@ public class QFileJpo extends EntityPathBase<FileJpo> {
 
     public final NumberPath<Long> bytes = createNumber("bytes", Long.class);
 
+    public final StringPath copyright = createString("copyright");
+
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
     public final StringPath format = createString("format");
