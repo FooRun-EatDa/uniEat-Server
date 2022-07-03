@@ -2,7 +2,6 @@ package com.foorun.unieat.admin.domain;
 
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.category.dto.Category;
-import com.foorun.unieat.domain.code.region.dto.RegionCode;
 import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
@@ -43,7 +42,7 @@ public class ARestaurant implements JsonSerializable {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private RegionCode regionCode;
+    private Long districtCode;
     private List<Category> categories;
     private List<Food> foods;
     private List<Review> reviews;
