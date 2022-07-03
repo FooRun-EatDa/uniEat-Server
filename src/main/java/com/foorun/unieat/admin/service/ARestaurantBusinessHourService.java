@@ -33,16 +33,20 @@ public class ARestaurantBusinessHourService {
     public void save(long restaurantId, List<String> businessHours) {
         RestaurantJpo restaurantJpo = restaurantQuerydslRepository.find(restaurantId)
                 .orElseThrow(UniEatNotFoundException::new);
-        restaurantBusinessHourRepository.deleteByIdRestaurantAndIdContentNotIn(restaurantJpo, businessHours);
-        restaurantBusinessHourRepository.saveAll(businessHours
-                .stream()
-                .map(businessHour -> RestaurantBusinessHourJpo.builder()
-                        .id(RestaurantBusinessHourJpo.Identify.builder()
-                                .restaurant(restaurantJpo)
-                                .content(businessHour)
-                                .build())
-                        .sequence(businessHours.indexOf(businessHour))
-                        .build())
-                .collect(Collectors.toList()));
+        if (businessHours.isEmpty()) {
+            restaurantBusinessHourRepository.deleteByIdRestaurant(restaurantJpo);
+        } else {
+            restaurantBusinessHourRepository.deleteByIdRestaurantAndIdContentNotIn(restaurantJpo, businessHours);
+            restaurantBusinessHourRepository.saveAll(businessHours
+                    .stream()
+                    .map(businessHour -> RestaurantBusinessHourJpo.builder()
+                            .id(RestaurantBusinessHourJpo.Identify.builder()
+                                    .restaurant(restaurantJpo)
+                                    .content(businessHour)
+                                    .build())
+                            .sequence(businessHours.indexOf(businessHour))
+                            .build())
+                    .collect(Collectors.toList()));
+        }
     }
 }

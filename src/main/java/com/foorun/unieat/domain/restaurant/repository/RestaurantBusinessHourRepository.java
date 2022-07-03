@@ -13,4 +13,5 @@ import static com.foorun.unieat.domain.restaurant.jpo.RestaurantBusinessHourJpo.
 public interface RestaurantBusinessHourRepository extends JpaRepository<RestaurantBusinessHourJpo, Identify> {
     List<RestaurantBusinessHourJpo> findByIdRestaurant(RestaurantJpo restaurant);
     void deleteByIdRestaurantAndIdContentNotIn(RestaurantJpo restaurant, List<String> contents);
+    void deleteByIdRestaurant(RestaurantJpo restaurantJpo);
 }
