@@ -62,6 +62,9 @@ public class ARestaurantFoodService {
             foodJpo.setSequence(food.getSequence());
             foodJpo.setPrice(food.getPrice());
         }
+        if (foodRepository.existsByRestaurantAndNameAndPrice(restaurantJpo, food.getName(), food.getPrice())) {
+            return;
+        }
         foodRepository.save(foodJpo);
         saveFiles(foodJpo, food.getFiles());
     }
