@@ -39,16 +39,17 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     public List<RestaurantJpo> fetchTopRestaurant(){
         return jpaQueryFactory.select(restaurantJpo).from(restaurantJpo).leftJoin(
                 restaurantJpo.bestRestaurants,restaurantBestJpo
-        ).where(restaurantBestJpo.restaurant.id.eq(restaurantJpo.id)).fetch();
+        ).where(restaurantBestJpo.restaurant.id.eq(restaurantJpo.id)).distinct().fetch();
 
     }
 
 
-    public List<RestaurantJpo> find(){
-        return jpaQueryFactory.selectFrom(restaurantJpo)
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .fetch();
-    }
+//    public List<RestaurantJpo> find(){
+//        return jpaQueryFactory.selectFrom(restaurantJpo)
+//                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+//                .distinct()
+//                .fetch();
+//    }
 
     /**
      * 심플 식당 정보 다건 조회,
@@ -56,10 +57,12 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
      */
     @Override
     public List<RestaurantJpo> find(Pageable pageable) {
+        //페이징 처리 안함
         return jpaQueryFactory.selectFrom(restaurantJpo)
                 .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
+                .distinct()
                 .fetch();
     }
 
@@ -86,8 +89,8 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
                         hashTagRestaurantJpo.hashTag.content.in(filtering.getHashTags()),
                                 categoryJpo.categoryName.in(filtering.getCategories())
                 )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize())
                 .fetch();
 
     }

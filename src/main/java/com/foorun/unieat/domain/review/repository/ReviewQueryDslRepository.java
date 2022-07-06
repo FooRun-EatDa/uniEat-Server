@@ -31,6 +31,7 @@ public class ReviewQueryDslRepository implements QuerydslSelectMulti<ReviewJpo>,
                 .orderBy(reviewJpo.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .distinct()
                 .fetch();
     }
 
@@ -38,6 +39,7 @@ public class ReviewQueryDslRepository implements QuerydslSelectMulti<ReviewJpo>,
     public Optional<ReviewJpo> find(Long aLong) {
         return Optional.ofNullable(jpaQueryFactory.selectFrom(reviewJpo).
                 where(reviewJpo.id.eq(aLong))
+                .distinct()
                 .fetchOne());
     }
 
