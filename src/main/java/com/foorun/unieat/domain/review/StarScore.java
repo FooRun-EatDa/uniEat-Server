@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum StarScore {
     ZERO(0L,"아쉽"),
     ONE(1L,"엥간"),
-    TWW(2L,"꿀맛");
+    TWO(2L,"꿀맛");
 
     private final Long score;
     private final String name;

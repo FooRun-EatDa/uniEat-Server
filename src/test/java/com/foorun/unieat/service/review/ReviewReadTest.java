@@ -5,7 +5,6 @@ import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
 import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.dto.Review;
-import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.service.ServiceTest;
@@ -13,14 +12,9 @@ import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.List;
 import java.util.Optional;
 
-import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -61,7 +55,7 @@ public class ReviewReadTest extends ServiceTest {
                 .name("맛집 식당")
                 .build();
 
-        review  = Review.builder().id(reviewId).content("리뷰 내용").starScore(StarScore.TWW).member(member)
+        review  = Review.builder().id(reviewId).content("리뷰 내용").starScore(StarScore.TWO).member(member)
                 .restaurant(restaurant)
                 .imgUrl("/images/128364819991929.jpg")
                 .build();

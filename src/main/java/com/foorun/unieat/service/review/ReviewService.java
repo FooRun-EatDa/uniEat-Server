@@ -63,7 +63,7 @@ public class ReviewService  {
 
     //점수 유효성 체크
     public boolean starScoreInvalidCheck(ReviewReq reviewAddReq){
-        if(0L <= reviewAddReq.getStarScore().getScore() && reviewAddReq.getStarScore().getScore() <= 2L) return true;
+        if(0L <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2L) return true;
         else return false;
     }
 

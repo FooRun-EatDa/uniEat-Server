@@ -28,7 +28,7 @@ public class ReviewReq {
     private Long restaurantId;
     private String content;
     private String imgUrl; //리뷰 이미지
-    private StarScore starScore;
+    private int starScore;
 
 
     public ReviewJpo asJpo(){
@@ -37,14 +37,14 @@ public class ReviewReq {
         return review;
     }
 
-
-    public Review updateReviewByReq(Review review){
-
-        review.setContent(Optional.of(this.content).orElse(review.getContent()));
-        review.setImgUrl(Optional.of(this.imgUrl).orElse(review.getImgUrl()));
-        review.setStarScore(Optional.of(this.starScore).orElse(review.getStarScore()));
-        return review;
-    }
+//
+//    public Review updateReviewByReq(Reviewreq review){
+//
+//        review.setContent(Optional.of(this.content).orElse(review.getContent()));
+//        review.setImgUrl(Optional.of(this.imgUrl).orElse(review.getImgUrl()));
+//        review.setStarScore(Optional.of(this.starScore).orElse(review.getStarScore()));
+//        return review;
+//    }
 
 
 }
