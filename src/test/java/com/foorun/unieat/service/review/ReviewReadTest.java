@@ -3,6 +3,7 @@ package com.foorun.unieat.service.review;
 
 import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
+import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
@@ -60,7 +61,7 @@ public class ReviewReadTest extends ServiceTest {
                 .name("맛집 식당")
                 .build();
 
-        review  = Review.builder().id(reviewId).content("리뷰 내용").starScore(2).member(member)
+        review  = Review.builder().id(reviewId).content("리뷰 내용").starScore(StarScore.TWW).member(member)
                 .restaurant(restaurant)
                 .imgUrl("/images/128364819991929.jpg")
                 .build();

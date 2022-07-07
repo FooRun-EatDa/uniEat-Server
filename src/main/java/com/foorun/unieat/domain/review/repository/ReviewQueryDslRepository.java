@@ -28,7 +28,7 @@ public class ReviewQueryDslRepository implements QuerydslSelectMulti<ReviewJpo>,
     public List<ReviewJpo> find(Pageable pageable) {
         return jpaQueryFactory.selectFrom(reviewJpo)
 //                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
-                .orderBy(reviewJpo.createdAt.asc())
+                .orderBy(reviewJpo.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .distinct()
@@ -41,6 +41,15 @@ public class ReviewQueryDslRepository implements QuerydslSelectMulti<ReviewJpo>,
                 where(reviewJpo.id.eq(aLong))
                 .distinct()
                 .fetchOne());
+    }
+
+    public List<ReviewJpo> findByRestaurantId(Long storeIdx){
+        return jpaQueryFactory.selectFrom(reviewJpo)
+                .where(reviewJpo.restaurant.id.eq(storeIdx))
+                .orderBy(reviewJpo.createdAt.desc())
+                .distinct()
+                .fetch();
+
     }
 
 

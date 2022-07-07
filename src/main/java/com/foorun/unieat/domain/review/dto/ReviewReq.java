@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.review.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -27,7 +28,7 @@ public class ReviewReq {
     private Long restaurantId;
     private String content;
     private String imgUrl; //리뷰 이미지
-    private int starScore;
+    private StarScore starScore;
 
 
     public ReviewJpo asJpo(){
