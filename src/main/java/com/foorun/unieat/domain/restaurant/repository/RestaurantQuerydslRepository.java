@@ -59,7 +59,7 @@ public class RestaurantQuerydslRepository implements QuerydslSelectMulti<Restaur
     public List<RestaurantJpo> find(Pageable pageable) {
         //페이징 처리 안함
         return jpaQueryFactory.selectFrom(restaurantJpo)
-                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
+//                .orderBy(Expressions.numberTemplate(Double.class, "function('rand')").asc())
 //                .offset(pageable.getOffset())
 //                .limit(pageable.getPageSize())
                 .distinct()
