@@ -1,7 +1,6 @@
 package com.foorun.unieat.controller;
 
 import com.foorun.unieat.constant.SwaggerApiInfo;
-
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
@@ -17,15 +16,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.foorun.unieat.constant.ServiceConstant.*;
+import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -43,7 +40,7 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getSimpleRestaurant(@RequestParam(name="lastPage") int page){
+    public ResponseEntity<ApiResponse<List<Restaurant>>> getSimpleRestaurant(@RequestParam(name="lastPage") int page){
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetch(new Paging(page, PAGING_SIZE)))
         );
@@ -74,7 +71,7 @@ public class RestaurantController {
     })
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_BY_SEARCH, notes = "검색 키워드를 통한 식당 리스트 조회")
     @GetMapping(value = "/search")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByKeyWord(
+    public ResponseEntity<ApiResponse<List<Restaurant>>> getRestaurantByKeyWord(
             @RequestParam(name="keyword") String keyword,
             @RequestParam(name="lastPage") int page) {
         return ResponseEntity.ok(
@@ -102,7 +99,7 @@ public class RestaurantController {
 
     @ApiOperation(value = SwaggerApiInfo.POST_STORE_BY_FILTER, notes = "필터를 이용한 식당 검색")
     @PostMapping(value = "/filter/search")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getRestaurantByFilter(@RequestBody FilteringRestaurant filteringRestaurant,@RequestParam(name = "lastPage")int page)
+    public ResponseEntity<ApiResponse<List<Restaurant>>> getRestaurantByFilter(@RequestBody FilteringRestaurant filteringRestaurant,@RequestParam(name = "lastPage")int page)
     {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetchByFiltering(filteringRestaurant,new Paging(page,PAGING_SIZE)))
@@ -128,7 +125,7 @@ public class RestaurantController {
      */
     @ApiOperation(value =  SwaggerApiInfo.GET_NEAREST_STORE, notes = "사용자 현재 위치에 따른 주변 맛집 검색")
     @PostMapping(value = "/near")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getNearestRestaurant(@RequestBody MemberLocation memberLocation, @AuthenticationPrincipal MemberUserDetails memberUserDetails)
+    public ResponseEntity<ApiResponse<List<Restaurant>>> getNearestRestaurant(@RequestBody MemberLocation memberLocation, @AuthenticationPrincipal MemberUserDetails memberUserDetails)
     {
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetchNearest(memberLocation,memberUserDetails))
@@ -141,7 +138,7 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.GET_TOP_STORE_TO_MAP, notes = "지도에 표시되는 맛집 탑")
     @PostMapping(value = "/top/map")
-    public ResponseEntity<ApiResponse<List<RestaurantSimple>>> getTopRestaurant(@RequestBody MemberLocation memberLocation,@AuthenticationPrincipal MemberUserDetails memberUserDetails){
+    public ResponseEntity<ApiResponse<List<Restaurant>>> getTopRestaurant(@RequestBody MemberLocation memberLocation,@AuthenticationPrincipal MemberUserDetails memberUserDetails){
 
         return ResponseEntity.ok(
                 ApiResponse.valueOf(restaurantService.fetchMap(memberLocation,memberUserDetails))

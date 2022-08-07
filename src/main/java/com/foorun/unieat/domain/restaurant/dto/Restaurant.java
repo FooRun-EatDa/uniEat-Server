@@ -3,8 +3,10 @@ package com.foorun.unieat.domain.restaurant.dto;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.category.dto.Category;
 import com.foorun.unieat.domain.code.region.dto.RegionCode;
+import com.foorun.unieat.domain.code.region.dto.embed.Coordinate;
 import com.foorun.unieat.domain.food.dto.Food;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
+import com.foorun.unieat.domain.hashtag.dto.HashTag;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.util.IdentifyGenerator;
@@ -32,13 +34,12 @@ public class Restaurant implements JsonSerializable {
     private String imgUrl;
     private String content;
     private String address;
-    private String longitude;
-    private String latitude;
     private String phoneNumber;
     private String operationTime;
     private int price;
     private String district;
     private String status;
+    private Coordinate coordinate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -48,17 +49,18 @@ public class Restaurant implements JsonSerializable {
     private List<Category> categories;
     private List<Food> foods;
     private List<Review> reviews;
+    private List<String> hashTags;
 
     public static Restaurant createEmpty(){return new Restaurant();}
 
     public static Restaurant of(RestaurantJpo restaurantJpo){
         Restaurant restaurant = createEmpty();
         BeanUtils.copyProperties(restaurantJpo,restaurant);
-
+        restaurant.coordinate = Coordinate.of(restaurantJpo.getLatitude(), restaurantJpo.getLongitude());
         restaurant.categories = map(restaurantJpo.getCategorys(),Category::of);
         restaurant.foods = map(restaurantJpo.getFoods(),Food::of);
         restaurant.reviews = map(restaurantJpo.getReviews(),Review::of);
-
+        restaurant.hashTags = map(restaurantJpo.getHashTagRestaurants(), HashTag::ofContent);
         return restaurant;
     }
 

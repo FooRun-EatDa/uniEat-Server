@@ -2,6 +2,7 @@ package com.foorun.unieat.domain.hashtag.dto;
 
 
 import com.foorun.unieat.domain.hashtag.jpo.HashTagJpo;
+import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
 import lombok.*;
 
 import java.util.List;
@@ -23,5 +24,17 @@ public class HashTag {
                 .id(hashTagJpo.getId())
                 .content(hashTagJpo.getContent())
                 .build();
+    }
+
+    public static HashTag of(HashTagRestaurantJpo hashTagRestaurantJpo) {
+        HashTagJpo hashTagJpo = hashTagRestaurantJpo.getHashTag();
+        return HashTag.builder()
+                .id(hashTagJpo.getId())
+                .content(hashTagJpo.getContent())
+                .build();
+    }
+
+    public static String ofContent(HashTagRestaurantJpo hashTagRestaurantJpo) {
+        return hashTagRestaurantJpo.getHashTag().getContent();
     }
 }

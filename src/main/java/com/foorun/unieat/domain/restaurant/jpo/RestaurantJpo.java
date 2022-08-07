@@ -64,12 +64,12 @@ public class RestaurantJpo extends BaseTimeJpo {
     /**
      * 경도
      */
-    private String longitude;
+    private Double longitude;
 
     /**
      * 위도
      */
-    private String latitude;
+    private Double latitude;
 
     /**
      * 전화 번호

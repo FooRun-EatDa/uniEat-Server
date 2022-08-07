@@ -3,11 +3,8 @@ package com.foorun.unieat.domain.restaurant.repository;
 
 import com.foorun.unieat.domain.QuerydslSelectMulti;
 import com.foorun.unieat.domain.QuerydslSelectSingle;
-import com.foorun.unieat.domain.code.region.jpo.QRegionCodeJpo;
-import com.foorun.unieat.domain.food.jpo.QFoodJpo;
 import com.foorun.unieat.domain.restaurant.Prices;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
-import com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
