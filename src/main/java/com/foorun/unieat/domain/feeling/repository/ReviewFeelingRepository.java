@@ -11,4 +11,7 @@ public interface ReviewFeelingRepository extends JpaRepository<ReviewFeelingJpo,
 
     @Query("SELECT R FROM ReviewFeelingJpo R WHERE R.review.id = :review_id AND R.member.id = :member_id")
     Optional<ReviewFeelingJpo> findReviewFeelingJpoByReviewIdAndMemberId(@Param(value = "review_id") Long reviewId, @Param(value = "member_id")Long memberId);
+
+
+
 }

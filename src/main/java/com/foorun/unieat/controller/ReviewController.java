@@ -5,12 +5,14 @@ import com.foorun.unieat.constant.SwaggerApiInfo;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
+import com.foorun.unieat.domain.review.dto.RestaurantReviews;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.dto.ReviewUpdateReq;
 import com.foorun.unieat.service.review.ReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.http.ResponseEntity;
@@ -104,6 +106,18 @@ public class ReviewController {
         reviewService.reivewLikingCancel(reviewId,memberUserDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
+        );
+    }
+
+    /**
+     * 식당 아이디를 통한 리뷰 조회
+     */
+
+    @ApiOperation(value = SwaggerApiInfo.GET_REVIEW_LIST_BY_RESTAURANT, notes = "특정 식당의 id를 통한 리뷰 조회")
+    @GetMapping("/{store_id}")
+    public ResponseEntity<ApiResponse<RestaurantReviews>> getReviewByStoreIdx(@RequestParam(name = "store_id") Long storeIdx){
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(reviewService.getReviewByRestaurant(storeIdx))
         );
     }
 

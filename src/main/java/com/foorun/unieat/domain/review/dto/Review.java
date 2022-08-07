@@ -4,11 +4,14 @@ import com.foorun.unieat.component.Likable;
 import com.foorun.unieat.domain.feeling.dto.ReviewFeeling;
 import com.foorun.unieat.domain.member.dto.Member;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
+import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.foorun.unieat.util.StreamUtil.map;
 
@@ -22,7 +25,7 @@ import static com.foorun.unieat.util.StreamUtil.map;
 public class Review  {
     private Long id;
     private String content;
-    private int starScore;
+    private StarScore starScore;
 
     private String imgUrl;
     private Restaurant restaurant;
@@ -43,6 +46,9 @@ public class Review  {
         review.member = Member.of(reviewJpo.getMember());
         review.restaurant = Restaurant.of(reviewJpo.getRestaurant());
         review.imgUrl = reviewJpo.getImgUrl();
+        review.starScore = Arrays.stream(StarScore.values())
+                .filter(s-> s.getScore() == reviewJpo.getStarScore()).findFirst().get();
+        
         return review;
     }
 

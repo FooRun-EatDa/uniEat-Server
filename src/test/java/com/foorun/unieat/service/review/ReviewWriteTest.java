@@ -1,25 +1,18 @@
 package com.foorun.unieat.service.review;
 
 
-import com.foorun.unieat.domain.member.Role;
-import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
-import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
-import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 
+import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
-import com.foorun.unieat.domain.review.repository.ReviewRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatForbiddenException;
-import com.foorun.unieat.exception.UniEatLogicalException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import java.util.Optional;
 

@@ -66,7 +66,7 @@ public interface SwaggerApiInfo {
     String PATCH_REVIEW = "리뷰 수정";
     String POST_REVIEW_LIKING = "리뷰 좋아요 하기";
     String DELETE_REVIEW_LIKING = "리뷰 좋아요 취소";
-
+    String GET_REVIEW_LIST_BY_RESTAURANT = "특정 식당의 리뷰 리스트 조회";
 
 
 

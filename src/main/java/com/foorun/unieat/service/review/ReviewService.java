@@ -10,16 +10,16 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
+import com.foorun.unieat.domain.review.StarScore;
+import com.foorun.unieat.domain.review.StarScoreCount;
+import com.foorun.unieat.domain.review.dto.RestaurantReviews;
 import com.foorun.unieat.domain.review.dto.Review;
 import com.foorun.unieat.domain.review.dto.ReviewReq;
 import com.foorun.unieat.domain.review.dto.ReviewUpdateReq;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.domain.review.repository.ReviewQueryDslRepository;
 import com.foorun.unieat.domain.review.repository.ReviewRepository;
-import com.foorun.unieat.exception.UniEatBadRequestException;
-import com.foorun.unieat.exception.UniEatForbiddenException;
-import com.foorun.unieat.exception.UniEatNotFoundException;
-import com.foorun.unieat.exception.UniEatUnAuthorizationException;
+import com.foorun.unieat.exception.*;
 
 import com.foorun.unieat.util.IdentifyGenerator;
 import com.foorun.unieat.component.LikedCheckComponent;
@@ -29,8 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -62,8 +61,9 @@ public class ReviewService  {
         return reviewRepository.save(reviewJpo).getId();
     }
 
+    //점수 유효성 체크
     public boolean starScoreInvalidCheck(ReviewReq reviewAddReq){
-        if(0 <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2) return true;
+        if(0L <= reviewAddReq.getStarScore() && reviewAddReq.getStarScore() <= 2L) return true;
         else return false;
     }
 
@@ -87,10 +87,17 @@ public class ReviewService  {
     }
 
 
-    //리뷰 리스트 조회, 비회원도 가능
+    //리뷰 리스트 조회(리뷰 피드), 비회원도 가능,
     @Transactional(readOnly = true)
     public List<Review> getReviewList(Pageable pageable){
         MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(userDetails == null){
+            return reviewQueryDslRepository.find(pageable)
+                    .stream()
+                    .map(Review::of)
+                    .collect(Collectors.toList());
+        }
 
         return reviewQueryDslRepository.find(pageable)
                 .stream()
@@ -155,19 +162,64 @@ public class ReviewService  {
         reviewFeelingRepository.delete(reviewFeelingJpo);
     }
 
-    private Review addIsLikedValue (Review review, MemberUserDetails
-            memberUserDetails){
-        //좋아요한 식당이라면
-        if(reviewFeelingQuerydslRepository.isLikedByMember(review.getId(),memberUserDetails.getId())){
-            review.setLiked(true);
+    //특정 식당에 대한 리뷰 조회
+    public RestaurantReviews getReviewByRestaurant(Long storeIdx){
+        MemberUserDetails userDetails = (MemberUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        //비회원 조회
+        if(userDetails == null){
+            List<Review> reviews = reviewQueryDslRepository.findByRestaurantId(storeIdx)
+                    .stream()
+                    .map(Review::of)
+                    .collect(Collectors.toList());
+
+            return assembleRestaurantReviewsByReviewsList(reviews);
+
         }
-        else review.setLiked(false);
+
+        List<Review> reviews = reviewQueryDslRepository.findByRestaurantId(storeIdx)
+                .stream()
+                .map(Review::of)
+                .map(r-> addIsLikedValue(r,userDetails))
+                .collect(Collectors.toList());
+        return assembleRestaurantReviewsByReviewsList(reviews);
+
+    }
+
+    private RestaurantReviews assembleRestaurantReviewsByReviewsList(List<Review> reviews){
+        RestaurantReviews restaurantReviews = RestaurantReviews.builder()
+                .reviews(reviews)
+                .build();
+
+        StarScoreCount counts = new StarScoreCount();
+
+        for (Review review : reviews) {
+            StarScore s = Arrays.stream(StarScore.values())
+                    .filter(r-> r.equals(review.getStarScore())).findFirst()
+                    .orElseThrow(UniEatLogicalException::new);
+            String verdictName = s.getName();
+            counts.put(verdictName,counts.get(verdictName) + 1); //해당 평가 카운트 증가
+        }
+
+        restaurantReviews.setScoreCount(counts.getStarCount());
+        return restaurantReviews;
+
+
+    }
+
+
+    private Review addIsLikedValue (Review review, MemberUserDetails
+            memberUserDetails) {
+        //좋아요한 식당이라면
+        if (reviewFeelingQuerydslRepository.isLikedByMember(review.getId(), memberUserDetails.getId())) {
+            review.setLiked(true);
+        } else review.setLiked(false);
 
         return review;
 
     }
 
-    //TODO: 리뷰 신고 기능
+
 
 
 

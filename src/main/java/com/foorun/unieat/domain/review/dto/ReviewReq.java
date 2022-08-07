@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.review.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.foorun.unieat.domain.review.StarScore;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
@@ -36,14 +37,14 @@ public class ReviewReq {
         return review;
     }
 
-
-    public Review updateReviewByReq(Review review){
-
-        review.setContent(Optional.of(this.content).orElse(review.getContent()));
-        review.setImgUrl(Optional.of(this.imgUrl).orElse(review.getImgUrl()));
-        review.setStarScore(Optional.of(this.starScore).orElse(review.getStarScore()));
-        return review;
-    }
+//
+//    public Review updateReviewByReq(Reviewreq review){
+//
+//        review.setContent(Optional.of(this.content).orElse(review.getContent()));
+//        review.setImgUrl(Optional.of(this.imgUrl).orElse(review.getImgUrl()));
+//        review.setStarScore(Optional.of(this.starScore).orElse(review.getStarScore()));
+//        return review;
+//    }
 
 
 }
