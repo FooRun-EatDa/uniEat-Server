@@ -20,7 +20,7 @@ public class IdentifyGenerator {
      * @param size 길이
      */
     public static long number(int size) {
-        return Long.parseLong(IntStream.range(0, size)
+        return Long.parseLong(IntStream.range(1, size)
                 .mapToObj(i -> String.valueOf(random.nextInt(size)))
                 .collect(Collectors.joining()));
     }

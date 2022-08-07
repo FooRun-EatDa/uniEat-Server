@@ -1,6 +1,10 @@
 package com.foorun.unieat.constant;
 
 public interface SwaggerApiInfo {
+    String AUTH = "인증 Operations";
+    String VERIFY_EMAIL = "이메일 인증 메일 전송";
+    String VERIFY_EMAIL_SIGN_UP = "이메일 인증번호 검증";
+
     String MEMBER = "사용자 Operations";
     String SIGN_IN = "로그인 요청";
     String SIGN_UP = "회원가입 요청";

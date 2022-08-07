@@ -14,7 +14,6 @@ import com.foorun.unieat.domain.school.jpo.SchoolJpo;
 import com.foorun.unieat.domain.search.jpo.SearchLogJpo;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,7 +29,7 @@ import java.util.Set;
 @Entity
 @Table(name = "member")
 @DynamicUpdate
-public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
+public class MemberJpo extends BaseTimeJpo {
     /**
      * 회원 고유 번호
      */
@@ -199,11 +198,6 @@ public class MemberJpo extends BaseTimeJpo implements Persistable<Long> {
      */
     public void withdraw() {
         this.status = StatusType.REMOVED;
-    }
-
-    @Override
-    public boolean isNew() {
-        return true;
     }
 
     public boolean equals(Long id) {
