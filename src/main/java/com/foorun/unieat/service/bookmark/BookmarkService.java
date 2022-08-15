@@ -14,6 +14,7 @@ import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,6 @@ public class BookmarkService {
                 .member(memberJpo)
                 .build();
 
-        bookmarkRepository.save(bookmarkJpo);
 
     }
 
