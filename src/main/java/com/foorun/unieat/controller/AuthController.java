@@ -40,4 +40,5 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse
                 .valueOf(memberVerifyEmailService.verifyAndSignup(payload)));
     }
+
 }

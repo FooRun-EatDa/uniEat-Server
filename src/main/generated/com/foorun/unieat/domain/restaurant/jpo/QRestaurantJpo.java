@@ -55,9 +55,9 @@ public class QRestaurantJpo extends EntityPathBase<RestaurantJpo> {
 
     public final StringPath imgUrl = createString("imgUrl");
 
-    public final StringPath latitude = createString("latitude");
+    public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
-    public final StringPath longitude = createString("longitude");
+    public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
 
     public final StringPath name = createString("name");
 

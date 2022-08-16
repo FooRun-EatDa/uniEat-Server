@@ -58,7 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/member/reset-password",
                         "/member/token/re-issue",
                         "/v1/address/**/*",
-                        "/v2/api-docs").permitAll()
+                        "/v2/api-docs")
+                .permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberRepository), UsernamePasswordAuthenticationFilter.class)

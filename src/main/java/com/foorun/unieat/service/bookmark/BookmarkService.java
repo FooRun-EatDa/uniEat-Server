@@ -68,10 +68,10 @@ public class BookmarkService {
 
     //유저가 북마크한 식당 리스트 조회
     @Transactional(readOnly = true)
-    public List<RestaurantSimple> getBookmarkedRestaurantList(MemberUserDetails memberUserDetails){
+    public List<Restaurant> getBookmarkedRestaurantList(MemberUserDetails memberUserDetails){
         return bookmarkQuerydslRepository.findBookmarkedRestaurantByMemberId(memberUserDetails.getId())
                         .stream()
-                        .map(RestaurantSimple::of).map(r-> {
+                        .map(Restaurant::of).map(r-> {
                     r.setLiked(true);
                     return r;
                 }).collect(Collectors.toList());

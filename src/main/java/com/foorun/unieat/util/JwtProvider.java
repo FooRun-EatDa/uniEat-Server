@@ -176,12 +176,28 @@ public class JwtProvider {
         throw new UniEatTokenExpiryException();
     }
 
+    /**
+     * 임시용, 이메일 인증 토큰으로만 실행함
+     * @param request
+     * @return Authorization 값에서 "X-MEMBER-ID " 제거한 순수 Token
+     */
+    public String resolveMemberIdToken(HttpServletRequest request){
+        String token = request.getHeader(AUTH_MEMBER_PREFIX);
+        if( token!= null){
+            token = token.replaceFirst(AUTH_MEMBER_PREFIX + " ","");
+            return token;
+        }
+
+        throw new UniEatNotFoundException();
+    }
+
     public String resolveRefreshToken(HttpServletRequest request) {
         if (existsRefreshToken(request)) {
             return request.getHeader(JwtConstant.HEADER_NAME_REFRESH_TOKEN);
         }
         throw new UniEatNotFoundException();
     }
+
 
     public boolean existsToken(HttpServletRequest request) {
         return existsToken(request, JwtConstant.HEADER_NAME);

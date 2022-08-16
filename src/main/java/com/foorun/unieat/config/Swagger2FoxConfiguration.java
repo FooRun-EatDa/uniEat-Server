@@ -29,7 +29,8 @@ public class Swagger2FoxConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .pathMapping("/")
-                .securitySchemes(Arrays.asList(createTokenParameter(), createRefreshTokenParameter()))
+//                .securitySchemes(Arrays.asList(createTokenParameter(), createRefreshTokenParameter()))
+                .securitySchemes(Arrays.asList(createXMemberIdParameter()))
                 .securityContexts(Collections.singletonList(securityContext()))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.foorun.unieat.controller"))
@@ -42,6 +43,11 @@ public class Swagger2FoxConfiguration {
                         .build());
     }
 
+    private SecurityScheme createXMemberIdParameter() {
+        return new ApiKey(JwtConstant.AUTH_MEMBER_PREFIX, JwtConstant.AUTH_MEMBER_PREFIX, "header");
+
+    }
+
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
@@ -52,9 +58,14 @@ public class Swagger2FoxConfiguration {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
+
         return Lists.newArrayList(
-                new SecurityReference(JwtConstant.HEADER_NAME, authorizationScopes),
-                new SecurityReference(JwtConstant.HEADER_NAME_REFRESH_TOKEN, authorizationScopes));
+                new SecurityReference(JwtConstant.AUTH_MEMBER_PREFIX,authorizationScopes)
+        );
+        //jwt 토큰용
+//        return Lists.newArrayList(
+//                new SecurityReference(JwtConstant.HEADER_NAME, authorizationScopes),
+//                new SecurityReference(JwtConstant.HEADER_NAME_REFRESH_TOKEN, authorizationScopes));
     }
 
     private SecurityScheme createTokenParameter() {
@@ -64,5 +75,8 @@ public class Swagger2FoxConfiguration {
     private SecurityScheme createRefreshTokenParameter() {
         return new ApiKey(JwtConstant.HEADER_NAME_REFRESH_TOKEN, JwtConstant.HEADER_NAME_REFRESH_TOKEN, "header");
     }
+
+
+
 }
 
