@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.foorun.unieat.domain.bookmark.jpo.QBookmarkJpo.*;
 
@@ -34,11 +35,11 @@ public class BookmarkQuerydslRepository {
         ).fetchFirst() != null;
     }
 
-    public BookmarkJpo findBookmarkByMemberIdAndRestaurantId(Long memberId, Long restaurantId){
-        return jpaQueryFactory.selectFrom(bookmarkJpo).where(
+    public Optional<BookmarkJpo> findBookmarkByMemberIdAndRestaurantId(Long memberId, Long restaurantId){
+        return Optional.ofNullable( jpaQueryFactory.selectFrom(bookmarkJpo).where(
                 bookmarkJpo.member.id.eq(memberId),
                 bookmarkJpo.restaurant.id.eq(restaurantId)
-        ).fetchFirst();
+        ).fetchFirst());
 
     }
 }

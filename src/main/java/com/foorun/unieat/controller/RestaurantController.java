@@ -1,6 +1,7 @@
 package com.foorun.unieat.controller;
 
 import com.foorun.unieat.constant.SwaggerApiInfo;
+import com.foorun.unieat.domain.bookmark.dto.BookmarkingReq;
 import com.foorun.unieat.domain.common.api.ApiResponse;
 import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
@@ -150,9 +151,9 @@ public class RestaurantController {
      * 식당 좋아요하기(북마크)
      */
     @ApiOperation(value = SwaggerApiInfo.POST_BOOKMARKING,notes = "유저가 식당을 좋아요(즐겨찾기)하기")
-    @PostMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @PathVariable(name="restaurantId") Long storeIdx){
-        bookmarkService.bookmarking(storeIdx,memberUserDetails);
+    @PostMapping(value = "/bookmarkingList")
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails memberUserDetails, List<Long> bookmarkingList){
+        bookmarkService.bookmarking(bookmarkingList,memberUserDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
         );
@@ -162,9 +163,9 @@ public class RestaurantController {
      * 식당 좋아요 취소
      */
     @ApiOperation(value = SwaggerApiInfo.DELETE_BOOKMARKING, notes = "유저가 식당 좋아요 취소하기")
-    @DeleteMapping(value = "/bookmark/{restaurantId}")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingCancel(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @PathVariable(name = "restaurantId") Long storeIdx){
-        bookmarkService.bookmarkCancel(storeIdx,memberUserDetails);
+    @DeleteMapping(value = "/bookmarkingList")
+    public ResponseEntity<ApiResponse<Void>> bookmarkingCancel(@AuthenticationPrincipal MemberUserDetails memberUserDetails, List<Long> bookmarkingList){
+        bookmarkService.bookmarkCancel(bookmarkingList,memberUserDetails);
         return ResponseEntity.ok(ApiResponse.success());
     }
 
