@@ -14,6 +14,7 @@ public class ServiceConstant {
 
     public static final String COUPON_VALID = "쿠폰 사용 가능";
 
+    public static final String EVENT_NOTICE_DELIMITER="-";
 
     /**
      * 신고 사유 타입 번호 구분

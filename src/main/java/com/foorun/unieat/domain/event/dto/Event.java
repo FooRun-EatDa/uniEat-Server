@@ -1,15 +1,21 @@
 package com.foorun.unieat.domain.event.dto;
 
 
+import com.foorun.unieat.constant.ServiceConstant;
 import com.foorun.unieat.domain.JsonSerializable;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.foorun.unieat.constant.ServiceConstant.*;
 
 @Getter
 @Setter
@@ -35,7 +41,7 @@ public class Event implements JsonSerializable {
     private String desc;
 
     //이벤트 유의사항
-    private String notice;
+    private List<String> notice;
 
     private String status;
 
@@ -45,6 +51,17 @@ public class Event implements JsonSerializable {
         BeanUtils.copyProperties(eventJpo,event);
         event.restaurantName = eventJpo.getRestaurant().getName();
         event.status = eventJpo.getStatus().name();
+        event.notice =parseNotice(eventJpo);
+
         return event;
+    }
+
+    public static List<String> parseNotice(EventJpo eventJpo){
+        String notices = eventJpo.getNotice();
+         List<String>  splitted = Arrays.stream(notices.split(EVENT_NOTICE_DELIMITER))
+                 .map(String::trim)
+                 .collect(Collectors.toList());
+
+        return splitted;
     }
 }

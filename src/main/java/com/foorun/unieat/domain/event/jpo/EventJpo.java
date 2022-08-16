@@ -36,6 +36,7 @@ public class EventJpo extends BaseTimeJpo {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+
     private String notice;
 
     //이벤트 유효 여부(종료됨, 진행중)
