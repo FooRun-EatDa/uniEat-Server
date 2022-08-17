@@ -1,5 +1,6 @@
 package com.foorun.unieat.config;
 
+import com.foorun.unieat.config.filter.JwtAuthenticationExceptionFilter;
 import com.foorun.unieat.config.filter.JwtAuthenticationFilter;
 import com.foorun.unieat.config.handler.JwtAccessDeniedHandler;
 import com.foorun.unieat.config.handler.JwtAuthenticationEntryPoint;
@@ -30,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
+    private final JwtAuthenticationExceptionFilter jwtAuthenticationExceptionFilter;
 
     @Override
     protected void configure(HttpSecurity http)throws Exception{
@@ -64,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationExceptionFilter,JwtAuthenticationFilter.class)
                 .logout()
                 .logoutSuccessUrl("/"); //로그아웃시 이동할 url
     }

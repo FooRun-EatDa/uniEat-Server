@@ -37,17 +37,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        if(request.getRequestURI().contains("swagger")) //스웨거 작동위해
+            filterChain.doFilter(request, response);
+
         if(existsToken(request, AUTH_MEMBER_PREFIX)){
-            log.info("토큰 존재");
             String token = jwtProvider.resolveMemberIdToken(request);
             log.info("MemberID is == {}",token);
             if(!existsAuthentication()){
-                log.info("setAuth");
                 setAuthenticationByMemberId(token);
             }
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        }
+        else throw new UniEatUnAuthorizationException();
+
+
         /*
         //  Access Token 이 존재할 경우
         if (jwtProvider.existsToken(request)) {
