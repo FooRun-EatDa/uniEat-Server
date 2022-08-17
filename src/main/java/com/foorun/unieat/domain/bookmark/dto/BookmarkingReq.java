@@ -14,8 +14,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookmarkingReq {
 
-    private List<Integer> bookmarking;
-    private List<Integer> bookmarkingCancel;
+    private List<Long> markingList;
+
 
 
 }

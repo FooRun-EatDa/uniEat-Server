@@ -57,6 +57,7 @@ public class BookmarkTest extends ServiceTest {
     }
 
 
+
     @DisplayName("식당 북마킹 취소 테스트 성공")
     @Test
     void Given_Restaurant_List_For_Canceling_Expect_Success(){

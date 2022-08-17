@@ -152,8 +152,8 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.POST_BOOKMARKING,notes = "유저가 식당을 좋아요(즐겨찾기)하기")
     @PostMapping(value = "/bookmarkingList")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails memberUserDetails, List<Long> bookmarkingList){
-        bookmarkService.bookmarking(bookmarkingList,memberUserDetails);
+    public ResponseEntity<ApiResponse<Void>> bookmarkingRestaurant(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @RequestBody BookmarkingReq bookmarkingList){
+        bookmarkService.bookmarking(bookmarkingList.getMarkingList(),memberUserDetails);
         return ResponseEntity.ok(
                 ApiResponse.success()
         );
@@ -164,8 +164,8 @@ public class RestaurantController {
      */
     @ApiOperation(value = SwaggerApiInfo.DELETE_BOOKMARKING, notes = "유저가 식당 좋아요 취소하기")
     @DeleteMapping(value = "/bookmarkingList")
-    public ResponseEntity<ApiResponse<Void>> bookmarkingCancel(@AuthenticationPrincipal MemberUserDetails memberUserDetails, List<Long> bookmarkingList){
-        bookmarkService.bookmarkCancel(bookmarkingList,memberUserDetails);
+    public ResponseEntity<ApiResponse<Void>> bookmarkingCancel(@AuthenticationPrincipal MemberUserDetails memberUserDetails, @RequestBody BookmarkingReq bookmarkingList){
+        bookmarkService.bookmarkCancel(bookmarkingList.getMarkingList(),memberUserDetails);
         return ResponseEntity.ok(ApiResponse.success());
     }
 
