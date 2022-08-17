@@ -1,5 +1,6 @@
 package com.foorun.unieat.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foorun.unieat.config.filter.JwtAuthenticationExceptionFilter;
 import com.foorun.unieat.config.filter.JwtAuthenticationFilter;
 import com.foorun.unieat.config.handler.JwtAccessDeniedHandler;
@@ -31,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
-    private final JwtAuthenticationExceptionFilter jwtAuthenticationExceptionFilter;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void configure(HttpSecurity http)throws Exception{
@@ -53,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/member/sign-*/**",
                         "/swagger*/**",
+                        "/swagger-resources/**",
                         "/school/**",
                         "/webjars/**",
                         "/auth/**",
@@ -66,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, memberRepository), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationExceptionFilter,JwtAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationExceptionFilter(objectMapper),JwtAuthenticationFilter.class)
                 .logout()
                 .logoutSuccessUrl("/"); //로그아웃시 이동할 url
     }
@@ -103,6 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/member/reset-password",
                 "/member/token/re-issue",
                 "/v1/address/**/*",
-                "/swagger-ui.html");
+                "/swagger-ui.html"
+        , "/swagger-resources/**");
     }
 }

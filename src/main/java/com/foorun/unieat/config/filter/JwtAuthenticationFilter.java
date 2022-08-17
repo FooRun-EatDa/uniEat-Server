@@ -37,9 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        if(request.getRequestURI().contains("swagger")) //스웨거 작동위해
-            filterChain.doFilter(request, response);
-
         if(existsToken(request, AUTH_MEMBER_PREFIX)){
             String token = jwtProvider.resolveMemberIdToken(request);
             log.info("MemberID is == {}",token);
@@ -117,17 +114,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private UsernamePasswordAuthenticationToken getAuthenticationByXMemberId(String token){
-      try{
-       MemberJpo memberJpo = memberRepository.findById(Long.parseLong(token)).orElseThrow(UniEatNotFoundException::new);
-       UserDetails userDetails = MemberUserDetails.of(memberJpo);
-       return new UsernamePasswordAuthenticationToken(
-               userDetails,
-               null,
-                Collections.singletonList(new SimpleGrantedAuthority(Role.USER.getKey()))
-       );
-      }catch (UniEatNotFoundException e){ //멤버 못찾으면 인증 못된걸로 처리
-          throw new UniEatUnAuthorizationException();
-      }
+
+      MemberJpo memberJpo = memberRepository.findById(Long.parseLong(token)).orElseThrow(UniEatNotFoundException::new);
+      UserDetails userDetails = MemberUserDetails.of(memberJpo);
+      return new UsernamePasswordAuthenticationToken(
+              userDetails,
+              null,
+              Collections.singletonList(new SimpleGrantedAuthority(Role.USER.getKey()))
+      );
+
     }
 
     private boolean existsToken(HttpServletRequest request, String name) {

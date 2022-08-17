@@ -32,7 +32,7 @@ public class JwtAuthenticationExceptionFilter  extends OncePerRequestFilter {
         try{
             filterChain.doFilter(request, response);
 
-        }catch (UniEatUnAuthorizationException e){
+        }catch (UniEatRuntimeException e){
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding("UTF-8");
