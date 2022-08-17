@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("필터");
+
         if(existsToken(request, AUTH_MEMBER_PREFIX)){
             log.info("토큰 존재");
             String token = jwtProvider.resolveMemberIdToken(request);
