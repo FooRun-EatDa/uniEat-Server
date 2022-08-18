@@ -3,6 +3,9 @@ package com.foorun.unieat.service.restaurant;
 
 import com.foorun.unieat.domain.bookmark.repository.BookmarkQuerydslRepository;
 import com.foorun.unieat.domain.bookmark.repository.BookmarkRepository;
+import com.foorun.unieat.domain.event.EventQuerydslRepository;
+import com.foorun.unieat.domain.event.EventRespository;
+import com.foorun.unieat.domain.event.dto.Event;
 import com.foorun.unieat.domain.hashtag.repository.HashTagRestaurantQuerydslRepository;
 import com.foorun.unieat.domain.member.dto.MemberLocation;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
@@ -41,13 +44,11 @@ import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 public class RestaurantService   {
 
     private final RestaurantQuerydslRepository restaurantQuerydslRepository;
-    private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
-    private final SearchLogQueryRepository searchLogQueryRepository;
     private final SearchLogRepository searchLogRepository;
     private final MemberRepository memberRepository;
-    private final BookmarkRepository bookmarkRepository;
     private final HashTagRestaurantQuerydslRepository hashTagRestaurantQuerydslRepositoryRepository;
+    private final EventQuerydslRepository eventQuerydslRepository;
 
     private final BookmarkQuerydslRepository bookmarkQuerydslRepository;
 
@@ -221,6 +222,21 @@ public class RestaurantService   {
         }
 
 
+    /**
+     *  해당 맛집이 유니잇 맛집인지 확인하여 여부를 반환하도록함
+     * @param restaurant
+     * @return restaurant
+     */
+    private Restaurant addIsUniEatSelected(Restaurant restaurant){
+        if(eventQuerydslRepository.isEventRestaurant(restaurant.getId())){
+            restaurant.setIsUniEatSelected(true);
+        }else restaurant.setIsUniEatSelected(false);
+
+        return restaurant;
+
+
+    }
+
         //지도에 표시되는 맛집(top 50)
         @Transactional(readOnly = true)
         public List<Restaurant> fetchMap (MemberLocation memberLocation,MemberUserDetails memberUserDetails){
@@ -229,6 +245,7 @@ public class RestaurantService   {
                     .stream()
                     .map(Restaurant::of)
                     .map(r-> addIsLikedValue(r,memberUserDetails))
+                    .map(r-> addIsUniEatSelected(r))
                     .collect(Collectors.toList());
         }
 

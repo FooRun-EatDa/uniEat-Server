@@ -19,6 +19,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
+/**
+ * 사용하지 않음
+ */
+@Deprecated
 public class RestaurantBookmarkingService {
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;

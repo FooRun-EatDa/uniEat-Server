@@ -43,6 +43,9 @@ public class Restaurant implements JsonSerializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private Boolean isUniEatSelected; //유니잇 맛집인지 확인
+
+
     private boolean isLiked; // 유저가 좋아요 한 식당인지
 
     private RegionCode regionCode;

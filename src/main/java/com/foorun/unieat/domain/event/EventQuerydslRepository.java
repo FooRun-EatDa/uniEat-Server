@@ -40,5 +40,11 @@ public class EventQuerydslRepository implements QuerydslSelectMulti<EventJpo>, Q
         );
     }
 
+    public boolean isEventRestaurant(Long storeId){
+        return jpaQueryFactory.selectOne().from(eventJpo)
+                .where(eventJpo.restaurant.id.eq(storeId))
+                .fetchFirst() != null;
+    }
+
 
 }
