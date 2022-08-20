@@ -8,18 +8,24 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 import static com.foorun.unieat.util.StreamUtil.map;
-
+/**
+ * 위치정보를 위한
+ */
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class RestaurantSimple {
+public class RestaurantSimple{
     private Long id;
     private String name;
     private String explanation;
     private String imgUrl;
+
+    //맛집인가?
+    private Boolean isUniEatSelected;
+
     private double distance;
 
     private boolean isLiked; // 유저가 좋아요한 식당인지 여부

@@ -13,6 +13,7 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.dto.FilteringRestaurant;
 import com.foorun.unieat.domain.restaurant.dto.Restaurant;
+import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantMapper;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantQuerydslRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
@@ -197,22 +198,39 @@ public class RestaurantService   {
         }
 
 
-        //주변 맛집
+    /**
+     *      주변 맛집 (1차 배포용으로 어드민 페이지의 탑 50에 등록된 주변 맛집들이 보여진다)
+     * @param memberLocation
+     * @param memberUserDetails
+     * @return RestaurantSimple
+     */
         @Transactional(readOnly = true)
-        public List<Restaurant> fetchNearest (MemberLocation memberLocation,MemberUserDetails memberUserDetails){
-            List<Restaurant> restaurantSimples = restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
+        public List<RestaurantSimple> fetchNearest (MemberLocation memberLocation,MemberUserDetails memberUserDetails){
+            List<RestaurantSimple> restaurantSimples = restaurantMapper.findNearest(memberLocation.getLatitude(), memberLocation.getLongitude(), NEAR_BY);
             //hashtag 넣기
             return restaurantSimples.stream().map(r -> {
                         r.setHashTags(hashTagRestaurantQuerydslRepositoryRepository.getHashTagContentByRestaurantId(r.getId()));
                         return r;
                     }).map(r -> addIsLikedValue(r, memberUserDetails))
+                    .map(r->addIsUniEatSelected(r))
                     .collect(Collectors.toList());
 
         }
 
 
-        private Restaurant addIsLikedValue (Restaurant restaurant, MemberUserDetails
+        private RestaurantSimple addIsLikedValue (RestaurantSimple restaurant, MemberUserDetails
         memberUserDetails){
+            //좋아요한 식당이라면
+            if (bookmarkQuerydslRepository.isBookmarkedByMember(restaurant.getId(), memberUserDetails.getId())) {
+                restaurant.setLiked(true);
+            } else restaurant.setLiked(false);
+
+            return restaurant;
+        }
+
+
+        private Restaurant addIsLikedValue (Restaurant restaurant, MemberUserDetails
+                memberUserDetails){
             //좋아요한 식당이라면
             if (bookmarkQuerydslRepository.isBookmarkedByMember(restaurant.getId(), memberUserDetails.getId())) {
                 restaurant.setLiked(true);
@@ -227,15 +245,21 @@ public class RestaurantService   {
      * @param restaurant
      * @return restaurant
      */
-    private Restaurant addIsUniEatSelected(Restaurant restaurant){
-        if(eventQuerydslRepository.isEventRestaurant(restaurant.getId())){
-            restaurant.setIsUniEatSelected(true);
-        }else restaurant.setIsUniEatSelected(false);
+        private Restaurant addIsUniEatSelected(Restaurant restaurant){
+            if(eventQuerydslRepository.isEventRestaurant(restaurant.getId())){
+                restaurant.setIsUniEatSelected(true);
+            }else restaurant.setIsUniEatSelected(false);
 
-        return restaurant;
+            return restaurant;
+        }
 
+        private RestaurantSimple addIsUniEatSelected(RestaurantSimple restaurantSimple){
+            if(eventQuerydslRepository.isEventRestaurant(restaurantSimple.getId())){
+                restaurantSimple.setIsUniEatSelected(true);
+            }else restaurantSimple.setIsUniEatSelected(false);
 
-    }
+            return restaurantSimple;
+        }
 
         //지도에 표시되는 맛집(top 50)
         @Transactional(readOnly = true)

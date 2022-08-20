@@ -12,7 +12,7 @@
             + sin(radians(#{latitude}) )
             * sin(radians(R.latitude)) )
             ) AS distance
-        FROM        restaurant R
+        FROM restaurant R join restaurant_best RB on R.restaurant_id = RB.restaurant_id
         HAVING      distance &lt; #{nearBy}
         ORDER BY    distance
     </select>
