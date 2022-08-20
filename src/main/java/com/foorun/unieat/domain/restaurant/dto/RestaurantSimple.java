@@ -22,11 +22,12 @@ public class RestaurantSimple{
     private String name;
     private String explanation;
     private String imgUrl;
+    private double distance;
+    private double longitude;
+    private double latitude;
 
     //맛집인가?
     private Boolean isUniEatSelected;
-
-    private double distance;
 
     private boolean isLiked; // 유저가 좋아요한 식당인지 여부
     private List<String> hashTags;
