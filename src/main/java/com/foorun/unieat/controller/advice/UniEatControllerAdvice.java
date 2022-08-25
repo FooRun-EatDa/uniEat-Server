@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
 public class UniEatControllerAdvice {
+
     @ExceptionHandler(UniEatRuntimeException.class)
     public ResponseEntity<ApiResponse<Void>> except(UniEatRuntimeException e) {
         e.printStackTrace();
@@ -20,4 +21,5 @@ public class UniEatControllerAdvice {
                 .status(e.getStatus())
                 .body(ApiResponse.error(e.getResponseCode()));
     }
+
 }

@@ -4,6 +4,7 @@ import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.event.EventStatus;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
+import com.foorun.unieat.util.converter.StringListConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +37,8 @@ public class EventJpo extends BaseTimeJpo {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "json")
     private String notice;
 
     //이벤트 유효 여부(종료됨, 진행중)

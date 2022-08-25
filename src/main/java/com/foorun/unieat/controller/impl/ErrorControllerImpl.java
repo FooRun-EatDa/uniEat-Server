@@ -26,4 +26,5 @@ public class ErrorControllerImpl implements ErrorController {
                 .status(httpStatus)
                 .body(ApiResponse.error(ResponseCode.findByHttpStatus(httpStatus)));
     }
+
 }
