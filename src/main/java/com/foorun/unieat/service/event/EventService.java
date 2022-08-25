@@ -111,7 +111,8 @@ public class EventService {
                 .findCouponByEventIdAndMemberId(eventId,memberUserDetails.getId())
                 .orElseThrow(UniEatNotFoundException::new);
         couponRepository.delete(couponJpo);
-
     }
 
+
+    
 }

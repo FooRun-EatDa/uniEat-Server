@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,7 +40,7 @@ public class EventJpo extends BaseTimeJpo {
 
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "json")
-    private String notice;
+    private List<String> notice;
 
     //이벤트 유효 여부(종료됨, 진행중)
     @Enumerated(EnumType.STRING)

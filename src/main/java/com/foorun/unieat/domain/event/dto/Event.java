@@ -51,17 +51,9 @@ public class Event implements JsonSerializable {
         BeanUtils.copyProperties(eventJpo,event);
         event.restaurantName = eventJpo.getRestaurant().getName();
         event.status = eventJpo.getStatus().name();
-        event.notice =parseNotice(eventJpo);
+        event.notice = eventJpo.getNotice();
 
         return event;
     }
 
-    public static List<String> parseNotice(EventJpo eventJpo){
-        String notices = eventJpo.getNotice();
-         List<String>  splitted = Arrays.stream(notices.split(EVENT_NOTICE_DELIMITER))
-                 .map(String::trim)
-                 .collect(Collectors.toList());
-
-        return splitted;
-    }
 }
