@@ -44,12 +44,6 @@ public class EventTest extends ServiceTest {
     @InjectMocks
     private EventService eventService;
 
-    private EventJpo event = EventJpo.builder()
-            .id(eventId)
-            .expiredDate("2099/12/31 12:30")
-            .content("name")
-            .content("desc")
-            .build();
 
     private MemberUserDetails memberUserDetails =
             MemberUserDetails.builder()
@@ -66,10 +60,14 @@ public class EventTest extends ServiceTest {
     @Test
     @DisplayName("쿠폰 유효성 검사 테스트 : 유효")
     void GIVEN_VALID_COUPON_THEN_RETURN_VALID() throws ParseException {
+        EventJpo event = EventJpo.builder()
+                .id(eventId)
+                .expiredDate("2099/12/31 12:30")
+                .content("name")
+                .content("desc")
+                .build();
 
         when(eventQuerydslRepository.find(eventId)).thenReturn(Optional.ofNullable(event));
-        when(couponQuerydslRepository.existByEventIdAndMemberId(anyLong(),anyLong())).thenReturn(true);
-        when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.ofNullable(member));
 
 
         Assertions.assertEquals(EventStatus.valueOf("VALID").ordinal()
@@ -78,18 +76,7 @@ public class EventTest extends ServiceTest {
     }
 
 
-    @Test
-    @DisplayName("쿠폰 유효성 검사 테스트 : 갖고있는 쿠폰 없음")
-    void GIVEN_NA_COUPON_THEN_RETURN_COUPON_NA() throws ParseException {
-        when(eventQuerydslRepository.find(eventId)).thenReturn(Optional.ofNullable(event));
-        when(couponQuerydslRepository.existByEventIdAndMemberId(anyLong(),anyLong())).thenReturn(false);
-        when(memberRepository.findByEmail(any(String.class))).thenReturn(Optional.ofNullable(member));
 
-
-
-        Assertions.assertEquals(EventStatus.valueOf("NOT_APPLICABLE").ordinal()
-                ,eventService.isCouponExpired(memberUserDetails,eventId).getStatus());
-    }
 
     @Test
     @DisplayName("쿠폰 만료 테스트 : 쿠폰 기한 만료")
