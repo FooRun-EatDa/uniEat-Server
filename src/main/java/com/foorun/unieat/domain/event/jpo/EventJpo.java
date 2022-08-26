@@ -46,6 +46,9 @@ public class EventJpo extends BaseTimeJpo {
     @Enumerated(EnumType.STRING)
     private EventStatus status;
 
+    @Column(columnDefinition = "BIGINT",name = "coupon_count")
+    private Long couponCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private RestaurantJpo restaurant;
@@ -55,5 +58,12 @@ public class EventJpo extends BaseTimeJpo {
     @ToString.Exclude
     private Set<CouponJpo> coupons = new HashSet<>();
 
+
+    /**
+     * 쿠폰 카운트 하나 차감
+     */
+    public void subtractCouponCountByOne(){
+        this.couponCount -=1;
+    }
 
 }

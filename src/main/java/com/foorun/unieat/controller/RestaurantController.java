@@ -37,7 +37,7 @@ public class RestaurantController {
     private final BookmarkService bookmarkService;
 
     /**
-     * 추천 식당 (간략)정보 리스트 형식 조회 (주변맛집)
+     * 추천 식당 (간략)정보 리스트 형식 조회
      */
     @ApiOperation(value = SwaggerApiInfo.GET_STORE_SIMPLE, notes = "랜딩페이지에서 보이는 추천 식당 정보들 10개씩 페이징 하여 전달")
     @GetMapping

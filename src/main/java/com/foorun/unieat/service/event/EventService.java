@@ -1,8 +1,8 @@
 package com.foorun.unieat.service.event;
 
+import com.foorun.unieat.constant.ResponseCode;
 import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
-import com.foorun.unieat.domain.coupon.repository.CouponRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
 import com.foorun.unieat.domain.event.EventRespository;
 import com.foorun.unieat.domain.event.EventStatus;
@@ -15,10 +15,15 @@ import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
+import com.foorun.unieat.exception.UniEatRuntimeException;
 import com.foorun.unieat.util.DateUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,14 +31,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.foorun.unieat.constant.ResponseCode.CODE_1000;
 import static com.foorun.unieat.constant.ServiceConstant.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventService {
 
     private final RestaurantRepository restaurantRepository;
-    private final CouponRepository couponRepository;
     private final EventRespository eventRespository;
     private final EventQuerydslRepository eventQuerydslRepository;
     private final CouponQuerydslRepository couponQuerydslRepository;
@@ -56,7 +62,7 @@ public class EventService {
 
 
     /**
-     * 해당 이벤트 쿠폰 유효 여부 검사
+     * 해당 이벤트 쿠폰 사용 버튼 가능 여부 검사
      */
     public EventValidResponse isCouponValid(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
 
@@ -64,20 +70,11 @@ public class EventService {
 
         if(!EventExpiredCheck(event)){
             return EventValidResponse.builder()
-                    .content(COUPON_EXPIRED)
+                    .content(EVENT_EXPIRED)
                     .status(EventStatus.EXPIRED.ordinal())
                     .build();
         }
 
-        MemberJpo member = memberRepository.findByEmail(memberUserDetails.getEmail())
-                .orElseThrow(UniEatNotFoundException::new);
-
-        if(!validCheck(event,member)){
-            return EventValidResponse.builder()
-                    .content(COUPON_NOT_APPLICABLE)
-                    .status(EventStatus.NOT_APPLICABLE.ordinal())
-                    .build();
-        }
 
         else return EventValidResponse.builder()
                 .content(COUPON_VALID)
@@ -104,15 +101,27 @@ public class EventService {
     }
 
     /**
-     * 쿠폰 사용하기
+     * 쿠폰 사용하기, 버튼 누르기
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
     public void useCoupon(MemberUserDetails memberUserDetails,Long eventId){
-        CouponJpo couponJpo = couponQuerydslRepository
-                .findCouponByEventIdAndMemberId(eventId,memberUserDetails.getId())
-                .orElseThrow(UniEatNotFoundException::new);
-        couponRepository.delete(couponJpo);
+        EventJpo event = eventRespository.findById(eventId).orElseThrow(UniEatNotFoundException::new);
+        //이벤트 선착순 유효성 검사(쿠폰 사용인원 도달 했는지)
+
+        if(isEventCouponRemain() == false) {
+            log.trace("잔여 이벤트 쿠폰 없음");
+            throw new UniEatBadRequestException(CODE_1000);
+        }
+        event.subtractCouponCountByOne();
+
+
+    }
+
+    private boolean isEventCouponRemain(EventJpo event){
+        if(event.getCouponCount() > 0) return true;
+        else return false;
     }
 
 
-    
+
 }

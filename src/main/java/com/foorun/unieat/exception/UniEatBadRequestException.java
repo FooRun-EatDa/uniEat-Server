@@ -6,4 +6,8 @@ public class UniEatBadRequestException extends UniEatRuntimeException {
     public UniEatBadRequestException() {
         super(ResponseCode.CODE_400);
     }
+
+    public UniEatBadRequestException(ResponseCode r){
+        super(r);
+    }
 }

@@ -31,6 +31,9 @@ public class Event implements JsonSerializable {
 
     private String imgUrl;
 
+    //남은 쿠폰 수
+    private Long couponCount;
+
     //이벤트 대상 식당
     private String restaurantName;
 

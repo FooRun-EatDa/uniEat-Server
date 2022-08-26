@@ -8,7 +8,7 @@ public class ServiceConstant {
 
     public static final String DATE_FORMAT = "yy/MM/dd HH:mm";
 
-    public static final String COUPON_EXPIRED = "쿠폰이 만료되었습니다.";
+    public static final String EVENT_EXPIRED = "이벤트가 종료되었습니다.";
 
     public static final String COUPON_NOT_APPLICABLE = "사용가능한 쿠폰 없음";
 
