@@ -104,15 +104,17 @@ public class EventService {
      * 쿠폰 사용하기, 버튼 누르기
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
-    public void useCoupon(MemberUserDetails memberUserDetails,Long eventId){
+    public void useCoupon(Long eventId){
         EventJpo event = eventRespository.findById(eventId).orElseThrow(UniEatNotFoundException::new);
         //이벤트 선착순 유효성 검사(쿠폰 사용인원 도달 했는지)
 
-        if(isEventCouponRemain() == false) {
+        if(isEventCouponRemain(event)){
+            event.subtractCouponCountByOne();
+        }
+        else {
             log.trace("잔여 이벤트 쿠폰 없음");
             throw new UniEatBadRequestException(CODE_1000);
         }
-        event.subtractCouponCountByOne();
 
 
     }

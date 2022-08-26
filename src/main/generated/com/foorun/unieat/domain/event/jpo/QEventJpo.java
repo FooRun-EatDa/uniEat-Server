@@ -26,6 +26,8 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final StringPath content = createString("content");
 
+    public final NumberPath<Long> couponCount = createNumber("couponCount", Long.class);
+
     public final SetPath<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo> coupons = this.<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo>createSet("coupons", com.foorun.unieat.domain.coupon.entity.CouponJpo.class, com.foorun.unieat.domain.coupon.entity.QCouponJpo.class, PathInits.DIRECT2);
 
     //inherited
@@ -37,7 +39,7 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final StringPath imgUrl = createString("imgUrl");
 
-    public final StringPath notice = createString("notice");
+    public final ListPath<String, StringPath> notice = this.<String, StringPath>createList("notice", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo restaurant;
 

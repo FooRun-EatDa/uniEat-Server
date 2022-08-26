@@ -45,7 +45,7 @@ public class EventController {
     @DeleteMapping("/{event_id}")
     public ResponseEntity<ApiResponse<Void>> useEventCoupon(@AuthenticationPrincipal MemberUserDetails memberUserDetails,
                                                             @PathVariable(name = "event_id") Long eventId){
-        eventService.useCoupon(memberUserDetails,eventId);
+        eventService.useCoupon(eventId);
         return ResponseEntity.ok(ApiResponse.success());
     }
 

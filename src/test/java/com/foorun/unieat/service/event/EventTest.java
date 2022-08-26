@@ -4,6 +4,7 @@ import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
 import com.foorun.unieat.domain.coupon.repository.CouponRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
+import com.foorun.unieat.domain.event.EventRespository;
 import com.foorun.unieat.domain.event.EventStatus;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
 import com.foorun.unieat.domain.member.Role;
@@ -38,6 +39,9 @@ public class EventTest extends ServiceTest {
 
     @Mock
     private EventQuerydslRepository eventQuerydslRepository;
+
+    @Mock
+    private EventRespository eventRespository;
 
     private final Long eventId = 1L;
 
@@ -108,25 +112,29 @@ public class EventTest extends ServiceTest {
     }
 
     @Test
-    @DisplayName("쿠폰 사용 완료 테스트")
+    @DisplayName("쿠폰 사용 성공 테스트")
     void GIVEN_USE_COUPON_THEN_SUCCESS(){
-        when(couponQuerydslRepository.findCouponByEventIdAndMemberId(anyLong(),anyLong()))
-                .thenReturn(Optional.ofNullable(mock(CouponJpo.class)));
+        EventJpo testEvent = EventJpo.builder()
+                .id(123L)
+                .couponCount(100L)
+                .build();
+        when(eventRespository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(testEvent));
+        eventService.useCoupon(eventId);
 
-        eventService.useCoupon(memberUserDetails,eventId);
-
-        verify(couponRepository).delete(any(CouponJpo.class));
 
     }
+
+
 
     @Test
     @DisplayName("쿠폰 사용 실패 : 해당 쿠폰 찾을 수 없음")
     void GIVEN_COUPON_NOT_FOUND_THEN_FAIL(){
 
-        when(couponQuerydslRepository.findCouponByEventIdAndMemberId(anyLong(),anyLong())).thenThrow(UniEatNotFoundException.class);
-
+        when(eventRespository.findById(anyLong()))
+                .thenThrow(UniEatNotFoundException.class);
         Assertions.assertThrows(UniEatNotFoundException.class,()->{
-            eventService.useCoupon(memberUserDetails,eventId);
+            eventService.useCoupon(eventId);
         });
     }
 
