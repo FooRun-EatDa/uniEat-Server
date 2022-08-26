@@ -10,6 +10,7 @@ import com.foorun.unieat.domain.event.jpo.EventJpo;
 import com.foorun.unieat.domain.member.Role;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
 import com.foorun.unieat.domain.member.jpo.MemberJpo;
+import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
 import com.foorun.unieat.util.DateUtil;
@@ -120,6 +121,7 @@ public class EventTest extends ServiceTest {
                 .build();
         when(eventRespository.findById(anyLong()))
                 .thenReturn(Optional.ofNullable(testEvent));
+
         eventService.useCoupon(eventId);
 
 
@@ -136,6 +138,25 @@ public class EventTest extends ServiceTest {
         Assertions.assertThrows(UniEatNotFoundException.class,()->{
             eventService.useCoupon(eventId);
         });
+    }
+
+    @Test
+    @DisplayName("쿠폰 사용 실패 : 해당 이벤트 잔여 쿠폰 없음")
+    void GIVEN_NO_COUPON_EVENT_TEHN_FAIL(){
+        EventJpo testEvent = EventJpo.builder()
+                .id(0L)
+                .couponCount(0L)
+                .build();
+
+        when(eventRespository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(testEvent));
+
+        Assertions.assertThrows(UniEatBadRequestException.class,()->
+        {
+            eventService.useCoupon(eventId);
+
+        });
+
     }
 
 
