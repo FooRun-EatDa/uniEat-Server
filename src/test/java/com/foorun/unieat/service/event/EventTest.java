@@ -1,6 +1,5 @@
 package com.foorun.unieat.service.event;
 
-import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
 import com.foorun.unieat.domain.coupon.repository.CouponRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
@@ -13,7 +12,6 @@ import com.foorun.unieat.domain.member.jpo.MemberJpo;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
 import com.foorun.unieat.service.ServiceTest;
-import com.foorun.unieat.util.DateUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,11 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
-import static com.foorun.unieat.constant.ServiceConstant.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -78,7 +73,7 @@ public class EventTest extends ServiceTest {
 
 
         Assertions.assertEquals(EventStatus.valueOf("VALID").ordinal()
-                ,eventService.isCouponValid(memberUserDetails,eventId).getStatus());
+                ,eventService.isCouponExpired(memberUserDetails,eventId).getStatus());
 
     }
 
@@ -93,7 +88,7 @@ public class EventTest extends ServiceTest {
 
 
         Assertions.assertEquals(EventStatus.valueOf("NOT_APPLICABLE").ordinal()
-                ,eventService.isCouponValid(memberUserDetails,eventId).getStatus());
+                ,eventService.isCouponExpired(memberUserDetails,eventId).getStatus());
     }
 
     @Test

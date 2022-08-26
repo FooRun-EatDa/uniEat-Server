@@ -6,14 +6,12 @@ import com.foorun.unieat.domain.common.paging.Paging;
 import com.foorun.unieat.domain.event.dto.Event;
 import com.foorun.unieat.domain.event.dto.EventValidResponse;
 import com.foorun.unieat.domain.member.dto.MemberUserDetails;
-import com.foorun.unieat.domain.restaurant.dto.RestaurantSimple;
 import com.foorun.unieat.service.event.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -55,10 +53,10 @@ public class EventController {
             " EXPIRED(만료됨) = 1 \n" +
             " NOT_APPLICABLE(이미 사용함) = 2")
     @GetMapping("/{event_id}/validCheck")
-    public ResponseEntity<ApiResponse<EventValidResponse>> couponValidCheck(@AuthenticationPrincipal MemberUserDetails memberUserDetails,
+    public ResponseEntity<ApiResponse<EventValidResponse>> couponNotExpiredCheck(@AuthenticationPrincipal MemberUserDetails memberUserDetails,
                                                                             @PathVariable(name = "event_id") Long eventId) throws ParseException {
 
-        return ResponseEntity.ok(ApiResponse.valueOf(eventService.isCouponValid(memberUserDetails,eventId)));
+        return ResponseEntity.ok(ApiResponse.valueOf(eventService.isCouponExpired(memberUserDetails,eventId)));
 
     }
 }

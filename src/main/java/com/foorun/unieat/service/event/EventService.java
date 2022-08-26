@@ -1,7 +1,5 @@
 package com.foorun.unieat.service.event;
 
-import com.foorun.unieat.constant.ResponseCode;
-import com.foorun.unieat.domain.coupon.entity.CouponJpo;
 import com.foorun.unieat.domain.coupon.repository.CouponQuerydslRepository;
 import com.foorun.unieat.domain.event.EventQuerydslRepository;
 import com.foorun.unieat.domain.event.EventRespository;
@@ -15,7 +13,6 @@ import com.foorun.unieat.domain.member.repository.MemberRepository;
 import com.foorun.unieat.domain.restaurant.repository.RestaurantRepository;
 import com.foorun.unieat.exception.UniEatBadRequestException;
 import com.foorun.unieat.exception.UniEatNotFoundException;
-import com.foorun.unieat.exception.UniEatRuntimeException;
 import com.foorun.unieat.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +61,7 @@ public class EventService {
     /**
      * 해당 이벤트 쿠폰 사용 버튼 가능 여부 검사
      */
-    public EventValidResponse isCouponValid(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
+    public EventValidResponse isCouponExpired(MemberUserDetails memberUserDetails, Long eventId) throws ParseException {
 
         EventJpo event = eventQuerydslRepository.find(eventId).orElseThrow(UniEatBadRequestException::new);
 
