@@ -6,27 +6,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.AttributeConverter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-public class StringListConverter implements AttributeConverter<List,String> {
-    private static final ObjectMapper mapper = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
+public class StringListConverter implements AttributeConverter<List<String>,String> {
+//    private static final ObjectMapper mapper = new ObjectMapper()
+//            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+//            .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false);
     @Override
-    public String convertToDatabaseColumn(List attribute) {
-        try {
-            return mapper.writeValueAsString(attribute);
-        } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException();
-        }
+    public String convertToDatabaseColumn(List<String> attribute) {
+            return attribute == null ? null : String.join(",",attribute);
+
     }
 
     @Override
     public List convertToEntityAttribute(String dbData) {
-        try {
-            return mapper.readValue(dbData, List.class);
-        } catch (IOException e) {
-            throw new IllegalArgumentException();
-        }
+            if(dbData == null)return Collections.emptyList();
+            return Arrays.asList(dbData.split(","));
+
     }
 }

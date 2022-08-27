@@ -39,7 +39,7 @@ public class EventJpo extends BaseTimeJpo {
     private String content;
 
     @Convert(converter = StringListConverter.class)
-    @Column(columnDefinition = "json")
+    @Column(columnDefinition = "JSON")
     private List<String> notice;
 
     //이벤트 유효 여부(종료됨, 진행중)
