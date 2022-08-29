@@ -27,7 +27,7 @@ public class Event implements JsonSerializable {
 
     private Long id;
     //이벤트 테마(이름)
-    private String title;
+    private String name;
 
     private String imgUrl;
 

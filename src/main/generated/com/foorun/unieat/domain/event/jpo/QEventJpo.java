@@ -39,13 +39,13 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final StringPath imgUrl = createString("imgUrl");
 
+    public final StringPath name = createString("name");
+
     public final ListPath<String, StringPath> notice = this.<String, StringPath>createList("notice", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final com.foorun.unieat.domain.restaurant.jpo.QRestaurantJpo restaurant;
 
     public final EnumPath<com.foorun.unieat.domain.event.EventStatus> status = createEnum("status", com.foorun.unieat.domain.event.EventStatus.class);
-
-    public final StringPath title = createString("title");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;

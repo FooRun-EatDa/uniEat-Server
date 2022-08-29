@@ -30,7 +30,7 @@ public class EventJpo extends BaseTimeJpo {
     private String imgUrl;
 
     //이벤트 이름
-    private String title;
+    private String name;
 
     @Column(name = "expired_date")
     private String expiredDate;
