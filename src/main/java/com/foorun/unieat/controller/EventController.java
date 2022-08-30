@@ -27,19 +27,23 @@ import static com.foorun.unieat.constant.ServiceConstant.PAGING_SIZE;
 @Api(tags = SwaggerApiInfo.EVENT)
 @CrossOrigin(allowCredentials = "true", originPatterns = "*", exposedHeaders = {JwtConstant.HEADER_NAME, HEADER_NAME_REFRESH_TOKEN})
 public class EventController {
-
-
     private final EventService eventService;
 
-
     @ApiOperation(value = SwaggerApiInfo.GET_EVENT_LIST, notes = "현재 등록된 이벤트 목록 조회, 페이지 별로 일정 갯수(10) 만큼 전달 ")
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<Event>>> getEventList(@RequestParam(name="page") int page){
         return ResponseEntity.ok(
                 ApiResponse.valueOf(eventService.getEventList(new Paging(page, PAGING_SIZE)))
         );
     }
 
+    @ApiOperation(value = SwaggerApiInfo.GET_EVENT)
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<ApiResponse<Event>> get(
+            @PathVariable(name = "eventId") Long eventId) {
+        return ResponseEntity.ok(
+                ApiResponse.valueOf(eventService.getEventDetail(eventId)));
+    }
 
     //쿠폰사용
     @ApiOperation(value = SwaggerApiInfo.DELETE_USE_COUPON, notes = "해당 이벤트 쿠폰 사용하기, 쿠폰 테이블에서 해당 엔티티 삭제")
