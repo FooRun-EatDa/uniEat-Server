@@ -24,14 +24,14 @@ public class QEventJpo extends EntityPathBase<EventJpo> {
 
     public final com.foorun.unieat.domain.QBaseTimeJpo _super = new com.foorun.unieat.domain.QBaseTimeJpo(this);
 
-    public final StringPath content = createString("content");
-
     public final NumberPath<Long> couponCount = createNumber("couponCount", Long.class);
 
     public final SetPath<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo> coupons = this.<com.foorun.unieat.domain.coupon.entity.CouponJpo, com.foorun.unieat.domain.coupon.entity.QCouponJpo>createSet("coupons", com.foorun.unieat.domain.coupon.entity.CouponJpo.class, com.foorun.unieat.domain.coupon.entity.QCouponJpo.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
+    public final StringPath desc = createString("desc");
 
     public final StringPath expiredDate = createString("expiredDate");
 

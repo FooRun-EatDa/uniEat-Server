@@ -63,8 +63,8 @@ public class EventTest extends ServiceTest {
         EventJpo event = EventJpo.builder()
                 .id(eventId)
                 .expiredDate("2099/12/31 12:30")
-                .content("name")
-                .content("desc")
+                .desc("name")
+                .desc("desc")
                 .build();
 
         when(eventQuerydslRepository.find(eventId)).thenReturn(Optional.ofNullable(event));
@@ -86,8 +86,7 @@ public class EventTest extends ServiceTest {
         EventJpo event = EventJpo.builder()
                 .id(eventId)
                 .expiredDate("1999/12/31 12:30")
-                .content("name")
-                .content("desc")
+                .desc("name")
                 .build();
 
         Assertions.assertEquals(false,eventService.EventExpiredCheck(event));
