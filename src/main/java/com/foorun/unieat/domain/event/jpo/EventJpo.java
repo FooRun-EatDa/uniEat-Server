@@ -36,7 +36,7 @@ public class EventJpo extends BaseTimeJpo {
     private String expiredDate;
 
     @Column(columnDefinition = "TEXT")
-    private String content;
+    private String desc;
 
     @Convert(converter = StringListConverter.class)
     @Column(columnDefinition = "JSON")
