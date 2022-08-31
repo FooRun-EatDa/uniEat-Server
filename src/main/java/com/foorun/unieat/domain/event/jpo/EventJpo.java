@@ -21,7 +21,6 @@ import java.util.Set;
 @Entity
 @Table(name = "event")
 public class EventJpo extends BaseTimeJpo {
-
     @Id
     @Column(name = "event_id")
     private Long id;
@@ -35,7 +34,7 @@ public class EventJpo extends BaseTimeJpo {
     @Column(name = "expired_date")
     private String expiredDate;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "`desc`", columnDefinition = "TEXT")
     private String desc;
 
     @Convert(converter = StringListConverter.class)
