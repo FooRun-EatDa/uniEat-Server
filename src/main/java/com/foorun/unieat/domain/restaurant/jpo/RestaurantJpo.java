@@ -115,11 +115,13 @@ public class RestaurantJpo extends BaseTimeJpo {
     @Builder.Default
     @OneToMany
     @JoinColumn(name = "restaurant_id")
+    @OrderBy("sequence asc")
     private Set<FoodJpo> foods = new HashSet<>();
 
     @ToString.Exclude
     @Builder.Default
     @OneToMany(mappedBy = "restaurant")
+    @OrderBy("sequence asc")
     private Set<RestaurantFileJpo> files = new HashSet<>();
 
     @OneToMany
