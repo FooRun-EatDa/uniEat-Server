@@ -57,13 +57,7 @@ public class ARestaurantFoodService {
         } else {
             foodJpo = foodRepository.findById(food.getId())
                     .orElseThrow(UniEatLogicalException::new);
-            foodJpo.setName(food.getName());
-            foodJpo.setContent(food.getContent());
-            foodJpo.setSequence(food.getSequence());
-            foodJpo.setPrice(food.getPrice());
-        }
-        if (foodRepository.existsByRestaurantAndNameAndPrice(restaurantJpo, food.getName(), food.getPrice())) {
-            return;
+            food.applyRevision(foodJpo);
         }
         foodRepository.save(foodJpo);
         saveFiles(foodJpo, food.getFiles());

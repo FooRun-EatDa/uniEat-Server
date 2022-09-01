@@ -3,12 +3,14 @@ package com.foorun.unieat.domain.food.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.foorun.unieat.domain.file.dto.FileDetail;
+import com.foorun.unieat.domain.food.jpo.FoodFileJpo;
 import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.restaurant.jpo.RestaurantJpo;
 import com.foorun.unieat.util.IdentifyGenerator;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.foorun.unieat.util.StreamUtil.map;
@@ -43,6 +45,12 @@ public class Food {
         BeanUtils.copyProperties(foodJpo, food);
         food.files = map(foodJpo.getFiles(), FileDetail::of);
         return food;
+    }
+
+    public void applyRevision(FoodJpo foodJpo) {
+        BeanUtils.copyProperties(this, foodJpo);
+        foodJpo.setUpdatedAt(LocalDateTime.now());
+        foodJpo.setFiles(map(files, fileDetail -> FoodFileJpo.of(foodJpo, fileDetail.asJpo(), fileDetail.isThumbnail(), fileDetail.getSequence())));
     }
 
     public FoodJpo asJpo(RestaurantJpo restaurantJpo) {
