@@ -59,8 +59,8 @@ public class ARestaurantFoodService {
                     .orElseThrow(UniEatLogicalException::new);
             food.applyRevision(foodJpo);
         }
-        foodRepository.save(foodJpo);
         saveFiles(foodJpo, food.getFiles());
+        foodRepository.save(foodJpo);
     }
 
     private void saveFiles(FoodJpo foodJpo, List<FileDetail> fileDetails) {
