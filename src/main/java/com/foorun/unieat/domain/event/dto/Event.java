@@ -29,7 +29,7 @@ public class Event implements JsonSerializable {
     //이벤트 테마(이름)
     private String name;
 
-    private String imgUrl;
+    private String imageURL;
 
     //남은 쿠폰 수
     private Long couponCount;
@@ -52,6 +52,7 @@ public class Event implements JsonSerializable {
     public static Event of(EventJpo eventJpo){
         Event event = new Event();
         BeanUtils.copyProperties(eventJpo,event);
+        event.imageURL = eventJpo.getImgUrl();
         event.restaurantName = eventJpo.getRestaurant().getName();
         event.status = eventJpo.getStatus().name();
         event.notice = eventJpo.getNotice();
