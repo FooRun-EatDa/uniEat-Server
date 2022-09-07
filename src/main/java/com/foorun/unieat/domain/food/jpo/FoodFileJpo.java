@@ -22,7 +22,6 @@ public class FoodFileJpo extends BaseFileJpo implements JsonSerializable {
     @JoinColumn(name = "food_id")
     private FoodJpo food;
 
-
     @Builder
     protected FoodFileJpo(boolean thumbnail, int sequence, FoodJpo food, FileJpo file) {
         super(thumbnail, sequence, file);
