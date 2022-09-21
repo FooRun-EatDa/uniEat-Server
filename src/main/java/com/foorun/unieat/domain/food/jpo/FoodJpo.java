@@ -64,7 +64,7 @@ public class FoodJpo extends BaseTimeJpo {
 
     @Builder.Default
     @ToString.Exclude
-    @OneToMany(mappedBy = "food")
+    @OneToMany(mappedBy = "food", cascade = CascadeType.MERGE)
     @OrderBy("sequence asc")
     private List<FoodFileJpo> files = new ArrayList<>();
 }
