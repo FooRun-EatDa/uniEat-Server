@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class FoodFileJpo extends BaseFileJpo implements JsonSerializable {
     @Id
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id")
     private FoodJpo food;
 

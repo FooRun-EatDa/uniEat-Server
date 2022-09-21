@@ -113,7 +113,7 @@ public class RestaurantJpo extends BaseTimeJpo {
 
     @ToString.Exclude
     @Builder.Default
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany
     @JoinColumn(name = "restaurant_id")
     @OrderBy("sequence asc")
     private Set<FoodJpo> foods = new HashSet<>();
