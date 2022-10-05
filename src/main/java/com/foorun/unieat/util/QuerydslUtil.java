@@ -1,9 +1,7 @@
 package com.foorun.unieat.util;
 
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.JPAExpressions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,11 +12,11 @@ import java.util.function.Supplier;
 public final class QuerydslUtil {
     public static Predicate optAnd(Object object, Supplier<Predicate> expression) {
         if (object == null) {
-            return null;
+            return trueExpression();
         }
         if (object instanceof Collection) {
             if (((Collection<?>) object).size() == 0) {
-                return null;
+                return trueExpression();
             }
         }
         return expression.get();
@@ -26,11 +24,11 @@ public final class QuerydslUtil {
 
     public static Predicate[] optAnd(Object object, List<Supplier<Predicate>> expression) {
         if (object == null) {
-            return null;
+            return trueExpressions();
         }
         if (object instanceof Collection) {
             if (((Collection<?>) object).size() == 0) {
-                return null;
+                return trueExpressions();
             }
         }
         return expression.stream()
@@ -70,5 +68,13 @@ public final class QuerydslUtil {
 
     public static Predicate and(Supplier<Predicate> expression) {
         return expression.get();
+    }
+
+    public static Predicate trueExpression() {
+        return Expressions.asBoolean(true).isTrue();
+    }
+
+    public static Predicate[] trueExpressions() {
+        return new Predicate[] { trueExpression() };
     }
 }

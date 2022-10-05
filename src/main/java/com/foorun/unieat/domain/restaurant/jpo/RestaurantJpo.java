@@ -3,6 +3,7 @@ package com.foorun.unieat.domain.restaurant.jpo;
 import com.foorun.unieat.domain.BaseTimeJpo;
 import com.foorun.unieat.domain.bookmark.jpo.BookmarkJpo;
 import com.foorun.unieat.domain.category.jpo.CategoryJpo;
+import com.foorun.unieat.domain.code.category.jpo.CategoryCodeJpo;
 import com.foorun.unieat.domain.code.region.jpo.RegionCodeJpo;
 import com.foorun.unieat.domain.common.StatusType;
 import com.foorun.unieat.domain.event.jpo.EventJpo;
@@ -10,6 +11,8 @@ import com.foorun.unieat.domain.food.jpo.FoodJpo;
 import com.foorun.unieat.domain.hashtag.jpo.HashTagRestaurantJpo;
 import com.foorun.unieat.domain.review.jpo.ReviewJpo;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -53,8 +56,10 @@ public class RestaurantJpo extends BaseTimeJpo {
     /**
      * 카테고리
      */
-    @Column(name = "category_code")
-    private Integer category;
+    @JoinColumn(name = "category_code")
+    @OneToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private CategoryCodeJpo category;
 
     /**
      * 식당 주소

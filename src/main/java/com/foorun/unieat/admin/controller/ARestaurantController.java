@@ -46,9 +46,11 @@ public class ARestaurantController {
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<Page<ARestaurant>>> search(
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "categories", required = false) String categories,
+            @RequestParam(value = "hashTags", required = false) String hashTags,
             @ModelAttribute Paging paging) {
         return ResponseEntity.ok(
-                ApiResponse.valueOf(restaurantListService.search(keyword, paging)));
+                ApiResponse.valueOf(restaurantListService.search(keyword, categories, hashTags, paging)));
     }
 
     @GetMapping("/{id}")

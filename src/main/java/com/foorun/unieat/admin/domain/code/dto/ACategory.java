@@ -18,4 +18,11 @@ public class ACategory {
         category.setName(categoryCodeJpo.getName());
         return category;
     }
+
+    public CategoryCodeJpo asJpo() {
+        CategoryCodeJpo categoryCodeJpo = new CategoryCodeJpo();
+        categoryCodeJpo.setId(id);
+        categoryCodeJpo.setName(name);
+        return categoryCodeJpo;
+    }
 }
