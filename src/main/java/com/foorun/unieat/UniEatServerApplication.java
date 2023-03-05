@@ -17,6 +17,7 @@ public class UniEatServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UniEatServerApplication.class, args);
+
     }
 
 }
